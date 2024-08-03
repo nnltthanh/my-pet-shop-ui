@@ -20,7 +20,7 @@ export class ProductCarouselListComponent {
     {img: "http://placehold.it/350x150/333333"},
     {img: "http://placehold.it/350x150/666666"}
   ];
-  slideConfig = {"slidesToShow": 4, "slidesToScroll": 2};
+  slideConfig = {"slidesToShow": 5, "slidesToScroll": 2};
   
   addSlide() {
     this.slides.push({img: "http://placehold.it/350x150/777777"})

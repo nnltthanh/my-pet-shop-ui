@@ -1,17 +1,29 @@
-  <!-- You can now use your library component in app.component.html -->
-  <ngx-slick-carousel class="carousel" 
-  #slickModal="slick-carousel" 
-  [config]="slideConfig"
-  (init)="slickInit($event)"
-  (breakpoint)="breakpoint($event)"
-  (afterChange)="afterChange($event)"
-  (beforeChange)="beforeChange($event)"
-  >
-@for (slide of slides; track slide.img) {
-<div ngxSlickItem class="slide">
-<img src="{{ slide.img }}" alt="" width="100%">
-</div>
-}
+<!-- You can now use your library component in app.component.html -->
+<ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)"
+    (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+    <!-- @for (slide of slides; track slide.img) {
+    <div ngxSlickItem class="slide">
+        <img src="{{ slide.img }}" alt="" width="100%">
+    </div>
+    } -->
+    <div ngxSlickItem class="slide">
+        <app-product-card/>
+    </div>
+    <div ngxSlickItem class="slide">
+        <app-product-card/>
+    </div>
+    <div ngxSlickItem class="slide">
+        <app-product-card/>
+    </div>
+    <div ngxSlickItem class="slide">
+        <app-product-card/>
+    </div>
+    <div ngxSlickItem class="slide">
+        <app-product-card/>
+    </div>
+    <div ngxSlickItem class="slide">
+        <app-product-card/>
+    </div>
 </ngx-slick-carousel>
 
 <button (click)="addSlide()">Add</button>
