@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: rgb(245, 243, 243);
+}
+
+$header-height: 50px;
+
+.dropdown-item:active, a:active, button:active {
+  background: olive;
+}
+
+.dropdown-item:active, a:active, button:focus {
+  background: olive;
+}
+
+.header-height {
+    height: $header-height;
+}

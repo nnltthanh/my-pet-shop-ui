@@ -1,0 +1,11 @@
+.dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+.nav-link.dropdown-toggle::after {
+    display: none;
+}
+
+.btn.btn-outline-success {
+    width: 150px;
+}

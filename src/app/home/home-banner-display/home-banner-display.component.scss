@@ -1,0 +1,11 @@
+@import url('/src/styles.scss');
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+}
+
+.carousel {
+    margin-top: $header-height;
+}
