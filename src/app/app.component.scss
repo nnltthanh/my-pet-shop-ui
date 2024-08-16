@@ -1,0 +1,11 @@
+@import "../styles.scss";
+
+.header {
+    top: 0px;
+    position: fixed;
+    z-index: 999;
+}
+
+.margin-top {
+    margin-top: calc(#{$header-height} + 30px);
+}

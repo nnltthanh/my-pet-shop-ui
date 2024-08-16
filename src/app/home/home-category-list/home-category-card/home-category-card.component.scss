@@ -1,0 +1,28 @@
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.card-title {
+    color: rgb(27, 27, 157);
+}
+
+.category-card {
+    width: 280px;
+    height: 270px;
+    overflow: hidden;
+}
+
+.category-card-img {
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    justify-items: center;
+}
+
+.category-card-img > img {
+    width: 300px;
+    max-height: 200px;
+    align-self: self-start;
+}

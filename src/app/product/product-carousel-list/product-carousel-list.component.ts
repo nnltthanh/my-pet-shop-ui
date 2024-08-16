@@ -7,46 +7,57 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
   standalone: true,
   imports: [ProductCardComponent, SlickCarouselModule],
   templateUrl: './product-carousel-list.component.html',
-  styleUrl: './product-carousel-list.component.scss'
+  styleUrl: './product-carousel-list.component.scss',
 })
 export class ProductCarouselListComponent {
   slides = [
-    {img: "http://placehold.it/350x150/000000"},
-    {img: "http://placehold.it/350x150/111111"},
-    {img: "http://placehold.it/350x150/333333"},
-    {img: "http://placehold.it/350x150/666666"},
-    {img: "http://placehold.it/350x150/000000"},
-    {img: "http://placehold.it/350x150/111111"},
-    {img: "http://placehold.it/350x150/333333"},
-    {img: "http://placehold.it/350x150/666666"}
+    { img: 'http://placehold.it/350x150/000000' },
+    { img: 'http://placehold.it/350x150/111111' },
+    { img: 'http://placehold.it/350x150/333333' },
+    { img: 'http://placehold.it/350x150/666666' },
+    { img: 'http://placehold.it/350x150/000000' },
+    { img: 'http://placehold.it/350x150/111111' },
+    { img: 'http://placehold.it/350x150/333333' },
+    { img: 'http://placehold.it/350x150/666666' },
   ];
-  slideConfig = {"slidesToShow": 5, "slidesToScroll": 2};
-  
+  slideConfig = {
+    slidesToShow: 5,
+    slidesToScroll: 3,
+    swipeToSlide: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    infinite: true,
+    dots: true,
+    focusOnSelect: true,
+    centerMode: true,
+    arrows: true
+  };
+
   addSlide() {
-    this.slides.push({img: "http://placehold.it/350x150/777777"})
+    this.slides.push({ img: 'http://placehold.it/350x150/777777' });
   }
-  
+
   removeSlide() {
     this.slides.length = this.slides.length - 1;
   }
-  
-  slickInit(e:any) {
+
+  slickInit(e: any) {
     console.log(e);
-    
+
     console.log('slick initialized');
   }
-  
-  breakpoint(e:any) {
+
+  breakpoint(e: any) {
     console.log(e);
     console.log('breakpoint');
   }
-  
-  afterChange(e:any) {
+
+  afterChange(e: any) {
     console.log(e);
     console.log('afterChange');
   }
-  
-  beforeChange(e:any) {
+
+  beforeChange(e: any) {
     console.log(e);
     console.log('beforeChange');
   }

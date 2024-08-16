@@ -1,0 +1,15 @@
+<div class="w-100 d-flex flex-column justify-content-center my-3 px-3">
+    <div class="ms-3 my-3">
+        <p class="fs-2 fw-bold">Tổng hợp sản phẩm</p>
+    </div>
+    <div class="categories d-flex flex-row justify-content-center">
+        @for (category of categories; track category.title) {
+            <app-home-category-card
+                class="mx-4"
+                [title]="category.title"
+                [imageSrc]="category.image"
+                [numberOfProducts]="category.numberOfProducts"
+            />
+        }
+    </div>
+</div>
