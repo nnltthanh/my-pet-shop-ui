@@ -36,12 +36,12 @@
             Sản phẩm
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><span class="dropdown-item" href="#">Action</span></li>
+            <li><span class="dropdown-item" href="#">Another action</span></li>
             <li>
               <hr class="dropdown-divider" />
             </li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><span class="dropdown-item" href="#">Something else here</span></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -70,15 +70,29 @@
           <a class="nav-link active" aria-current="page" href="#">Giới thiệu</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
+      <div class="search-box">
+        <button class="btn-search"><i class="bi bi-search fs-5"></i></button>
         <input
-          class="form-control me-2"
-          type="search"
+          type="text"
+          class="input-search"
           placeholder="Nhập tên sản phẩm..."
-          aria-label="Search"
         />
-        <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
-      </form>
+      </div>
+      <div>
+        <i class="bi bi-cart2 fs-4 ms-3"></i>
+      </div>
+      <div
+      class="user-control dropdown dropdown-toggle"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="true">
+        <i class="bi bi-person-circle fs-4 ms-3"></i>
+        <ul class="dropdown-menu user-control-menu">
+            <li><span class="dropdown-item" routerLink="customer/me">Trang cá nhân</span></li>
+            <li><span class="dropdown-item" routerLink="home">Đăng nhập</span></li>
+            <li><span class="dropdown-item" routerLink="products">Đăng xuất</span></li>
+          </ul>
+      </div>
     </div>
   </div>
 </nav>

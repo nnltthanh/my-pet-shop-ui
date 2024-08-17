@@ -1,0 +1,9 @@
+<div class="drop-area m-3" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+    <figure class="figure avatar-frame">
+        <div class="fs-5 text-secondary" *ngIf="!avatar">Drop avatar here</div>
+        <img *ngIf="avatar" [src]="avatar" class="figure-img avatar-image" alt="Avatar">
+    </figure>
+    <figcaption class="figure-caption fs-5 mt-1">
+        Thanh Nguyen
+    </figcaption>
+</div>

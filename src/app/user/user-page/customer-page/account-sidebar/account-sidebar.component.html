@@ -1,0 +1,22 @@
+<div class="account-sidebar-items position-sticky">
+  <div class="avatar">
+    <app-avatar-frame class="d-flex"/>
+  </div>
+  @for (item of sidebarItems; track item.imageSrc) {
+  <div
+    class="account-sidebar-item"
+    role='button'
+    [ngClass]="{ active: item.isActive }"
+    (click)="toggleActive(item.name)"
+  >
+    <span class="account-option">
+      <img
+        [src]="item.imageSrc"
+        alt="Thông tin tài khoản"
+        style="margin-right: 8px"
+      />
+      <span class="item-label">{{ item.label }}</span>
+    </span>
+  </div>
+  }
+</div>

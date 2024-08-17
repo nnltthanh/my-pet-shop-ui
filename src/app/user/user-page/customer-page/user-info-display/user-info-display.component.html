@@ -1,0 +1,181 @@
+<div
+  *ngIf="isUpdatedOK"
+  class="fixed top-20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-200 text-green-700 p-6 text-center text-lg z-50 rounded-md mt-16"
+  role="alert"
+>
+  <span class="font-medium">Cập nhật thành công!!!</span>
+</div>
+
+<div
+  *ngIf="isUpdatedFailed"
+  class="fixed top-20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-200 text-red-700 p-6 text-center text-lg z-50 rounded-md mt-16"
+  role="alert"
+>
+  <span class="font-medium">Cập nhật thất bại!!!</span>
+</div>
+
+<div class="account-content my-50">
+  <div id="info-tab" class="account-info">
+    <h2 class="account-page-title">Thông tin tài khoản</h2>
+    <div>
+      <div class="account-info-form">
+        <div class="account-info-field">
+          <div class="account-info-label">Họ và tên</div>
+          <div class="account-info-value" *ngIf="userInfo.name">
+            {{ userInfo.name }}
+          </div>
+          <div class="account-info-value" *ngIf="!userInfo.name">
+            Chưa cập nhật!
+          </div>
+        </div>
+        <div class="account-info-field">
+          <div class="account-info-label">Email</div>
+          <div class="account-info-value">
+            <span style="opacity: 0.6; font-size: 0.85em" *ngIf="userInfo.email">
+              <i>{{ userInfo.email }}</i>
+            </span>
+            <span style="opacity: 0.6; font-size: 0.85em" *ngIf="!userInfo.email">
+                <i>Chưa cập nhật!</i>
+              </span>
+          </div>
+        </div>
+        <div class="account-info-field">
+          <div class="account-info-label">Số điện thoại</div>
+          <div class="account-info-value">
+            <span style="opacity: 0.6; font-size: 0.85em" *ngIf="userInfo.phone">
+              <i>{{ userInfo.phone }}</i>
+            </span>
+            <span style="opacity: 0.6; font-size: 0.85em" *ngIf="!userInfo.phone">
+                <i>Chưa cập nhật!</i>
+              </span>
+          </div>
+        </div>
+        <div class="account-info-field" style="position: relative">
+          <div class="account-info-label">
+            Ngày sinh <i class="bday-note">(ngày/tháng/năm)</i>
+          </div>
+          <div class="account-info-value">
+            <span style="opacity: 0.6; font-size: 0.85em">
+              <i>{{
+                userInfo.dob ? formatDate(userInfo.dob) : "Chưa cập nhật!"
+              }}</i>
+            </span>
+          </div>
+        </div>
+        <div class="account-info-field">
+          <div class="account-info-label">Địa chỉ</div>
+          <div class="account-info-value">
+            <span
+              style="opacity: 0.6; font-size: 0.85em"
+              *ngIf="userInfo.address"
+            >
+              <i>{{ userInfo.address }}</i>
+            </span>
+            <span
+              style="opacity: 0.6; font-size: 0.85em"
+              *ngIf="!userInfo.address"
+            >
+              <i>Chưa cập nhật!</i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <h3 class="account-page-title">Thông tin đăng nhập</h3>
+      <div class="account-info-field">
+        <div class="account-info-label">Tên đăng nhập</div>
+        <div class="account-info-value" *ngIf="userInfo.account">
+          {{ userInfo.account }}
+        </div>
+        <div class="account-info-value" *ngIf="!userInfo.account">
+          Chưa cập nhật!
+        </div>
+      </div>
+      <div class="account-info-field">
+        <div class="account-info-label">Mật khẩu</div>
+        <div class="account-info-value">**********************</div>
+      </div>
+      <div class="account-info-field">
+        <button (click)="clickUpdate()" class="btn account-info-btn">
+          Cập nhật
+        </button>
+      </div>
+
+      <!-- Pop-up cập nhật thông tin -->
+      <div
+        *ngIf="showUpdateModal"
+        class="fixed inset-0 flex items-center justify-center z-50"
+      >
+        <form class="max-w-3xl mt-5" (ngSubmit)="submitUpdateInfo()">
+          <div
+            class="bg-white dark:bg-gray-800 shadow-2xl rounded-lg overflow-hidden w-screen max-w-xl p-4"
+          >
+            <h2 class="text-xl text-gray-900 dark:text-gray-300 pb-2 font-bold">
+              Thông tin tài khoản cá nhân
+            </h2>
+            <div class="flex flex-col gap-2 w-full border-gray-400">
+              <div>
+                <label class="text-gray-600 dark:text-gray-400"
+                  >Họ và tên</label
+                >
+                <input
+                  [(ngModel)]="userInfo.name"
+                  class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow dark:bg-gray-600 dark:text-gray-100"
+                  type="text"
+                  name="name"
+                />
+              </div>
+              <div>
+                <label class="text-gray-600 dark:text-gray-400">Email</label>
+                <input
+                  [(ngModel)]="userInfo.email"
+                  class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow dark:bg-gray-600 dark:text-gray-100"
+                  type="email"
+                  name="email"
+                />
+              </div>
+              <div>
+                <label class="text-gray-600 dark:text-gray-400"
+                  >Số điện thoại</label
+                >
+                <input
+                  [(ngModel)]="userInfo.phone"
+                  class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow dark:bg-gray-600 dark:text-gray-100"
+                  type="text"
+                  name="phone"
+                />
+              </div>
+              <div>
+                <label class="text-gray-600 dark:text-gray-400"
+                  >Ngày sinh</label
+                >
+                <input
+                  [(ngModel)]="userInfo.dob"
+                  class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow dark:bg-gray-600 dark:text-gray-100"
+                  type="date"
+                  name="dob"
+                />
+              </div>
+              <div>
+                <label class="text-gray-600 dark:text-gray-400">Địa chỉ</label>
+                <input
+                  [(ngModel)]="userInfo.address"
+                  class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow dark:bg-gray-600 dark:text-gray-100"
+                  type="text"
+                  name="address"
+                />
+              </div>
+              <div class="flex justify-end">
+                <button
+                  class="py-1.5 px-3 m-1 text-center bg-violet-700 border rounded-md text-white hover:bg-violet-500 hover:text-gray-100 dark:text-gray-200 dark:bg-violet-700"
+                  type="submit"
+                >
+                  Lưu thay đổi
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

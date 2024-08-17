@@ -1,13 +1,19 @@
 .dropdown:hover > .dropdown-menu {
   display: block;
+  margin-top: 5px;
+}
+
+.user-control:hover > .user-control-menu {
+  display: block;
+  margin-top: 0px;
 }
 
 .nav-link.dropdown-toggle::after {
-    display: none;
+  display: none;
 }
 
 .btn.btn-outline-success {
-    width: 150px;
+  width: 150px;
 }
 
 a {
@@ -28,3 +34,58 @@ nav {
   z-index: 9999;
 }
 
+.search-box {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+.input-search {
+  height: 40px;
+  width: 40px;
+  border-style: none;
+  padding-left: 7px;
+  outline: none;
+  border-radius: 25px;
+  transition: all 0.5s ease-in-out;
+  background-color: #2f7fd5;
+  padding-right: 35px;
+  color: rgba(33, 32, 32, 0.82);
+}
+.input-search::placeholder {
+  color: rgba(33, 32, 32, 0.82);
+  padding-left: 7px;
+  font-weight: 100;
+}
+.btn-search {
+  width: 30px;
+  height: 30px;
+  border-style: none;
+  font-size: 20px;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  color: #ffffff;
+  background-color: transparent;
+  pointer-events: painted;
+}
+.btn-search:focus ~ .input-search {
+  width: 300px;
+  border-radius: 25px;
+  background-color: #ebf2f8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.bi-search::before {
+  color: #ebf2f8;
+}
+
+.input-search:focus {
+  width: 300px;
+  border-radius: 25px;
+  background-color: #ebf2f8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
