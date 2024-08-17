@@ -1,7 +1,10 @@
-.product-filter {
-    // background-color: aqua;
-}
+@import "../../../styles.scss";
 
-.product-list {
-    // background-color: burlywood;
+.product-filter {
+  flex: 0 0 21%; /* Fixed width */
+  max-width: 400px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(#{$header-height} + 30px);
+  height: 80vh;
 }

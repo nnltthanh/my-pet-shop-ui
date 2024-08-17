@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/@ng-select/ng-select/themes/default.theme";
 
 body {
   font-family: "Nunito", sans-serif !important;
@@ -64,4 +65,13 @@ $header-height: 55px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   background: #fff;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.product-title-hovered:hover {
+  color: #2063aa;
+  cursor: pointer;
 }

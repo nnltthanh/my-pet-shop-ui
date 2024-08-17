@@ -1,0 +1,72 @@
+.card {
+    border-radius: 5px;
+    border-color: white;
+    height: 350px;
+  }
+  
+  .card-body {
+    padding: 5px;
+  }
+  
+  .product-card {
+    width: 250px;
+  //   height: 270px;
+  }
+  
+  .card-img-top {
+    border-radius: 5px;
+    height: 220px;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  img {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+  //   border: dashed gray 1px;
+    filter: drop-shadow(1px 1px 20px yellow);
+  }
+  
+  .card-title {
+    height: 2.5rem;
+  }
+  
+  .card-text {
+    font-size: 0.7rem;
+    color: #26577C;
+  }
+  
+  .checked {
+    color: orange;
+  }
+  
+  .fa-star-o {
+    color: orange;
+  }
+  
+  .fa-star,
+  .fa-star-half-o,
+  .fa-star-o {
+    margin-right: 2px;
+    font-size: 0.7rem;
+  }
+  
+  .count-review {
+      font-size: 12px;
+      font-size: .7rem;
+      color: gray;
+  }
+  
+  .original-price {
+      color: gray;
+      font-size: 0.8rem;
+  }
+  
+  .price {
+      font-size: 1rem;
+      font-weight: 900;
+  }

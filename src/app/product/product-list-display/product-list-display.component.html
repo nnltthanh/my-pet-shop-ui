@@ -1,1 +1,21 @@
-<p>product-list-display works!</p>
+<div class="mx-3 mb-5 d-flex justify-content-between w-95">
+  <div class="text-secondary fs-5">Hiển thị 12 trên tổng 30 sản phẩm</div>
+  <ng-select
+    class="custom"
+    bindLabel="option"
+    bindValue="id"
+    [items]="sortingOptions"
+    [multiple]="false"
+    [(ngModel)]="selectedSortingOption"
+    [clearable]="false"
+    [searchable]="false"
+  >
+  </ng-select>
+</div>
+<div class="d-flex flex-wrap">
+  @for (product of products; track product.id) {
+  <div class="product mx-3 mb-3">
+    <app-product-list-card></app-product-list-card>
+  </div>
+  }
+</div>
