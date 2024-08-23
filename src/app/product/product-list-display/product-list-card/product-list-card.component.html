@@ -1,12 +1,12 @@
-<div [id]="product.id" class="product-card card hover-shadow shadow-lg">
+<div [id]="product()?.id" class="product-card card hover-shadow shadow-lg">
     <div class="card-img-top d-flex justify-content-center">
       <img
-        src="https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-happy-smile-dog-images-png-image_10276876.png"
+        [src]="product()?.imageData?.path"
         alt="Tên sản phẩm"
       />
     </div>
     <div class="card-body mx-1">
-      <p class="card-title fw-bold mb-0 product-title-hovered">{{ product.name }} {{ product.name }}</p>
+      <p class="card-title fw-bold mb-0 product-title-hovered">{{ product()?.name }}</p>
       <!-- <span class="fa fa-star checked"></span>
       <span class="fa fa-star checked"></span>
       <span class="fa fa-star-half-o checked"></span>
@@ -19,10 +19,10 @@
       <span class="fa {{ calculateRate5() }}"></span>
       <span class="count-review mx-1">({{ 5 }} đánh giá)</span>
       <p class="card-text original-price mb-0">
-        <del>{{ product.price | currency : "VND" }}</del>
+        <del>{{ product()?.price | currency : "VND" }}</del>
       </p>
       <p class="card-text price mb-0">
-        <bdi>{{ product.price | currency : "VND" }}</bdi>
+        <bdi>{{ product()?.price | currency : "VND" }}</bdi>
       </p>
     </div>
   </div>

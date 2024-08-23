@@ -4,6 +4,7 @@ import { CurrencyPipe, NgClass } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import { ImageData } from '../product-list-display/image-data.model';
 
 @Component({
   selector: 'app-product-card',
@@ -24,7 +25,7 @@ export class ProductCardComponent implements OnInit {
         'Phu kien cho hamster',
         100000000,
         '',
-        '',
+        new ImageData(1, '', ''),
         new Date(),
         4.5
       );

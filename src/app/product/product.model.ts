@@ -1,3 +1,5 @@
+import { ImageData } from "./product-list-display/image-data.model";
+
 export class Product {
     constructor(
         public id: number,
@@ -5,9 +7,10 @@ export class Product {
         public engName: string,
         public price: number,
         public description: string,
-        // public imageData: ImageData,
-        public imageData: string,
+        public imageData: ImageData,
         public updatedAt: Date,
         public rate: number
-    ) { }
+    ) {
+        rate = 1;
+     }
 }

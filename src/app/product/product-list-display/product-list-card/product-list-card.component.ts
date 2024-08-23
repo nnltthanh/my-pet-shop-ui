@@ -1,9 +1,10 @@
 import { registerLocaleData } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 import { Product } from '../../product.model';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import { ImageData } from '../image-data.model';
 
 @Component({
   selector: 'app-product-list-card',
@@ -13,26 +14,26 @@ import localeDeExtra from '@angular/common/locales/extra/de';
   styleUrl: './product-list-card.component.scss'
 })
 export class ProductListCardComponent {
-  product!: Product;
+  product = input<Product>();
 
   ngOnInit(): void {
     registerLocaleData(localeDe, 'de-DE', localeDeExtra);
-    if (!this.product) {
-      this.product = new Product(
-        1,
-        'Phụ kiện cho hamster',
-        'Phu kien cho hamster',
-        100000000,
-        '',
-        '',
-        new Date(),
-        4.5
-      );
-    }
-    this.product.id = 1;
-    this.product.name = 'Phụ kiện cho hamster';
-    this.product.engName = 'Phu kien cho hamster';
-    this.product.price = 100000000;
+    // if (!this.product) {
+    //   this.product = new Product(
+    //     1,
+    //     'Phụ kiện cho hamster',
+    //     'Phu kien cho hamster',
+    //     100000000,
+    //     '',
+    //     new ImageData(1, '', ''),
+    //     new Date(),
+    //     4.5
+    //   );
+    // }
+    // this.product.id = 1;
+    // this.product.name = 'Phụ kiện cho hamster';
+    // this.product.engName = 'Phu kien cho hamster';
+    // this.product.price = 100000000;
   }
 
   public calculateRate1(): string {
@@ -76,6 +77,15 @@ export class ProductListCardComponent {
   }
 
   private formatNumber(): number {
-    return Math.round(this.product.rate * 10) / 10;
+    if (this.product()?.id === 1) {
+      return 5;
+    }
+    if (this.product()?.id === 2) {
+      return 3;
+    }
+    if (this.product()?.id === 3) {
+      return 2.5;
+    }
+    return Math.round(this.product()!.rate * 10) / 10;
   }
 }

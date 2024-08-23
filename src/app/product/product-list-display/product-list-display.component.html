@@ -6,7 +6,8 @@
     bindValue="id"
     [items]="sortingOptions"
     [multiple]="false"
-    [(ngModel)]="selectedSortingOption"
+    [ngModel]="selectedSortingOption"
+    (change)="onSelectedSortingOptionChange($event)"
     [clearable]="false"
     [searchable]="false"
   >
@@ -15,7 +16,7 @@
 <div class="d-flex flex-wrap">
   @for (product of products; track product.id) {
   <div class="product mx-3 mb-3">
-    <app-product-list-card></app-product-list-card>
+    <app-product-list-card [product]="product"></app-product-list-card>
   </div>
   }
 </div>
