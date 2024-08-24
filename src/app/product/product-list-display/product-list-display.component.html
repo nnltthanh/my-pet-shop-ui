@@ -1,12 +1,12 @@
-<div class="mx-3 mb-5 d-flex justify-content-between w-95">
-  <div class="text-secondary fs-5">Hiển thị 12 trên tổng 30 sản phẩm</div>
+<div *ngIf="pagingConfig && pagingConfig.totalItems > 0" class="mx-3 mb-5 d-flex justify-content-between w-95">
+  <div class="text-secondary fs-5">Hiển thị {{ totalItemsInCurrentPage | async }} trên tổng {{ pagingConfig.totalItems }} sản phẩm</div>
   <ng-select
     class="custom"
     bindLabel="option"
     bindValue="id"
     [items]="sortingOptions"
     [multiple]="false"
-    [ngModel]="selectedSortingOption.id"
+    [ngModel]="selectedSortingOption"
     (change)="onSelectedSortingOptionChange($event)"
     [clearable]="false"
     [searchable]="false"

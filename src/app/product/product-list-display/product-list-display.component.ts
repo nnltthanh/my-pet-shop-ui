@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { take } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { PagingConfig } from '../../sharing/paging-config.model';
 import { Product } from '../product.model';
@@ -29,7 +29,7 @@ export class ProductListDisplayComponent implements OnInit {
 
   pagingConfig!: PagingConfig;
 
-  tableSize: number[] = [10, 20, 50, 100];
+  tableSize: number[] = [20, 50, 100];
 
   sortingOptions = [
     { id: 1, option: 'Tải lên gần nhất' },
@@ -38,7 +38,9 @@ export class ProductListDisplayComponent implements OnInit {
     { id: 4, option: 'Giá từ cao tới thấp' },
   ];
 
-  selectedSortingOption = { id: 1, option: 'Tải lên gần nhất' };
+  selectedSortingOption = 1;
+
+  totalItemsInCurrentPage = new BehaviorSubject<number>(0);
 
   constructor(private productService: ProductService) {}
 
@@ -60,6 +62,7 @@ export class ProductListDisplayComponent implements OnInit {
       .subscribe((response) => {
         this.products = response.data;
         this.pagingConfig.totalItems = response.total;
+        this.calculateTotalItemsInCurrentPage();
       });
   }
 
@@ -67,44 +70,44 @@ export class ProductListDisplayComponent implements OnInit {
     id: number;
     option: string;
   }) {
-    this.onSortingOrPagingChange(sortingOption, this.pagingConfig);
+    this.selectedSortingOption = sortingOption.id;
+    this.onSortingOrPagingChange();
   }
 
   public onTableDataChange(event: any) {
     this.pagingConfig.currentPage = event;
-    this.onSortingOrPagingChange(this.selectedSortingOption, this.pagingConfig);
+    this.onSortingOrPagingChange();
   }
 
   onTableSizeChange(event: any): void {
     this.pagingConfig.itemsPerPage = event.target.value;
     this.pagingConfig.currentPage = 1;
-    this.onSortingOrPagingChange(this.selectedSortingOption, this.pagingConfig);
+    this.onSortingOrPagingChange();
   }
 
-  private onSortingOrPagingChange(
-    sortingOption: { id: number; option: string },
-    pagingConfig: PagingConfig
-  ) {
+  private onSortingOrPagingChange() {
     let params: HttpParams | null = null;
+    console.log(this.selectedSortingOption);
+
     params = new HttpParams();
-    if (sortingOption) {
-      if (sortingOption.id === 1) {
+    if (this.selectedSortingOption) {
+      if (this.selectedSortingOption === 1) {
         params = params.append('updatedAt', 'DESC');
       }
-      if (sortingOption.id === 2) {
+      if (this.selectedSortingOption === 2) {
         // params.append("updatedAt", "DESC");
       }
-      if (sortingOption.id === 3) {
+      if (this.selectedSortingOption === 3) {
         params = params.append('price', 'ASC');
       }
-      if (sortingOption.id === 4) {
+      if (this.selectedSortingOption === 4) {
         params = params.append('price', 'DESC');
       }
     }
 
-    if (pagingConfig) {
-      params = params.append('page', pagingConfig.currentPage - 1);
-      params = params.append('pageSize', pagingConfig.itemsPerPage);
+    if (this.pagingConfig) {
+      params = params.append('page', this.pagingConfig.currentPage - 1);
+      params = params.append('pageSize', this.pagingConfig.itemsPerPage);
     }
 
     this.productService
@@ -113,6 +116,7 @@ export class ProductListDisplayComponent implements OnInit {
       .subscribe((response) => {
         this.products = response.data;
         this.pagingConfig.totalItems = response.total;
+        this.calculateTotalItemsInCurrentPage();
         this.scrollToTop();
       });
   }
@@ -123,5 +127,22 @@ export class ProductListDisplayComponent implements OnInit {
       left: 0,
       behavior: 'smooth',
     });
+  }
+
+  private calculateTotalItemsInCurrentPage(): void {
+    this.totalItemsInCurrentPage.next(
+      this.pagingConfig.totalItems <= this.pagingConfig.itemsPerPage
+        ? this.pagingConfig.totalItems
+        : this.isLastPage()
+        ? this.pagingConfig.totalItems % this.pagingConfig.itemsPerPage
+        : this.pagingConfig.itemsPerPage
+    );
+  }
+
+  private isLastPage(): boolean {
+    return (
+      this.pagingConfig.itemsPerPage * this.pagingConfig.currentPage >=
+      this.pagingConfig.totalItems
+    );
   }
 }
