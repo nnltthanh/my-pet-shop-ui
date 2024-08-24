@@ -1,6 +1,6 @@
 .card {
     border-radius: 5px;
-    border-color: white;
+    border: none;
     height: 350px;
   }
   
@@ -11,22 +11,22 @@
   .product-card {
     width: 250px;
   //   height: 270px;
+  overflow: hidden;
   }
   
   .card-img-top {
-    border-radius: 5px;
+    border-radius: 0px;
     height: 220px;
     width: 100%;
     overflow: hidden;
   }
   
   img {
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: auto;
     overflow: hidden;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-radius: 5px;
+    margin-top: 0px;
+    border-radius: 0px;
   //   border: dashed gray 1px;
   }
   

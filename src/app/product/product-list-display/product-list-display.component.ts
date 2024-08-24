@@ -1,6 +1,12 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -24,7 +30,16 @@ import { ProductListCardComponent } from './product-list-card/product-list-card.
   templateUrl: './product-list-display.component.html',
   styleUrl: './product-list-display.component.scss',
 })
-export class ProductListDisplayComponent implements OnInit {
+export class ProductListDisplayComponent implements OnInit, OnChanges {
+  readonly MIN_PRICE_VALUE: number = 0;
+
+  readonly MAX_PRICE_VALUE: number = 1_000_000_000_000;
+
+  priceRange = input<{ minValue: number; maxValue: number }>({
+    minValue: this.MIN_PRICE_VALUE,
+    maxValue: this.MAX_PRICE_VALUE,
+  });
+
   products: Product[] = [];
 
   pagingConfig!: PagingConfig;
@@ -43,6 +58,15 @@ export class ProductListDisplayComponent implements OnInit {
   totalItemsInCurrentPage = new BehaviorSubject<number>(0);
 
   constructor(private productService: ProductService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['priceRange'] && !changes['priceRange'].isFirstChange()) {
+      console.log("price range change");
+      console.log(this.priceRange);
+      
+      this.onSortingOrPagingChange();
+    }
+  }
 
   ngOnInit(): void {
     this.pagingConfig = {
@@ -110,6 +134,11 @@ export class ProductListDisplayComponent implements OnInit {
       params = params.append('pageSize', this.pagingConfig.itemsPerPage);
     }
 
+    if (this.priceRange()) {
+      params = params.append('priceFrom', this.priceRange().minValue);
+      params = params.append('priceTo', this.priceRange().maxValue);
+    }
+
     this.productService
       .findAllBy(params)
       .pipe(take(1))
@@ -133,7 +162,7 @@ export class ProductListDisplayComponent implements OnInit {
     this.totalItemsInCurrentPage.next(
       this.pagingConfig.totalItems <= this.pagingConfig.itemsPerPage
         ? this.pagingConfig.totalItems
-        : this.isLastPage()
+        : this.isLastPage() && this.pagingConfig.totalItems % this.pagingConfig.itemsPerPage !== 0
         ? this.pagingConfig.totalItems % this.pagingConfig.itemsPerPage
         : this.pagingConfig.itemsPerPage
     );

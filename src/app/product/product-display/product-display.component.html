@@ -1,9 +1,10 @@
 <div class="w-100 d-flex my-3 justify-content-between">
-<div class="col-2-5 product-filter mx-3">
-    <app-product-filtering></app-product-filtering>
-</div>
-<div class="col product-list me-3">
-    <app-product-list-display></app-product-list-display>
-</div>
-
+  <div class="col-2-5 product-filter mx-3">
+    <app-product-filtering
+      (priceChange)="onPriceRangeChanged($event)"
+    ></app-product-filtering>
+  </div>
+  <div class="col product-list me-3">
+    <app-product-list-display [priceRange]="priceRange"></app-product-list-display>
+  </div>
 </div>

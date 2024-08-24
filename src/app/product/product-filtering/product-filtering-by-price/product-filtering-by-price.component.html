@@ -20,7 +20,6 @@
       <div class="col">
         <input
           type="number"
-          pattern="^[0-9]+$"
           class="form-control"
           placeholder="₫ Đến"
           name="maxValue"
@@ -31,5 +30,5 @@
   </form>
 </div>
 <div class="d-flex justify-content-center mb-3">
-  <div class="btn btn-outline-primary" type="button">Áp dụng</div>
+  <div class="btn btn-outline-primary" type="button" (click)="onPriceRangeChanged()">Áp dụng</div>
 </div>
