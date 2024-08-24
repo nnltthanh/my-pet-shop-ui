@@ -1,10 +1,6 @@
-import { registerLocaleData } from '@angular/common';
-import { Component, input, InputSignal } from '@angular/core';
-import { Product } from '../../product.model';
 import { CurrencyPipe, NgClass } from '@angular/common';
-import localeDe from '@angular/common/locales/de';
-import localeDeExtra from '@angular/common/locales/extra/de';
-import { ImageData } from '../image-data.model';
+import { Component, input } from '@angular/core';
+import { Product } from '../../product.model';
 
 @Component({
   selector: 'app-product-list-card',
@@ -17,7 +13,6 @@ export class ProductListCardComponent {
   product = input<Product>();
 
   ngOnInit(): void {
-    registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     // if (!this.product) {
     //   this.product = new Product(
     //     1,

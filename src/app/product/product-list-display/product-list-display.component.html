@@ -6,17 +6,39 @@
     bindValue="id"
     [items]="sortingOptions"
     [multiple]="false"
-    [ngModel]="selectedSortingOption"
+    [ngModel]="selectedSortingOption.id"
     (change)="onSelectedSortingOptionChange($event)"
     [clearable]="false"
     [searchable]="false"
   >
   </ng-select>
 </div>
-<div class="d-flex flex-wrap">
-  @for (product of products; track product.id) {
+<div class="d-flex flex-wrap justify-content-center w-95 mb-5">
+  @for (product of products | paginate: pagingConfig; track product.id ) {
   <div class="product mx-3 mb-3">
     <app-product-list-card [product]="product"></app-product-list-card>
   </div>
   }
+</div>
+<div class="mx-3 w-95 d-flex justify-content-center align-items-center">
+  <div class="mx-2"><span>Số lượng hiển thị</span></div>
+  <div class="col-1">
+    <select
+      name="noOfRows"
+      (change)="onTableSizeChange($event)"
+      class="form-select form-select-sm"
+    >
+      <option *ngFor="let size of tableSize" [ngValue]="size">
+        {{ size }}
+      </option>
+    </select>
+  </div>
+  <div>
+    <pagination-controls
+      previousLabel="Trước"
+      nextLabel="Tiếp"
+      (pageChange)="onTableDataChange($event)"
+    >
+    </pagination-controls>
+  </div>
 </div>
