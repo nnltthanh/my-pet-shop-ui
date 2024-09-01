@@ -13,12 +13,32 @@ import { ProductFilteringByPriceComponent } from './product-filtering-by-price/p
   styleUrl: './product-filtering.component.scss',
 })
 export class ProductFilteringComponent {
+
   priceChange = output<{ minValue: number; maxValue: number }>();
+
+  categoriesChange = output<{
+    accessory: boolean,
+    food: boolean,
+    dog: boolean,
+    cat: boolean,
+    hamster: boolean
+  }>();
 
   onPriceRangeChanged($event: any): void {
     this.priceChange.emit({
       minValue: $event.minValue,
       maxValue: $event.maxValue,
     });
+  }
+
+  onCategoriesRangeChanged($event: any): void {
+    this.categoriesChange.emit({
+      accessory: $event.accessory,
+      food: $event.food,
+      dog: $event.dog,
+      cat: $event.cat,
+      hamster: $event.hamster
+    });
+
   }
 }

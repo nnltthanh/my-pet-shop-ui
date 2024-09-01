@@ -14,7 +14,7 @@ export const routes: Routes = [
         children: [
             {
               path: "info",
-              loadComponent: () => import('./user/user-page/customer-page/user-info-display/user-info-display.component').then(m => m.UserInfoDisplayComponent)
+              loadComponent: () => import('./user/user-page/user-info-display/user-info-display.component').then(m => m.UserInfoDisplayComponent)
             }
           ],
         },

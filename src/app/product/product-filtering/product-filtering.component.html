@@ -1,4 +1,4 @@
 <div class="card shadow hover-shadow">
-    <app-product-filtering-by-categories></app-product-filtering-by-categories>
+    <app-product-filtering-by-categories (categoriesChange)="onCategoriesRangeChanged($event)"></app-product-filtering-by-categories>
     <app-product-filtering-by-price (priceChange)="onPriceRangeChanged($event)"></app-product-filtering-by-price>
 </div>

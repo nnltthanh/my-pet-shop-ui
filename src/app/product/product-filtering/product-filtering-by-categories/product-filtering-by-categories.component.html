@@ -1,28 +1,53 @@
 <div class="m-3">
-    <div class="mb-3 fs-5 fw-bold">Lọc theo loại sản phẩm</div>
-    <label class="container fw-bolder">Phụ kiện thú cưng
-        <input type="checkbox">
-        <span class="checkmark" checked="true"></span>
-        <span class="number-of-product">12</span>
-    </label>
-    <label class="container fw-bolder">Thức ăn thú cưng
-        <input type="checkbox">
-        <span class="checkmark"></span>
-        <span class="number-of-product">12</span>
-    </label>
-    <label class="container fw-bolder">Chó
-        <input type="checkbox">
-        <span class="checkmark"></span>
-        <span class="number-of-product">12</span>
-    </label>
-    <label class="container fw-bolder">Mèo
-        <input type="checkbox">
-        <span class="checkmark"></span>
-        <span class="number-of-product">12</span>
-    </label>
-    <label class="container fw-bolder">Hamster
-        <input type="checkbox">
-        <span class="checkmark"></span>
-        <span class="number-of-product">12</span>
-    </label>
+  <div class="mb-3 fs-5 fw-bold">Lọc theo loại sản phẩm</div>
+  <label class="container fw-bolder"
+    >Phụ kiện thú cưng
+    <input
+      type="checkbox"
+      name="accessory"
+      [ngModel]="accessory"
+      (click)="accessory = !accessory; onCategoriesChanged()"
+    />
+    <span class="checkmark"></span>
+  </label>
+  <label class="container fw-bolder"
+    >Thức ăn thú cưng
+    <input
+      type="checkbox"
+      name="food"
+      [ngModel]="food"
+      (click)="food = !food; onCategoriesChanged()"
+    />
+    <span class="checkmark"></span>
+  </label>
+  <label class="container fw-bolder"
+    >Chó
+    <input
+      type="checkbox"
+      name="dog"
+      [ngModel]="dog"
+      (click)="dog = !dog; onCategoriesChanged()"
+    />
+    <span class="checkmark"></span>
+  </label>
+  <label class="container fw-bolder"
+    >Mèo
+    <input
+      type="checkbox"
+      name="cat"
+      [ngModel]="cat"
+      (click)="cat = !cat; onCategoriesChanged()"
+    />
+    <span class="checkmark"></span>
+  </label>
+  <label class="container fw-bolder"
+    >Hamster
+    <input
+      type="checkbox"
+      name="hamster"
+      [ngModel]="hamster"
+      (click)="hamster = !hamster; onCategoriesChanged()"
+    />
+    <span class="checkmark"></span>
+  </label>
 </div>

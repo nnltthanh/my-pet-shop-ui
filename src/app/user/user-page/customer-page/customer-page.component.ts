@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AccountSidebarComponent } from './account-sidebar/account-sidebar.component';
+import { AccountSidebarComponent } from '../account-sidebar/account-sidebar.component';
 
 @Component({
   selector: 'app-customer-page',

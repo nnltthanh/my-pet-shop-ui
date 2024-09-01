@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../product.model';
+import { ProductOverview } from '../product-overview.model';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
@@ -14,12 +14,12 @@ import { ImageData } from '../product-list-display/image-data.model';
   styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent implements OnInit {
-  product!: Product;
+  product!: ProductOverview;
 
   ngOnInit(): void {
     registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     if (!this.product) {
-      this.product = new Product(
+      this.product = new ProductOverview(
         1,
         'Phụ kiện cho hamster',
         'Phu kien cho hamster',

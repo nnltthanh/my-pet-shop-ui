@@ -1,6 +1,6 @@
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { Product } from '../../product.model';
+import { ProductOverview } from '../../product-overview.model';
 
 @Component({
   selector: 'app-product-list-card',
@@ -10,7 +10,7 @@ import { Product } from '../../product.model';
   styleUrl: './product-list-card.component.scss',
 })
 export class ProductListCardComponent {
-  product = input<Product>();
+  product = input<ProductOverview>();
 
   public calculateRate1(): string {
     return this.formatNumber() >= 1 ? 'fa-star checked' : 'fa-star-o';

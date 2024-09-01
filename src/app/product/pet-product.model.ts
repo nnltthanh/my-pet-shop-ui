@@ -1,4 +1,5 @@
 import { ImageData } from "./product-list-display/image-data.model";
+import { ProductOverview } from "./product-overview.model";
 import { Product } from "./product.model";
 
 export class PetProduct extends Product {
