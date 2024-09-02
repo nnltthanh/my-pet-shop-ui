@@ -17,7 +17,7 @@ export class ProductService {
 
   findAllBy(queryParams: HttpParams | null): Observable<ProductOverviewResponse> {
     return queryParams === null ? this.findAll() :
-      this.http.get<ProductOverviewResponse>(`${this.getBaseUri()}`, { params: queryParams });
+      this.http.get<ProductOverviewResponse>(`${this.getBaseUri()}/search`, { params: queryParams });
   }
 
   private getBaseUri(): string {

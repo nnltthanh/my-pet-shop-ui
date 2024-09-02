@@ -1,5 +1,5 @@
+import { PetCategory } from "./pet-category.model";
 import { ImageData } from "./product-list-display/image-data.model";
-import { ProductOverview } from "./product-overview.model";
 import { Product } from "./product.model";
 
 export class PetProduct extends Product {
@@ -14,7 +14,7 @@ export class PetProduct extends Product {
         public override rate: number,
         public weight: number,
         public age: number,
-        public category: string,
+        public category: PetCategory,
         public gender: string,
         public origin: string,
     ) {

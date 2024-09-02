@@ -1,5 +1,11 @@
-<app-header class="header d-flex justify-content-center w-95"></app-header>
-<div class="margin-top w-100">
-    <router-outlet></router-outlet>
+<app-header
+  *ngIf="$customerHeader | async"
+  class="header d-flex justify-content-center w-95"
+></app-header>
+<div
+  class="w-100"
+  [ngClass]="{ 'margin-top': $customerHeader | async }"
+>
+  <router-outlet></router-outlet>
 </div>
 <!-- <app-footer></app-footer> -->

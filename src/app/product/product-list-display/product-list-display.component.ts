@@ -93,7 +93,7 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
     };
 
     let params = new HttpParams();
-    params = params.append('updatedAt', 'DESC');
+    params = params.append('desc', 'updatedAt');
     params = params.append('page', this.pagingConfig.currentPage - 1);
     params = params.append('pageSize', this.pagingConfig.itemsPerPage);
 
@@ -131,27 +131,29 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
 
     params = new HttpParams();
     if (this.selectedSortingOption) {
+      console.log(this.selectedSortingOption);
+      
       switch (this.selectedSortingOption) {
         case 1:
-          params = params.append('updatedAt', 'DESC');
+          params = params.append('desc', 'updatedAt');
           break;
         case 2:
-          params = params.append("alphabet", "ASC");
+          params = params.append("asc", "engName");
           break;
         case 3:
-          params = params.append("alphabet", "DESC");
+          params = params.append("desc", "engName");
           break;
         case 4:
           // params = params.append("rating", "DESC");
           break;
         case 5:
-          params = params.append('price', 'ASC');
+          params = params.append('asc', 'price');
           break;
         case 6:
-          params = params.append('price', 'DESC');
+          params = params.append('desc', 'price');
           break;
         default:
-          params = params.append('updatedAt', 'DESC');
+          params = params.append('desc', 'updatedAt');
       }
     }
 
