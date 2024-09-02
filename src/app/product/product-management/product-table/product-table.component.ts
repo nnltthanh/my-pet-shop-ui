@@ -188,14 +188,27 @@ export class ProductTableComponent implements OnInit {
   loadPetProducts(event: TableLazyLoadEvent) {
     this.loading = true;
 
+    console.log(event);
+    
     let params = new HttpParams();
     params = params.append('pageSize', event.rows ?? 20);
     params = params.append('page', (event.first ?? 0) / (event.rows ?? 20));
-    if (event.sortField) {
-      if (event.sortOrder === 1) {
-        params = params.append('asc', event.sortField.toString());
-      } else if (event.sortOrder === -1) {
-        params = params.append('desc', event.sortField.toString());
+    if (event.multiSortMeta) {
+      let ascValues: string[] = [];
+      let descValues: string[] = [];
+      event.multiSortMeta.forEach(field => {
+        if (field.order === 1) {
+          ascValues.push(field.field);
+        }
+        else if (field.order === -1) {
+          descValues.push(field.field);
+        }
+      })
+      if (ascValues.length > 0) {
+        params = params.append('asc', ascValues.join(','));
+      }
+      if (descValues.length > 0) {
+        params = params.append('desc', descValues.join(','));
       }
     }
 

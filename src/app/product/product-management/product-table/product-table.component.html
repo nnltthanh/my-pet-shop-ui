@@ -32,17 +32,16 @@
   </p-toolbar>
 
   <p-table
-   [lazy]="true" (onLazyLoad)="loadPetProducts($event)" 
-    [paginator]="true" [rows]="15" [totalRecords]="total" [loading]="loading"
+    [lazy]="true"
+    (onLazyLoad)="loadPetProducts($event)"
+    [paginator]="true"
+    [rows]="15"
+    [totalRecords]="total"
+    [loading]="loading"
     #dt
     [value]="products"
-    [globalFilterFields]="[
-      'id',
-      'name',
-      'price',
-      'weight',
-      'age'
-    ]"
+    sortMode="multiple"
+    [globalFilterFields]="['id', 'name', 'price', 'weight', 'age']"
     [tableStyle]="{ 'min-width': '75rem' }"
     [(selection)]="selectedProducts"
     [rowHover]="true"
@@ -62,12 +61,13 @@
             (input)="onSearch(search.value)"
             placeholder="Search..."
           /> -->
-          <input 
-                        #search
-                        pInputText 
-                        type="text" 
-                        (input)="dt.filterGlobal(search.value, 'contains')" 
-                        placeholder="Tìm kiếm..." />
+          <input
+            #search
+            pInputText
+            type="text"
+            (input)="dt.filterGlobal(search.value, 'contains')"
+            placeholder="Tìm kiếm..."
+          />
         </span>
       </div>
     </ng-template>
@@ -86,9 +86,7 @@
         <th pSortableColumn="price" class="text-center">
           Giá <p-sortIcon field="price" />
         </th>
-        <th class="text-center">
-          Đánh giá
-        </th>
+        <th class="text-center">Đánh giá</th>
         <th
           pSortableColumn="inventoryStatus"
           style="min-width: 10rem"
