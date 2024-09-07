@@ -5,7 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileSelectEvent, FileUploadEvent, FileUploadModule, UploadEvent } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -21,6 +21,10 @@ import { PetBreed } from '../../pet-category.model';
 import { PetProduct } from '../../pet-product.model';
 import { Product } from '../../product.model';
 import { HttpParams } from '@angular/common/http';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DropdownModule } from 'primeng/dropdown';
+import { ImageModule } from 'primeng/image';
+import { ProductDetailEditComponent } from './product-detail-edit/product-detail-edit.component';
 
 @Component({
   selector: 'app-product-table',
@@ -39,9 +43,9 @@ import { HttpParams } from '@angular/common/http';
     ToastModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
     NgIf,
     NgFor,
+    ProductDetailEditComponent
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './product-table.component.html',
@@ -62,14 +66,16 @@ export class ProductTableComponent implements OnInit {
 
   submitted: boolean = false;
 
-  statuses!: any[];
-
   loading: boolean = false;
+
+  inventoryStatus: string = '';
+
+  imagePath: any;
 
   constructor(
     private productService: ProductService,
-    private petProductService: PetProductService // , private messageService: MessageService, private confirmationService: ConfirmationService
-  ) {}
+    private petProductService: PetProductService, private messageService: MessageService, private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit() {
     // this.petProductService
@@ -80,11 +86,6 @@ export class ProductTableComponent implements OnInit {
     //       this.loading = false;
     //     });
 
-    this.statuses = [
-      { label: 'INSTOCK', value: 'instock' },
-      { label: 'LOWSTOCK', value: 'lowstock' },
-      { label: 'OUTOFSTOCK', value: 'outofstock' },
-    ];
   }
 
   openNew() {
@@ -124,29 +125,9 @@ export class ProductTableComponent implements OnInit {
     // });
   }
 
-  hideDialog() {
-    this.productDialog = false;
-    this.submitted = false;
-  }
 
-  saveProduct() {
-    this.submitted = true;
 
-    // if (this.product.name?.trim()) {
-    //     if (this.product.id) {
-    //         this.products[this.findIndexById(this.product.id)] = this.product;
-    //         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-    //     } else {
-    //         this.product.id = this.createId();
-    //         this.product.image = 'product-placeholder.svg';
-    //         this.products.push(this.product);
-    //         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
-    //     }
-
-    //     this.products = [...this.products];
-    //     this.productDialog = false;
-    //     this.product = {};
-  }
+  
 
   findIndexById(id: string): number {
     let index = -1;
@@ -183,16 +164,24 @@ export class ProductTableComponent implements OnInit {
     }
   }
 
-  onSearch(value: string) {}
+  onSearch(value: string) { }
+
+  onUpload(event: UploadEvent) {
+    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+  }
+
+  onSelect(event: any) {
+    this.imagePath = event.currentFiles[0].objectURL?.changingThisBreaksApplicationSecurity;
+    console.log(event);
+
+  }
 
   loadPetProducts(event: TableLazyLoadEvent) {
     this.loading = true;
 
-    console.log(event);
-    
     let params = new HttpParams();
-    params = params.append('pageSize', event.rows ?? 20);
-    params = params.append('page', (event.first ?? 0) / (event.rows ?? 20));
+    params = params.append('pageSize', event.rows ?? 15);
+    params = params.append('page', (event.first ?? 0) / (event.rows ?? 15));
     if (event.multiSortMeta) {
       let ascValues: string[] = [];
       let descValues: string[] = [];

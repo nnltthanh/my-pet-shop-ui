@@ -15,6 +15,14 @@ import { ProductService } from '../../services/product.service';
 import { PagingConfig } from '../../sharing/paging-config.model';
 import { ProductOverview } from '../product-overview.model';
 import { ProductListCardComponent } from './product-list-card/product-list-card.component';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+
+// interface PageEvent {
+//   first: number;
+//   rows: number;
+//   page: number;
+//   pageCount: number;
+// }
 
 @Component({
   selector: 'app-product-list-display',
@@ -26,6 +34,7 @@ import { ProductListCardComponent } from './product-list-card/product-list-card.
     CommonModule,
     NgxPaginationModule,
     NgFor,
+    PaginatorModule
   ],
   templateUrl: './product-list-display.component.html',
   styleUrl: './product-list-display.component.scss',
@@ -67,6 +76,8 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
 
   totalItemsInCurrentPage = new BehaviorSubject<number>(0);
 
+  isLoading: boolean = true;
+
   constructor(private productService: ProductService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -87,23 +98,26 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.pagingConfig = {
-      itemsPerPage: 20,
-      currentPage: 1,
-      totalItems: 0,
+      first: 0,
+      rows: 20,
+      page: 0,
+      pageCount: 0,
+      totalRecords: 0,
     };
 
     let params = new HttpParams();
     params = params.append('desc', 'updatedAt');
-    params = params.append('page', this.pagingConfig.currentPage - 1);
-    params = params.append('pageSize', this.pagingConfig.itemsPerPage);
+    params = params.append('page', this.pagingConfig.page);
+    params = params.append('pageSize', this.pagingConfig.rows);
 
     this.productService
       .findAllBy(params)
       .pipe(take(1))
       .subscribe((response) => {
         this.products = response.data;
-        this.pagingConfig.totalItems = response.total;
+        this.pagingConfig.totalRecords = response.total;
         this.calculateTotalItemsInCurrentPage();
+        this.isLoading = false;
       });
   }
 
@@ -115,14 +129,19 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
     this.onSortingOrPagingChange();
   }
 
-  public onTableDataChange(event: any) {
-    this.pagingConfig.currentPage = event;
+  public onTableDataChange(event: PaginatorState) {
+    this.pagingConfig.first = event.first ?? 0;
+    this.pagingConfig.page = event.page ?? 0;
+    this.pagingConfig.pageCount = event.pageCount ?? 0;
+    if (event.rows !== this.pagingConfig.rows) {
+      this.onTableSizeChange(event.rows ?? 20);
+    }
     this.onSortingOrPagingChange();
   }
 
-  onTableSizeChange(event: any): void {
-    this.pagingConfig.itemsPerPage = event.target.value;
-    this.pagingConfig.currentPage = 1;
+  onTableSizeChange(size: number): void {
+    this.pagingConfig.page = 0;
+    this.pagingConfig.rows = size;
     this.onSortingOrPagingChange();
   }
 
@@ -131,8 +150,6 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
 
     params = new HttpParams();
     if (this.selectedSortingOption) {
-      console.log(this.selectedSortingOption);
-      
       switch (this.selectedSortingOption) {
         case 1:
           params = params.append('desc', 'updatedAt');
@@ -161,24 +178,30 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
       params = params.append('priceFrom', this.priceRange().minValue);
       params = params.append('priceTo', this.priceRange().maxValue);
     }
-    
+
     if (this.categories() && !this.isFindAllCategories()) {
-      params = params.append('breeds', this.buildCategoriesSearch());
+      params = params.append('breeds', this.buildPetCategoriesSearch());
+    }
+
+    if (this.categories() && !this.isFindAllCategories()) {
+      params = params.append('accessoryCategories', this.buildAccessoryCategoriesSearch());
     }
 
     if (this.pagingConfig) {
-      params = params.append('page', this.pagingConfig.currentPage - 1);
-      params = params.append('pageSize', this.pagingConfig.itemsPerPage);
+      params = params.append('page', this.pagingConfig.page);
+      params = params.append('pageSize', this.pagingConfig.rows);
     }
 
+    this.isLoading = true;
     this.productService
       .findAllBy(params)
       .pipe(take(1))
       .subscribe((response) => {
         this.products = response.data;
-        this.pagingConfig.totalItems = response.total;
+        this.pagingConfig.totalRecords = response.total;
         this.calculateTotalItemsInCurrentPage();
         this.scrollToTop();
+        this.isLoading = false;
       });
   }
 
@@ -197,14 +220,8 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
     return false;
   }
 
-  private buildCategoriesSearch(): string {
+  private buildPetCategoriesSearch(): string {
     let categories = [];
-    if (this.categories()?.accessory) {
-      // TODO
-    }
-    if (this.categories()?.food) {
-      // TODO
-    }
     if (this.categories()?.dog) {
       categories.push("DOG");
     }
@@ -213,6 +230,26 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
     }
     if (this.categories()?.hamster) {
       categories.push("HAMSTER");
+    }
+    return categories.join(",");
+  }
+
+  // GENERAL_ACCESSORY(0), // TODO
+  //   FOOD_ACCESSORY(1),
+  //   PET_FOOD(2),
+  //   PET_SANITARY(3),
+  //   PET_MEDICINE(4),
+  //   PET_HOUSE(5),
+  //   PET_CLOTHING(6),
+  //   OTHER(7);
+
+  private buildAccessoryCategoriesSearch(): string { // TODO
+    let categories = [];
+    if (this.categories()?.accessory) {
+      categories.push("PET_HOUSE");
+    }
+    if (this.categories()?.food) {
+      categories.push("PET_FOOD");
     }
     return categories.join(",");
   }
@@ -227,18 +264,15 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
 
   private calculateTotalItemsInCurrentPage(): void {
     this.totalItemsInCurrentPage.next(
-      this.pagingConfig.totalItems <= this.pagingConfig.itemsPerPage
-        ? this.pagingConfig.totalItems
-        : this.isLastPage() && this.pagingConfig.totalItems % this.pagingConfig.itemsPerPage !== 0
-          ? this.pagingConfig.totalItems % this.pagingConfig.itemsPerPage
-          : this.pagingConfig.itemsPerPage
+      this.pagingConfig.totalRecords <= this.pagingConfig.rows
+        ? this.pagingConfig.totalRecords
+        : this.isLastPage() && this.pagingConfig.totalRecords % this.pagingConfig.rows !== 0
+          ? this.pagingConfig.totalRecords % this.pagingConfig.rows
+          : this.pagingConfig.rows
     );
   }
 
   private isLastPage(): boolean {
-    return (
-      this.pagingConfig.itemsPerPage * this.pagingConfig.currentPage >=
-      this.pagingConfig.totalItems
-    );
+    return this.pagingConfig.pageCount === this.pagingConfig.page + 1;
   }
 }

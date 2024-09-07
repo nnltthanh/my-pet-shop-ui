@@ -1,44 +1,41 @@
-<div *ngIf="pagingConfig && pagingConfig.totalItems > 0" class="mx-3 mb-5 d-flex justify-content-between w-95">
-  <div class="text-secondary fs-5">Hiển thị {{ totalItemsInCurrentPage | async }} trên tổng {{ pagingConfig.totalItems }} sản phẩm</div>
-  <ng-select
-    class="custom"
-    bindLabel="option"
-    bindValue="id"
-    [items]="sortingOptions"
-    [multiple]="false"
-    [ngModel]="selectedSortingOption"
-    (change)="onSelectedSortingOptionChange($event)"
-    [clearable]="false"
-    [searchable]="false"
-  >
-  </ng-select>
-</div>
-<div class="d-flex flex-wrap justify-content-center w-95 mb-5">
-  @for (product of products | paginate: pagingConfig; track product.id ) {
-  <div class="product mx-3 mb-3">
-    <app-product-list-card [product]="product"></app-product-list-card>
+@if (pagingConfig.totalRecords > 0) {
+    <div *ngIf="pagingConfig" class="mx-3 mb-5 d-flex justify-content-between w-95">
+      <div class="text-secondary fs-5">Hiển thị {{ totalItemsInCurrentPage | async }} trên tổng {{ pagingConfig.totalRecords }} sản phẩm</div>
+      <ng-select
+        class="custom"
+        bindLabel="option"
+        bindValue="id"
+        [items]="sortingOptions"
+        [multiple]="false"
+        [ngModel]="selectedSortingOption"
+        (change)="pagingConfig.page = 0; pagingConfig.first = 0; onSelectedSortingOptionChange($event)"
+        [clearable]="false"
+        [searchable]="false"
+      >
+      </ng-select>
+    </div>
+    <div class="d-flex flex-wrap justify-content-center w-95 mb-5">
+      @for (product of products; track product.id) {
+      <div class="product mx-3 mb-3">
+        <app-product-list-card [product]="product"></app-product-list-card>
+      </div>
+      }
+    </div>
+    <div class="mx-3 w-95 d-flex justify-content-center align-items-center">
+      <p-paginator 
+            (onPageChange)="onTableDataChange($event)" 
+            [first]="pagingConfig.first" 
+            [rows]="pagingConfig.rows" 
+            [totalRecords]="pagingConfig.totalRecords" 
+            [rowsPerPageOptions]="tableSize"
+            #paginator
+             />
+    </div>
+  
+}
+@else if (!isLoading) {
+  <div class="d-flex align-items-center flex-column">
+    <div><img src="/assets/no-item-found.png"></div>
+    <div class="text-secondary fs-1 fw-bold">Không tìm thấy sản phẩm nào.</div>
   </div>
-  }
-</div>
-<div class="mx-3 w-95 d-flex justify-content-center align-items-center">
-  <div class="mx-2"><span>Số lượng hiển thị</span></div>
-  <div class="col-1">
-    <select
-      name="noOfRows"
-      (change)="onTableSizeChange($event)"
-      class="form-select form-select-sm"
-    >
-      <option *ngFor="let size of tableSize" [ngValue]="size">
-        {{ size }}
-      </option>
-    </select>
-  </div>
-  <div>
-    <pagination-controls
-      previousLabel="Trước"
-      nextLabel="Tiếp"
-      (pageChange)="onTableDataChange($event)"
-    >
-    </pagination-controls>
-  </div>
-</div>
+}

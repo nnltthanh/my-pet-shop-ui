@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ProductFilteringComponent } from '../product-filtering/product-filtering.component';
 import { ProductListDisplayComponent } from '../product-list-display/product-list-display.component';
 
@@ -10,6 +10,8 @@ import { ProductListDisplayComponent } from '../product-list-display/product-lis
   styleUrl: './product-display.component.scss',
 })
 export class ProductDisplayComponent {
+
+  readonly panelOpenState = signal(false);
   
   readonly MIN_PRICE_VALUE: number = 0;
 

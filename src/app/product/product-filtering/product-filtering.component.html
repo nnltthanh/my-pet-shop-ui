@@ -1,4 +1,24 @@
-<div class="card shadow hover-shadow">
-    <app-product-filtering-by-categories (categoriesChange)="onCategoriesRangeChanged($event)"></app-product-filtering-by-categories>
-    <app-product-filtering-by-price (priceChange)="onPriceRangeChanged($event)"></app-product-filtering-by-price>
+<div class="card shadow hover-shadow filter-box">
+  <div class="m-3 mb-2 fs-4 fw-bold">Lọc sản phẩm</div>
+  <div class="mb-3">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Lọc theo loại sản phẩm </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-product-filtering-by-categories
+          (categoriesChange)="onCategoriesRangeChanged($event)"
+        ></app-product-filtering-by-categories>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Lọc theo khoảng giá </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-product-filtering-by-price
+          (priceChange)="onPriceRangeChanged($event)"
+        ></app-product-filtering-by-price>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>

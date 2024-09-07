@@ -1,6 +1,7 @@
-import { Component, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { ProductFilteringByCategoriesComponent } from './product-filtering-by-categories/product-filtering-by-categories.component';
 import { ProductFilteringByPriceComponent } from './product-filtering-by-price/product-filtering-by-price.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-product-filtering',
@@ -8,11 +9,14 @@ import { ProductFilteringByPriceComponent } from './product-filtering-by-price/p
   imports: [
     ProductFilteringByCategoriesComponent,
     ProductFilteringByPriceComponent,
+    MatExpansionModule
   ],
   templateUrl: './product-filtering.component.html',
   styleUrl: './product-filtering.component.scss',
 })
 export class ProductFilteringComponent {
+
+  readonly panelOpenState = signal(false);
 
   priceChange = output<{ minValue: number; maxValue: number }>();
 

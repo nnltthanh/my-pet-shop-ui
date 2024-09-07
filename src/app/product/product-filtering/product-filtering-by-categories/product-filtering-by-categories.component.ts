@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, OnInit, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './product-filtering-by-categories.component.html',
   styleUrl: './product-filtering-by-categories.component.scss'
 })
-export class ProductFilteringByCategoriesComponent {
+export class ProductFilteringByCategoriesComponent implements OnInit {
 
   accessory: boolean = false;
 
@@ -27,6 +27,11 @@ export class ProductFilteringByCategoriesComponent {
     cat: boolean,
     hamster: boolean
   }>();
+
+  ngOnInit(): void {
+      console.log("init");
+      
+  }
 
   onCategoriesChanged() {
     this.categoriesChange.emit({

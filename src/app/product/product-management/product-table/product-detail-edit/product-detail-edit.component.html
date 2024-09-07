@@ -1,0 +1,138 @@
+<p-dialog
+  [visible]="productDialog()"
+  [style]="{ width: '50vw' }"
+  header="THÔNG TIN SẢN PHẨM"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <p-fileUpload
+      class="text-end"
+      mode="basic"
+      chooseLabel="Choose"
+      chooseIcon="pi pi-upload"
+      name="demo[]"
+      url="https://www.primefaces.org/cdn/api/upload.php"
+      accept="image/*"
+      maxFileSize="1000000"
+      (onSelect)="imageSrc = $any($event).currentFiles[0]?.objectURL"
+    />
+    <img
+      [src]="imageSrc"
+      [alt]="imageSrc"
+      class="block m-auto pb-3"
+      style="width: 300px"
+      *ngIf="petProduct!.imageData"
+    />
+
+    <div class="field">
+      <label for="name">Tên sản phẩm</label>
+      <input
+        type="text"
+        pInputText
+        id="name"
+        [(ngModel)]="petProduct!.name"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !petProduct!.name">
+        Tên sản phẩm không được bỏ trống.
+      </small>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="inventoryStatus">Trạng thái</label>
+        <p-dropdown
+          [(ngModel)]="inventoryStatus"
+          inputId="inventoryStatus"
+          [options]="statuses"
+        >
+          <ng-template pTemplate="selectedItem">
+            <p-tag
+              [value]="inventoryStatus.toUpperCase()"
+              [severity]="getSeverity(inventoryStatus.toUpperCase())"
+            />
+          </ng-template>
+          <ng-template let-option pTemplate="item">
+            <p-tag
+              [value]="option.label"
+              [severity]="getSeverity(option.label)"
+            />
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="field col">
+        <label for="price">Giá</label>
+        <p-inputNumber
+          id="price"
+          [(ngModel)]="petProduct!.price"
+          mode="currency"
+          currency="VND"
+          locale="en-US"
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="mb-3">Loại thú nuôi</label>
+      <div class="formgrid grid">
+        <div class="field-radiobutton col-4">
+          <p-radioButton
+            id="category1"
+            name="category"
+            value="DOG"
+            [(ngModel)]="petProduct!.category"
+          />
+          <label for="category1"> {{ petBreed.DOG }}</label>
+        </div>
+        <div class="field-radiobutton col-4">
+          <p-radioButton
+            id="category2"
+            name="category"
+            value="CAT"
+            [(ngModel)]="petProduct!.category"
+          />
+          <label for="category2">{{ petBreed.CAT }}</label>
+        </div>
+        <div class="field-radiobutton col-4">
+          <p-radioButton
+            id="category3"
+            name="category"
+            value="HAMSTER"
+            [(ngModel)]="petProduct!.category"
+          />
+          <label for="category3">{{ petBreed.HAMSTER }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="description">Mô tả</label>
+      <textarea
+        id="description"
+        pInputTextarea
+        [(ngModel)]="petProduct!.description"
+        required
+        rows="3"
+        cols="20"
+      >
+      </textarea>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      [text]="true"
+      (onClick)="hideDialog()"
+    />
+    <p-button
+      label="Save"
+      icon="pi pi-check"
+      [text]="true"
+      (onClick)="saveProduct()"
+    />
+  </ng-template>
+</p-dialog>
