@@ -1,0 +1,69 @@
+.image-box {
+  width: 100px;
+  height: 100px;
+}
+
+.card {
+  border-radius: 15px;
+}
+
+.hover-shadow:hover {
+  transform: translateY(0px) !important;
+  box-shadow: none !important;
+  cursor: pointer;
+}
+
+.increase-btn,
+.decrease-btn {
+  max-width: 10px;
+  display: inline-block;
+  height: 102%;
+  align-content: center;
+  display: inline;
+}
+
+.count-group {
+  min-width: fit-content;
+  max-width: 20%;
+  border-radius: 20px;
+}
+
+.add-to-cart-btn {
+  min-width: 50%;
+  max-width: 65%;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+}
+
+.increase-btn:hover,
+.decrease-btn:hover {
+  color: white;
+}
+
+.add-to-cart-btn:hover {
+  border-color: #2063aa;
+  color: white;
+}
+
+.input-count {
+  max-width: 40px;
+  border: none;
+  text-align: center;
+}
+
+.checked {
+  color: orange;
+}
+
+.fa-star-o {
+  color: orange;
+}
+
+.fa-star,
+.fa-star-half-o,
+.fa-star-o {
+  margin-right: 2px;
+  font-size: 1.0rem;
+}

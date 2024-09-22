@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { ProductOverview } from '../product-overview.model';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { ImageData } from '../product-list-display/image-data.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
@@ -14,26 +15,13 @@ import { ImageData } from '../product-list-display/image-data.model';
   styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent implements OnInit {
-  product!: ProductOverview;
+
+  product = input<ProductOverview>();
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     registerLocaleData(localeDe, 'de-DE', localeDeExtra);
-    if (!this.product) {
-      this.product = new ProductOverview(
-        1,
-        'Phụ kiện cho hamster',
-        'Phu kien cho hamster',
-        100000000,
-        '',
-        new ImageData(1, '', ''),
-        new Date(),
-        4.5
-      );
-    }
-    this.product.id = 1;
-    this.product.name = 'Phụ kiện cho hamster';
-    this.product.engName = 'Phu kien cho hamster';
-    this.product.price = 100000000;
   }
 
   public calculateRate1(): string {
@@ -77,6 +65,13 @@ export class ProductCardComponent implements OnInit {
   }
 
   private formatNumber(): number {
-    return Math.round(this.product.rate * 10) / 10;
+    if (this.product()) {
+      return Math.round(this.product()!.rate * 10) / 10;
+    }
+    return 0;
+  }
+
+  navigateToDetail() {
+    this.router.navigate(['products', this.product()?.id]);
   }
 }

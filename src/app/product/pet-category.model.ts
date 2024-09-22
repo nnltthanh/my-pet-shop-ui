@@ -5,9 +5,9 @@ export enum PetBreed {
 }
 
 export class PetCategory {
-    constructor(
-        public id: number,
-        public name: string,
+    public id: number;
+        public name: string;
         public breed: PetBreed
+    constructor(
     ) { }
 }

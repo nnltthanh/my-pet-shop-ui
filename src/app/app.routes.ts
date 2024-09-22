@@ -1,12 +1,17 @@
 import { Routes } from '@angular/router';
 import { HomeDisplayComponent } from './home/home-display/home-display.component';
+import { ProductDetailDisplayComponent } from './product/product-detail-display/product-detail-display.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeDisplayComponent },
+  { path: '', pathMatch: "full", redirectTo: "home" },
   { path: 'home', component: HomeDisplayComponent },
   {
     path: 'products',
-    loadComponent: () => import('./product/product-display/product-display.component').then(m => m.ProductDisplayComponent)
+    loadComponent: () => import('./product/product-display/product-display.component').then(m => m.ProductDisplayComponent),
+  },
+  {
+    path: 'products/:id',
+    loadComponent: () => import('./product/product-detail-display/product-detail-display.component').then(m => m.ProductDetailDisplayComponent),
   },
   {
     path: 'customer/me',

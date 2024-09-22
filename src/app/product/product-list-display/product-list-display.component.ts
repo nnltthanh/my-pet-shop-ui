@@ -16,6 +16,7 @@ import { PagingConfig } from '../../sharing/paging-config.model';
 import { ProductOverview } from '../product-overview.model';
 import { ProductListCardComponent } from './product-list-card/product-list-card.component';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { ProductCardComponent } from "../product-card/product-card.component";
 
 // interface PageEvent {
 //   first: number;
@@ -28,14 +29,14 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
   selector: 'app-product-list-display',
   standalone: true,
   imports: [
-    ProductListCardComponent,
     NgSelectModule,
     FormsModule,
     CommonModule,
     NgxPaginationModule,
     NgFor,
-    PaginatorModule
-  ],
+    PaginatorModule,
+    ProductCardComponent
+],
   templateUrl: './product-list-display.component.html',
   styleUrl: './product-list-display.component.scss',
 })

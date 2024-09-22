@@ -10,36 +10,32 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TagModule } from 'primeng/tag';
-import { PetBreed } from '../../../pet-category.model';
+import { PetBreed, PetCategory } from '../../../pet-category.model';
 import { PetProduct } from '../../../pet-product.model';
 import { MessageService } from 'primeng/api';
 import { PetProductService } from '../../../../services/pet-product.service';
-
 @Component({
-  selector: 'app-product-detail-edit',
+  selector: 'app-product-add-dialog',
   standalone: true,
-  imports: [InputTextModule,
+  imports: [
+    InputTextModule,
     InputTextareaModule,
     InputNumberModule,
     RadioButtonModule,
     DialogModule,
     FileUploadModule,
     TagModule,
-    DropdownModule,ButtonModule, FormsModule, NgIf,
+    DropdownModule, ButtonModule, FormsModule, NgIf,
     FormsModule
   ],
-  templateUrl: './product-detail-edit.component.html',
-  styleUrl: './product-detail-edit.component.scss'
+  templateUrl: './product-add-dialog.component.html',
+  styleUrl: './product-add-dialog.component.scss'
 })
-export class ProductDetailEditComponent implements OnInit, OnChanges {
+export class ProductAddDialogComponent {
 
   readonly petBreed = PetBreed;
-  
-  product = input<PetProduct>(new PetProduct());
-  
-  productDialog: ModelSignal<boolean> = model<boolean>(false);
-  
-  petProduct?: PetProduct;
+
+  addProductDialog: ModelSignal<boolean> = model<boolean>(false);
 
   submitted = input<boolean>(false);
 
@@ -49,22 +45,23 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
 
   statuses: any[] = [];
 
-  imageSrc?: string;
+  imageSrc: string = '';
 
-  updatedFile: File;
+  uploadFile: File;
+
+  petName: string = '';
+
+  selectedPetBreed: PetBreed | undefined = undefined;
+
+  petPrice: number | undefined = undefined;
+
+  petDescription: string = '';
 
   loading = output<boolean>();
 
   constructor(private messageService: MessageService,
-      private petProductService: PetProductService
-  ) {}
-  
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['product']) {
-      this.petProduct = this.product();
-      this.imageSrc = this.product()?.imageData.imageUrls;
-    }
-  }
+    private petProductService: PetProductService
+  ) { }
 
   ngOnInit(): void {
     this.statuses = [
@@ -77,15 +74,16 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
   openNew() {
     // this.product = null;
     this.submittedChanged.emit(false);
-    this.productDialog.set(false);
+    this.addProductDialog.set(false);
   }
 
   hideDialog() {
     console.log('sssss');
+
     this.submittedChanged.emit(false);
-    this.productDialog.set(false);
+    this.addProductDialog.set(false);
   }
-  
+
   getSeverity(status: string) {
     switch (status) {
       case 'INSTOCK':
@@ -100,33 +98,39 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
   }
 
   onSelectImage(file: any | File) {
-    this.updatedFile = file;
+    this.uploadFile = file;
     this.imageSrc = file?.objectURL;
   }
 
   saveProduct() {
-    if (this.product.name?.trim()) {
-        if (this.product().id) {
-          this.loading.emit(true);
-            this.petProductService.update(this.product().id, this.product(), this.updatedFile).subscribe(
-              {
-                complete: () => {
-                  this.submittedChanged.emit(true);
-                  this.productDialog.set(false);
-                  this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-                  this.loading.emit(false);
-                },
-              }
-            );
-        } else {
-            // this.product().id = this.createId();
-            // this.product().image = 'product-placeholder.svg';
-            // this.product()s.push(this.product());
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+    
+    if (this.petName.trim()) {
+      this.loading.emit(true);
+      let petProduct: PetProduct = new PetProduct();
+      petProduct.name = this.petName;
+      if (this.petPrice) {
+        petProduct.price = this.petPrice;
+      }
+      petProduct.description = this.petDescription;
+      petProduct.category = new PetCategory();
+      if (this.selectedPetBreed) {
+        petProduct.category.breed = this.selectedPetBreed;
+      }
+      petProduct.category.name = "Mèo Sphynx";
+      console.log(petProduct);
+      
+      this.petProductService.add(petProduct, this.uploadFile).subscribe(
+        {
+          complete: () => {
+            this.submittedChanged.emit(true);
+            this.addProductDialog.set(false);
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+            this.loading.emit(false);
+          },
         }
+      );
 
-        // this.product()s = [...this.product()s];
+    }
   }
-}
 
 }

@@ -7,3 +7,9 @@
 :host ::ng-deep ul, .p-column-filter-row-items {
     padding-left: 0px !important;
 }
+
+:host ::ng-deep .p-button.p-button-icon-only.p-button-rounded {
+    width: 30px !important;
+    height: 30px !important;
+    padding: 1rem;
+}

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { ProductOverviewResponse } from '../product/product-overview-response.model';
+import { Product } from '../product/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,11 @@ export class ProductService {
 
   findAllBy(queryParams: HttpParams | null): Observable<ProductOverviewResponse> {
     return queryParams === null ? this.findAll() :
-      this.http.get<ProductOverviewResponse>(`${this.getBaseUri()}/search`, { params: queryParams });
+      this.http.get<ProductOverviewResponse>(`${this.getBaseUri()}`, { params: queryParams });
+  }
+
+  findById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.getBaseUri()}/${id}`);
   }
 
   private getBaseUri(): string {

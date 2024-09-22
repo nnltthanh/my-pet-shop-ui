@@ -1,16 +1,17 @@
 import { ImageData } from "./product-list-display/image-data.model";
 
 export class Product {
-    constructor(
-        public id: number,
-        public name: string,
-        public engName: string,
-        public price: number,
-        public description: string,
-        public imageData: ImageData,
-        public updatedAt: Date,
-        public rate: number
-    ) {
-        rate = 1;
-     }
+    id: number;
+    name: string;
+    engName: string;
+    price: number;
+    description: string;
+    imageData: ImageData;
+    updatedAt: Date;
+    rate: number;
+
+
+    public constructor(product: Partial<Product> = {}) {
+        Object.assign(this, product);
+    }
 }

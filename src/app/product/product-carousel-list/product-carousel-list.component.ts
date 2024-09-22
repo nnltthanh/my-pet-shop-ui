@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { ProductOverview } from '../product-overview.model';
+import { ImageData } from '../product-list-display/image-data.model';
 
 @Component({
   selector: 'app-product-carousel-list',
@@ -10,6 +12,17 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
   styleUrl: './product-carousel-list.component.scss',
 })
 export class ProductCarouselListComponent {
+
+  product = new ProductOverview(
+      1,
+      'Phụ kiện cho hamster',
+      'Phu kien cho hamster',
+      100000000,
+      '',
+      new ImageData(1, '', ''),
+      new Date(),
+      4.5
+    );
   slides = [
     { img: 'http://placehold.it/350x150/000000' },
     { img: 'http://placehold.it/350x150/111111' },

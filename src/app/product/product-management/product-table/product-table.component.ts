@@ -1,14 +1,14 @@
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
-import { FileSelectEvent, FileUploadEvent, FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RatingModule } from 'primeng/rating';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -20,11 +20,8 @@ import { ProductService } from '../../../services/product.service';
 import { PetBreed } from '../../pet-category.model';
 import { PetProduct } from '../../pet-product.model';
 import { Product } from '../../product.model';
-import { HttpParams } from '@angular/common/http';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { DropdownModule } from 'primeng/dropdown';
-import { ImageModule } from 'primeng/image';
 import { ProductDetailEditComponent } from './product-detail-edit/product-detail-edit.component';
+import { ProductAddDialogComponent } from './product-add-dialog/product-add-dialog.component';
 
 @Component({
   selector: 'app-product-table',
@@ -45,7 +42,8 @@ import { ProductDetailEditComponent } from './product-detail-edit/product-detail
     InputTextModule,
     NgIf,
     NgFor,
-    ProductDetailEditComponent
+    ProductDetailEditComponent,
+    ProductAddDialogComponent
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './product-table.component.html',
@@ -55,6 +53,10 @@ export class ProductTableComponent implements OnInit {
   readonly petBreed = PetBreed;
 
   productDialog: boolean = false;
+
+  addProductDialog: boolean = false;
+
+  // productDetailDialog: boolean = false;
 
   total: number = 0;
 
@@ -72,26 +74,28 @@ export class ProductTableComponent implements OnInit {
 
   imagePath: any;
 
+  currentTableLazyLoadEvent: TableLazyLoadEvent;
+
   constructor(
     private productService: ProductService,
     private petProductService: PetProductService, private messageService: MessageService, private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
-    // this.petProductService
-    //     .findAll().pipe(take(1))
-    //     .subscribe((data) => {
-    //       this.products = data.data;
-    //       this.total = data.total;
-    //       this.loading = false;
-    //     });
+    this.petProductService
+        .findAll().pipe(take(1))
+        .subscribe((data) => {
+          this.products = [...data.data];
+          this.total = data.total;
+          this.loading = false;
+        });
 
   }
 
   openNew() {
     // this.product = null;
     this.submitted = false;
-    this.productDialog = true;
+    this.addProductDialog = true;
   }
 
   deleteSelectedProducts() {
@@ -125,9 +129,11 @@ export class ProductTableComponent implements OnInit {
     // });
   }
 
-
-
-  
+  onSubmitted(event: boolean) {
+    if (event) {
+      this.loadPetProducts(this.currentTableLazyLoadEvent);
+    }
+  }
 
   findIndexById(id: string): number {
     let index = -1;
@@ -170,13 +176,17 @@ export class ProductTableComponent implements OnInit {
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
   }
 
+  onLoading(event: boolean) {
+    this.loading = event;
+  }
+
   onSelect(event: any) {
     this.imagePath = event.currentFiles[0].objectURL?.changingThisBreaksApplicationSecurity;
-    console.log(event);
-
   }
 
   loadPetProducts(event: TableLazyLoadEvent) {
+    this.currentTableLazyLoadEvent = event;
+
     this.loading = true;
 
     let params = new HttpParams();
@@ -210,8 +220,13 @@ export class ProductTableComponent implements OnInit {
         })
       )
       .subscribe((data) => {
-        this.products = data.data;
-        this.total = data.total;
+        this.products = [...data.data];
+          this.total = data.total;
       });
+  }
+
+  openDetail(product: PetProduct) {
+    // this.productDetailDialog = true;
+    this.product = product;
   }
 }

@@ -1,7 +1,7 @@
 export class ImageData {
     constructor(
         public id: number,
-        public path: string,
+        public imageUrls: string,
         public type: string,
     ) { }
 }

@@ -1,12 +1,12 @@
 <p-dialog
-  [visible]="productDialog()"
+  [visible]="addProductDialog()"
   [style]="{ width: '70vw' }"
-  header="THÔNG TIN SẢN PHẨM"
+  header="THÊM SẢN PHẨM"
   [modal]="true"
   styleClass="p-fluid"
   closeOnEscape="false"
   closable="false"
-  #dialog
+  #addDialog
 >
   <ng-template pTemplate="content">
     <div class="formgrid grid">
@@ -24,10 +24,9 @@
         />
         <img
           [src]="imageSrc"
-          [alt]="imageSrc"
+          alt="Thêm hình ảnh thú cưng"
           class="block m-auto pb-3"
           style="width: 300px"
-          *ngIf="petProduct!.imageData"
         />
       </div>
       <div class="field col">
@@ -37,11 +36,11 @@
             type="text"
             pInputText
             id="name"
-            [(ngModel)]="petProduct!.name"
+            [(ngModel)]="petName"
             required
             autofocus
           />
-          <small class="p-error" *ngIf="submitted() && !petProduct!.name">
+          <small class="p-error" *ngIf="submitted() && petName">
             Tên sản phẩm không được bỏ trống.
           </small>
         </div>
@@ -72,7 +71,7 @@
             <label for="price">Giá</label>
             <p-inputNumber
               id="price"
-              [(ngModel)]="petProduct!.price"
+              [(ngModel)]="petPrice"
               mode="currency"
               currency="VND"
               locale="en-US"
@@ -88,7 +87,7 @@
                 id="category1"
                 name="category"
                 value="DOG"
-                [(ngModel)]="petProduct!.category.breed"
+                [(ngModel)]="selectedPetBreed"
               />
               <label for="category1"> {{ petBreed.DOG }}</label>
             </div>
@@ -97,7 +96,7 @@
                 id="category2"
                 name="category"
                 value="CAT"
-                [(ngModel)]="petProduct!.category.breed"
+                [(ngModel)]="selectedPetBreed"
               />
               <label for="category2">{{ petBreed.CAT }}</label>
             </div>
@@ -106,7 +105,7 @@
                 id="category3"
                 name="category"
                 value="HAMSTER"
-                [(ngModel)]="petProduct!.category.breed"
+                [(ngModel)]="selectedPetBreed"
               />
               <label for="category3">{{ petBreed.HAMSTER }}</label>
             </div>
@@ -120,7 +119,7 @@
       <textarea
         id="description"
         pInputTextarea
-        [(ngModel)]="petProduct!.description"
+        [(ngModel)]="petDescription"
         required
         rows="5"
         cols="20"
@@ -134,13 +133,13 @@
       label="Cancel"
       icon="pi pi-times"
       [text]="true"
-      (onClick)="hideDialog(); dialog._visible = false"
+      (onClick)="hideDialog(); addDialog._visible = false"
     />
     <p-button
       label="Save"
       icon="pi pi-check"
       [text]="true"
-      (onClick)="saveProduct(); dialog._visible = false"
+      (onClick)="saveProduct(); addDialog._visible = false"
     />
   </ng-template>
 </p-dialog>

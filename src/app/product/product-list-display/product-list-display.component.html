@@ -17,7 +17,7 @@
     <div class="d-flex flex-wrap justify-content-center w-95 mb-5">
       @for (product of products; track product.id) {
       <div class="product mx-3 mb-3">
-        <app-product-list-card [product]="product"></app-product-list-card>
+        <app-product-card [product]="product"></app-product-card>
       </div>
       }
     </div>
