@@ -1,6 +1,6 @@
 <p-dialog
   [visible]="addProductDialog()"
-  [style]="{ width: '70vw' }"
+  [style]="{ width: '75vw' }"
   header="THÊM SẢN PHẨM"
   [modal]="true"
   styleClass="p-fluid"
@@ -8,30 +8,83 @@
   closable="false"
   #addDialog
 >
-  <ng-template pTemplate="content">
-    <div class="formgrid grid">
-      <div class="field col">
-        <p-fileUpload
-          class="text-end"
-          mode="basic"
-          chooseIcon="pi pi-upload"
-          name="demo[]"
-          uploadLabel=""
-          url="https://www.primefaces.org/cdn/api/upload.php"
-          accept="image/*"
-          maxFileSize="1000000"
-          (onSelect)="onSelectImage($event.currentFiles[0])"
-        />
-        <img
-          [src]="imageSrc"
-          alt="Thêm hình ảnh thú cưng"
-          class="block m-auto pb-3"
-          style="width: 300px"
-        />
-      </div>
-      <div class="field col">
+
+<ng-template pTemplate="content">
+  <div class="formgrid grid">
+    <div class="field col-5">
+      <p-fileUpload
+        class="text-end h-100"
+        chooseIcon="pi pi-upload"
+        name="myFile[]"
+        uploadLabel=""
+        chooseLabel="Tải lên"
+        url="./upload.php"
+        accept="image/*"
+        maxFileSize="5000000"
+        [auto]="true"
+        progress="none"
+        (onSelect)="onSelectImage($event.currentFiles[0])"
+        required
+      >
+        <ng-template
+          pTemplate="header"
+          let-files
+          let-chooseCallback="chooseCallback"
+          let-clearCallback="clearCallback"
+          let-uploadCallback="uploadCallback"
+        >
+          <div
+            class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2"
+          >
+            <div class="flex gap-2">
+              <p-button
+                (onClick)="choose($event, chooseCallback)"
+                icon="pi pi-cloud-upload"
+                [rounded]="true"
+                [outlined]="true"
+              />
+              <p-button
+                (onClick)="imageSrc = ''"
+                icon="pi pi-times"
+                [rounded]="true"
+                [outlined]="true"
+                severity="danger"
+                [disabled]="!imageSrc"
+              />
+            </div>
+          </div>
+        </ng-template>
+        <ng-template let-file pTemplate="file" class="d-none"> </ng-template>
+        <ng-template pTemplate="content">
+          @if(!imageSrc) {
+          <div
+            class="flex align-items-center justify-content-center flex-column"
+          >
+            <i
+              class="pi pi-cloud-upload border-2 border-circle p-3 text-4xl text-400 border-400 h-50 mb-3"
+            ></i>
+            <p class="m-0">Kéo thả hình để tải lên...</p>
+          </div>
+          } @else {
+          <img
+            [src]="imageSrc"
+            class="block m-auto pb-3"
+            style="max-width: 300px"
+          />
+          }
+        </ng-template>
+      </p-fileUpload>
+    </div>
+
+    <div class="field col">
+      <p-panel [toggleable]="true" toggler="header">
+        <ng-template pTemplate="header" class="cursor-pointer">
+          <div class="fs-4 text-blue">Thông tin sản phẩm</div>
+        </ng-template>
         <div class="field">
-          <label for="name">Tên sản phẩm</label>
+          <label for="name"
+            >Tên sản phẩm <span class="text-danger">*</span></label
+          >
           <input
             type="text"
             pInputText
@@ -40,14 +93,24 @@
             required
             autofocus
           />
-          <small class="p-error" *ngIf="submitted() && petName">
+          <small class="p-error" *ngIf="submitted() && !petName">
             Tên sản phẩm không được bỏ trống.
           </small>
         </div>
 
         <div class="formgrid grid">
           <div class="field col">
-            <label for="inventoryStatus">Trạng thái</label>
+            <label for="quantity"
+              >Số lượng <span class="text-danger">*</span></label
+            >
+            <p-inputNumber
+              id="quantity"
+              [(ngModel)]="quantity"
+              required
+            />
+          </div>
+          <!-- <div class="field col">
+            <label for="inventoryStatus">Trạng thái <span class="text-danger">*</span></label>
             <p-dropdown
               [(ngModel)]="inventoryStatus"
               inputId="inventoryStatus"
@@ -66,9 +129,9 @@
                 />
               </ng-template>
             </p-dropdown>
-          </div>
+          </div> -->
           <div class="field col">
-            <label for="price">Giá</label>
+            <label for="price">Giá <span class="text-danger">*</span></label>
             <p-inputNumber
               id="price"
               [(ngModel)]="petPrice"
@@ -79,64 +142,234 @@
             />
           </div>
         </div>
-        <div class="field">
-          <label class="mb-3">Loại thú nuôi</label>
-          <div class="formgrid grid">
-            <div class="field-radiobutton col-4">
-              <p-radioButton
-                id="category1"
-                name="category"
-                value="DOG"
-                [(ngModel)]="selectedPetBreed"
-              />
-              <label for="category1"> {{ petBreed.DOG }}</label>
-            </div>
-            <div class="field-radiobutton col-4">
-              <p-radioButton
-                id="category2"
-                name="category"
-                value="CAT"
-                [(ngModel)]="selectedPetBreed"
-              />
-              <label for="category2">{{ petBreed.CAT }}</label>
-            </div>
-            <div class="field-radiobutton col-4">
-              <p-radioButton
-                id="category3"
-                name="category"
-                value="HAMSTER"
-                [(ngModel)]="selectedPetBreed"
-              />
-              <label for="category3">{{ petBreed.HAMSTER }}</label>
+
+        <div class="formgrid grid">
+          <div class="field col">
+            <label class="mb-3"
+              >Loại thú nuôi <span class="text-danger">*</span></label
+            >
+            <div class="formgrid grid">
+              <div class="field-radiobutton col-4">
+                <p-radioButton
+                  id="category1"
+                  name="category"
+                  value="DOG"
+                  [(ngModel)]="selectedPetBreed"
+                />
+                <label for="category1"> {{ petBreed.DOG }}</label>
+              </div>
+              <div class="field-radiobutton col-4">
+                <p-radioButton
+                  id="category2"
+                  name="category"
+                  value="CAT"
+                  [(ngModel)]="selectedPetBreed"
+                />
+                <label for="category2">{{ petBreed.CAT }}</label>
+              </div>
+              <div class="field-radiobutton col-4">
+                <p-radioButton
+                  id="category3"
+                  name="category"
+                  value="HAMSTER"
+                  [(ngModel)]="selectedPetBreed"
+                />
+                <label for="category3">{{ petBreed.HAMSTER }}</label>
+              </div>
             </div>
           </div>
+          <div class="field col">
+            <label for="category-name"
+              >Giống thú nuôi <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              pInputText
+              id="category-name"
+              [(ngModel)]="categoryName"
+              required
+              autofocus
+            />
+            <small
+              class="p-error"
+              *ngIf="submitted() && !categoryName"
+            >
+              Giống thú nuôi không được bỏ trống.
+            </small>
+          </div>
         </div>
-      </div>
-    </div>
+      </p-panel>
 
-    <div class="field">
-      <label for="description">Mô tả</label>
-      <textarea
-        id="description"
-        pInputTextarea
-        [(ngModel)]="petDescription"
-        required
-        rows="5"
-        cols="20"
-      >
-      </textarea>
+      <div class="my-3"></div>
+
+      <p-panel [toggleable]="true" toggler="header" collapsed="false">
+        <ng-template pTemplate="header" class="cursor-pointer">
+          <div class="fs-4 text-blue">Thông tin sức khỏe</div>
+        </ng-template>
+        <div class="formgrid grid">
+          <div class="field col">
+            <label for="gender">Giới tính</label>
+            <div class="formgrid grid">
+              <div class="field-radiobutton col-4">
+                <p-radioButton
+                  id="gender1"
+                  name="gender"
+                  value="MALE"
+                  [(ngModel)]="gender"
+                />
+                <label for="gender1">Đực</label>
+              </div>
+              <div class="field-radiobutton col-4">
+                <p-radioButton
+                  id="gender2"
+                  name="gender"
+                  value="FEMALE"
+                  [(ngModel)]="gender"
+                />
+                <label for="gender2">Cái</label>
+              </div>
+              <div class="field-radiobutton col-4">
+                <p-radioButton
+                  id="gender3"
+                  name="gender"
+                  value="OTHER"
+                  [(ngModel)]="gender"
+                />
+                <label for="gender3">Chưa biết</label>
+              </div>
+            </div>
+          </div>
+          <div class="field col">
+            <label for="pet-color">Màu lông</label>
+            <input
+              type="text"
+              pInputText
+              id="pet-color"
+              [(ngModel)]="color"
+            />
+          </div>
+        </div>
+
+        <div class="formgrid grid">
+          <div class="field col">
+            <label for="dob">Ngày sinh</label>
+            <p-calendar
+              [(ngModel)]="dob"
+              view="month"
+              dateFormat="mm/yy"
+            />
+          </div>
+          <div class="field col">
+            <label for="pet-origin">Nguồn gốc</label>
+            <input
+              type="text"
+              pInputText
+              id="pet-origin"
+              [(ngModel)]="origin"
+            />
+          </div>
+        </div>
+
+        <div class="formgrid grid">
+          <div class="field col flex-column">
+            <label for="weight">Cân nặng</label>
+            <p-inputGroup>
+              <input
+                type="number"
+                pInputText
+                id="weight"
+                [(ngModel)]="latestHealthRecord!.weight"
+              />
+              <p-inputGroupAddon>kg</p-inputGroupAddon>
+            </p-inputGroup>
+          </div>
+          <div class="field col flex-column">
+            <label for="petLength">Chiều dài</label>
+            <p-inputGroup>
+              <input
+                type="number"
+                pInputText
+                id="petLength"
+                [(ngModel)]="latestHealthRecord!.petLength"
+              />
+              <p-inputGroupAddon>cm</p-inputGroupAddon>
+            </p-inputGroup>
+          </div>
+        </div>
+        <div class="field">
+          <label for="vaccination">Tình trạng tiêm vaccine</label>
+          <input
+            type="text"
+            pInputText
+            id="vaccination"
+            [(ngModel)]="latestHealthRecord!.vaccination"
+          />
+        </div>
+      </p-panel>
     </div>
-  </ng-template>
+  </div>
+
+  <div class="field">
+    <label for="description">Mô tả</label>
+    <p-editor
+      id="description"
+      [(ngModel)]="petDescription"
+      [style]="{ 
+      height: '320px', 
+      fontFamily: 'Nunito',
+    }"
+    >
+      <ng-template pTemplate="header">
+        <span class="ql-formats">
+          <select class="ql-size"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+          <button class="ql-strike"></button>
+        </span>
+        <span class="ql-formats">
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-blockquote"></button>
+          <button class="ql-link"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-header" value="1"></button>
+          <button class="ql-header" value="2"></button>
+          <button class="ql-header" value="3"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+          <button class="ql-indent" value="-1"></button>
+          <button class="ql-indent" value="+1"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-direction" value="rtl"></button>
+          <select class="ql-align"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-clean"></button>
+        </span>
+      </ng-template>
+    </p-editor>
+  </div>
+</ng-template>
+ 
 
   <ng-template pTemplate="footer">
     <p-button
-      label="Cancel"
+      label="Hủy"
       icon="pi pi-times"
       [text]="true"
       (onClick)="hideDialog(); addDialog._visible = false"
     />
     <p-button
-      label="Save"
+      label="Lưu"
       icon="pi pi-check"
       [text]="true"
       (onClick)="saveProduct(); addDialog._visible = false"

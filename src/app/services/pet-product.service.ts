@@ -42,6 +42,8 @@ export class PetProductService {
   }
 
   update(id: number, pet: PetProduct, image?: File): Observable<PetProduct> {
+    console.log("update", pet);
+    
     let formData: FormData = new FormData();
     let petData = new Blob([JSON.stringify(pet)], {
       type: 'application/json',

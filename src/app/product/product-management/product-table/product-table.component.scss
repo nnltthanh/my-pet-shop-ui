@@ -13,3 +13,7 @@
     height: 30px !important;
     padding: 1rem;
 }
+
+:host ::ng-deep  .p-ripple.p-element.p-button.p-component.p-fileupload-choose {
+    padding: 0.8rem !important;
+}
