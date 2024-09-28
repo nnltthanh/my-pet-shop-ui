@@ -11,21 +11,24 @@
     </ng-template>
 
     <ng-template pTemplate="right">
-        <p-fileUpload
+        <!-- <p-fileUpload
         mode="basic"
-        accept="image/*"
         [maxFileSize]="1000000"
         label="Import"
         chooseLabel="Import"
         uploadLabel="Import"
         class="mr-2 inline-block p-3"
-      />
+        (onUpload)="onImportPetProduct($event.files[0])"
+      /> -->
+      <input type="file" accept=".xlsx,.xls" #file (change)="onImportPetProduct($event)" class="d-none">
+      <!-- <button (click)="file.click()">Import</button> -->
+      <p-button severity="info" label="Import" icon="pi pi-plus" (click)="file.click()" class=" mx-3"/>
       <p-button severity="help" label="Export" icon="pi pi-upload" />
     </ng-template>
   </p-toolbar>
 
   <p-table
-    [lazy]="true"
+    [lazy]="false"
     (onLazyLoad)="loadPetProducts($event)"
     [paginator]="true"
     [rows]="15"
@@ -127,12 +130,14 @@
           {{ product.name }}
         </td>
         <td class="d-flex justify-content-center">
-          <img
-            [src]="product.imageData?.imageUrls"
-            [alt]="product.name"
-            width="50"
-            class="shadow-4"
-          />
+          @if(product.imageData?.imageUrls) {
+            <img
+              [src]="product.imageData?.imageUrls"
+              [alt]="product.name"
+              width="50"
+              class="shadow-4"
+            />
+          }
         </td>
         <td class="text-center">
           {{ product.price | currency : "VND" }}
@@ -218,5 +223,5 @@
     </app-product-add-dialog>
   }
 
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <!-- <p-confirmDialog [style]="{ width: '450px' }" /> -->
 </div>

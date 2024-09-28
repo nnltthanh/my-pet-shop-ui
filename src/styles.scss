@@ -196,3 +196,7 @@ textarea:focus, input:focus{
 .p-panel-header {
   cursor: pointer;
 }
+
+.modal-open {
+  overflow: initial !important;
+}

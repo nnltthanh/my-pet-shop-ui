@@ -22,6 +22,7 @@ import { PetProduct } from '../../pet-product.model';
 import { Product } from '../../product.model';
 import { ProductDetailEditComponent } from './product-detail-edit/product-detail-edit.component';
 import { ProductAddDialogComponent } from './product-add-dialog/product-add-dialog.component';
+import { ImporterService } from '../../../services/importer.service';
 
 @Component({
   selector: 'app-product-table',
@@ -43,7 +44,7 @@ import { ProductAddDialogComponent } from './product-add-dialog/product-add-dial
     NgIf,
     NgFor,
     ProductDetailEditComponent,
-    ProductAddDialogComponent
+    ProductAddDialogComponent,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './product-table.component.html',
@@ -74,22 +75,25 @@ export class ProductTableComponent implements OnInit {
 
   imagePath: any;
 
-   currentTableLazyLoadEvent: TableLazyLoadEvent;
+  currentTableLazyLoadEvent: TableLazyLoadEvent;
 
   constructor(
     private productService: ProductService,
-    private petProductService: PetProductService, private messageService: MessageService, private confirmationService: ConfirmationService
-  ) { }
+    private petProductService: PetProductService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private importerService: ImporterService
+  ) {}
 
   ngOnInit() {
     this.petProductService
-        .findAll().pipe(take(1))
-        .subscribe((data) => {
-          this.products = [...data.data];
-          this.total = data.total;
-          this.loading = false;
-        });
-
+      .findAll()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.products = [...data.data];
+        this.total = data.total;
+        this.loading = false;
+      });
   }
 
   openNew() {
@@ -125,8 +129,8 @@ export class ProductTableComponent implements OnInit {
       },
       complete: () => {
         this.loadPetProducts(this.currentTableLazyLoadEvent);
-      }
-    })
+      },
+    });
   }
 
   onSubmitted(event: boolean) {
@@ -170,10 +174,14 @@ export class ProductTableComponent implements OnInit {
     }
   }
 
-  onSearch(value: string) { }
+  onSearch(value: string) {}
 
   onUpload(event: UploadEvent) {
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Success',
+      detail: 'File Uploaded with Basic Mode',
+    });
   }
 
   onLoading(event: boolean) {
@@ -181,7 +189,8 @@ export class ProductTableComponent implements OnInit {
   }
 
   onSelect(event: any) {
-    this.imagePath = event.currentFiles[0].objectURL?.changingThisBreaksApplicationSecurity;
+    this.imagePath =
+      event.currentFiles[0].objectURL?.changingThisBreaksApplicationSecurity;
   }
 
   loadPetProducts(event: TableLazyLoadEvent) {
@@ -195,14 +204,13 @@ export class ProductTableComponent implements OnInit {
     if (event?.multiSortMeta) {
       let ascValues: string[] = [];
       let descValues: string[] = [];
-      event.multiSortMeta.forEach(field => {
+      event.multiSortMeta.forEach((field) => {
         if (field.order === 1) {
           ascValues.push(field.field);
-        }
-        else if (field.order === -1) {
+        } else if (field.order === -1) {
           descValues.push(field.field);
         }
-      })
+      });
       if (ascValues.length > 0) {
         params = params.append('asc', ascValues.join(','));
       }
@@ -226,5 +234,23 @@ export class ProductTableComponent implements OnInit {
   openDetail(product: PetProduct) {
     // this.productDetailDialog = true;
     this.product = product;
+  }
+
+  onImportPetProduct(event: any) {
+    if (event.target.files.length > 0) {
+      this.loading = true;
+      let file: File = event.target.files[0];
+      this.importerService.importProducts('PET', file).subscribe({
+        // error: (error) => {
+        //   console.log(error);
+        //   this.loading = false;
+        // },
+        complete: () => {
+          console.log("complete");
+          
+          this.loadPetProducts(this.currentTableLazyLoadEvent);
+        }
+      });
+    }
   }
 }

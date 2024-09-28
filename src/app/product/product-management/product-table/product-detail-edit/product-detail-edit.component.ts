@@ -126,7 +126,6 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
   }
 
   hideDialog() {
-    console.log('sssss');
     this.submittedChanged.emit(false);
     this.productDialog.set(false);
   }
@@ -164,7 +163,7 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
           if ((latestHealthRecord.weight == 0 || latestHealthRecord.weight == null) &&
           (latestHealthRecord.petLength == 0 || latestHealthRecord.petLength == null) &&
           (latestHealthRecord.age == 0 || latestHealthRecord.age == null) &&
-          (!latestHealthRecord.vaccination.trim())) {
+          (!latestHealthRecord.vaccination?.trim())) {
             this.petProduct.latestHealthRecord = null;
           }
         }

@@ -2,10 +2,10 @@
   [visible]="addProductDialog()"
   [style]="{ width: '75vw' }"
   header="THÊM SẢN PHẨM"
-  [modal]="true"
   styleClass="p-fluid"
   closeOnEscape="false"
   closable="false"
+  [maximizable]="true"
   #addDialog
 >
 
@@ -188,7 +188,6 @@
               id="category-name"
               [(ngModel)]="categoryName"
               required
-              autofocus
             />
             <small
               class="p-error"
