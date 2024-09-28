@@ -25,7 +25,12 @@ export class ProductService {
     return this.http.get<Product>(`${this.getBaseUri()}/${id}`);
   }
 
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.getBaseUri()}/${id}`);
+  }
+
   private getBaseUri(): string {
     return `${environment.BACKEND_URL}/products`;
   }
+
 }

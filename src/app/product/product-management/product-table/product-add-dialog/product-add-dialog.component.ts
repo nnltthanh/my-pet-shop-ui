@@ -189,6 +189,10 @@ export class ProductAddDialogComponent {
       petProduct.gender = this.gender ?? null;
 
       this.petProductService.add(petProduct, this.uploadFile).subscribe({
+        error: (error) => {
+          console.log(error);
+          this.loading.emit(false);
+        },
         complete: () => {
           this.submittedChanged.emit(true);
           this.addProductDialog.set(false);

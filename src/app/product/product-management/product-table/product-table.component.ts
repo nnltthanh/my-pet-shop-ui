@@ -74,7 +74,7 @@ export class ProductTableComponent implements OnInit {
 
   imagePath: any;
 
-  currentTableLazyLoadEvent: TableLazyLoadEvent;
+   currentTableLazyLoadEvent: TableLazyLoadEvent;
 
   constructor(
     private productService: ProductService,
@@ -117,16 +117,16 @@ export class ProductTableComponent implements OnInit {
   }
 
   deleteProduct(product: Product) {
-    // this.confirmationService.confirm({
-    //     message: 'Are you sure you want to delete ' + product.name + '?',
-    //     header: 'Confirm',
-    //     icon: 'pi pi-exclamation-triangle',
-    //     accept: () => {
-    //         this.products = this.products.filter((val) => val.id !== product.id);
-    //         this.product = {};
-    //         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-    //     }
-    // });
+    this.loading = true;
+    this.productService.delete(product.id).subscribe({
+      error: (error) => {
+        console.log(error);
+        this.loading = false;
+      },
+      complete: () => {
+        this.loadPetProducts(this.currentTableLazyLoadEvent);
+      }
+    })
   }
 
   onSubmitted(event: boolean) {
@@ -192,7 +192,7 @@ export class ProductTableComponent implements OnInit {
     let params = new HttpParams();
     params = params.append('pageSize', event.rows ?? 15);
     params = params.append('page', (event.first ?? 0) / (event.rows ?? 15));
-    if (event.multiSortMeta) {
+    if (event?.multiSortMeta) {
       let ascValues: string[] = [];
       let descValues: string[] = [];
       event.multiSortMeta.forEach(field => {
@@ -210,18 +210,16 @@ export class ProductTableComponent implements OnInit {
         params = params.append('desc', descValues.join(','));
       }
     }
-
     this.petProductService
       .findAllBy(params)
       .pipe(
-        take(1),
         finalize(() => {
           this.loading = false;
         })
       )
       .subscribe((data) => {
         this.products = [...data.data];
-          this.total = data.total;
+        this.total = data.total;
       });
   }
 
