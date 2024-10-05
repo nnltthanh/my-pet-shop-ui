@@ -1,0 +1,56 @@
+<div class="card p-3 cart-card flex-row d-flex cursor-pointer my-2">
+  <div>
+    <label class="container">
+      <!-- <span class="fw-bold fs-5">Phụ kiện thú cưng</span> -->
+      <input type="checkbox" name="selected" [(ngModel)]="selected" />
+      <span class="checkmark"></span>
+    </label>
+  </div>
+  <div>
+    <div class="card width-100px user-select-none">
+      <img src="/assets/hamster.jpg" alt="" srcset="" />
+    </div>
+  </div>
+  <div class="col flex-column py-0 px-2">
+    <div class="d-flex flex-row text-blue" (click)="selected = !selected">
+      <div class="col fw-bold fs-6">Phụ kiện thú cưng</div>
+      <div class="col-3 text-end fw-bolder">{{40000000 | currency : "VND"}}</div>
+    </div>
+    <div class="d-flex flex-row select-none px-0">
+      <div class="col fs-7 text-secondary">{{40000000 | currency : "VND"}} | Hamster</div>
+    </div>
+    <div class="d-flex flex-row select-none px-0">
+      <div class="col flex-row d-flex">
+        <div
+          class="value-button"
+          id="decrease"
+          (click)="decrease()"
+          value="Decrease Value"
+        >
+          <span>-</span>
+        </div>
+        <input type="number" id="number" [(ngModel)]="quantity" />
+        <div
+          class="value-button"
+          id="increase"
+          (click)="increase()"
+          value="Increase Value"
+        >
+          <span>+</span>
+        </div>
+        <div class="px-3">
+          <select class="form-select" aria-label="Default select example">
+            @for (item of options; track $index) {
+            <option [selected]="item.key === '2'" [value]="item.key">
+              {{ item.value }}
+            </option>
+            }
+          </select>
+        </div>
+      </div>
+      <div class="text-end col">
+        <i class="fa fa-trash-o" aria-hidden="true"></i> Xóa
+      </div>
+    </div>
+  </div>
+</div>

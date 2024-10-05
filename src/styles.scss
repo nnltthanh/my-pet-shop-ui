@@ -200,3 +200,17 @@ textarea:focus, input:focus{
 .modal-open {
   overflow: initial !important;
 }
+
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.card {
+  border-color: #e0e6eb !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}

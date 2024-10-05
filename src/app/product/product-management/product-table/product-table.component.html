@@ -28,7 +28,7 @@
   </p-toolbar>
 
   <p-table
-    [lazy]="false"
+    [lazy]="true"
     (onLazyLoad)="loadPetProducts($event)"
     [paginator]="true"
     [rows]="15"
@@ -38,7 +38,7 @@
     #dt
     [value]="products"
     sortMode="multiple"
-    [globalFilterFields]="['id', 'name', 'price', 'weight', 'age']"
+    [globalFilterFields]="['id', 'name', 'price', 'soldCount']"
     [tableStyle]="{ 'min-width': '75rem' }"
     [(selection)]="selectedProducts"
     [rowHover]="true"
@@ -92,14 +92,11 @@
           Trạng thái <p-sortIcon field="inventoryStatus" />
         </th>
         <th
-          pSortableColumn="weight"
+          pSortableColumn="soldCount"
           style="min-width: 5rem"
           class="text-center"
         >
-          Cân nặng <p-sortIcon field="weight" />
-        </th>
-        <th pSortableColumn="age" style="min-width: 5rem" class="text-center">
-          Độ tuổi <p-sortIcon field="age" />
+          Số lượng đã bán <p-sortIcon field="soldCount" />
         </th>
         <th
           pSortableColumn="category.breed"
@@ -151,17 +148,12 @@
           />
         </td>
         <td class="text-center">
-          <!-- <p-tag 
-                        [value]="product.inventoryStatus" 
-                        [severity]="getSeverity(product.inventoryStatus)" /> -->
-
-          <p-tag value="INSTOCK" severity="success" />
+          <p-tag 
+            [value]="displayingInventoryStatus" 
+            [severity]="getSeverityInventoryStatus(product.inventoryStatus)" />
         </td>
         <td class="text-center">
-          {{ product.weight }}
-        </td>
-        <td class="text-center">
-          {{ product.age }}
+          {{ product.soldCount }}
         </td>
         <td class="text-center">
           <span *ngIf="product.category?.breed === 'CAT'">
@@ -200,7 +192,7 @@
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
-        In total there are {{ products ? products.length : 0 }} products.
+        Tất cả {{ products ? total : 0 }} sản phẩm.
       </div>
     </ng-template>
   </p-table>

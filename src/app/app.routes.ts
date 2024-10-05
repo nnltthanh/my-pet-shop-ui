@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeDisplayComponent } from './home/home-display/home-display.component';
-import { ProductDetailDisplayComponent } from './product/product-detail-display/product-detail-display.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: "full", redirectTo: "home" },
+  { path: '', pathMatch: "full", redirectTo: "cart" },
   { path: 'home', component: HomeDisplayComponent },
   {
     path: 'products',
@@ -16,6 +15,16 @@ export const routes: Routes = [
   {
     path: 'customer/me',
     loadComponent: () => import('./user/user-page/customer-page/customer-page.component').then(m => m.CustomerPageComponent),
+    children: [
+      {
+        path: "info",
+        loadComponent: () => import('./user/user-page/user-info-display/user-info-display.component').then(m => m.UserInfoDisplayComponent)
+      }
+    ],
+  },
+  {
+    path: 'cart',
+    loadComponent: () => import('./cart/cart-display/cart-display.component').then(m => m.CartDisplayComponent),
     children: [
       {
         path: "info",

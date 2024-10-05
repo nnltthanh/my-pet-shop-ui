@@ -1,32 +1,34 @@
 import { CurrencyPipe, NgFor, NgStyle, UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
-import { Product } from '../product.model';
+import { Gender } from '../../gender.model';
 import { ProductDetailService } from '../../services/product-detail.service';
-import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product.service';
+import { PetBreed } from '../pet-category.model';
+import { Product } from '../product.model';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-product-detail-display',
   standalone: true,
-  imports: [NgStyle, FormsModule, RadioButtonModule, NgFor, RatingModule, UpperCasePipe, CurrencyPipe],
+  imports: [NgStyle, FormsModule, RadioButtonModule, NgFor, RatingModule, UpperCasePipe, CurrencyPipe, InputNumberModule],
   templateUrl: './product-detail-display.component.html',
   styleUrl: './product-detail-display.component.scss'
 })
 export class ProductDetailDisplayComponent implements OnInit {
 
+  readonly petBread = PetBreed;
+
+  readonly gender = Gender;
+
   rating = 4.5;
 
-  selectedCategory: any = null;
+  selectedQuantity: number = 1;
 
-  categories: any[] = [
-    { name: 'Accounting', key: 'A' },
-    { name: 'Marketing', key: 'M' },
-    { name: 'Production', key: 'P' },
-    { name: 'Research', key: 'R' }
-  ];
+  selectedCategory: any = null;
 
   product?: Product;
 
@@ -82,6 +84,18 @@ export class ProductDetailDisplayComponent implements OnInit {
 
   private formatNumber(): number {
     return Math.round(this.rating * 10) / 10;
+  }
+
+  public isPet(): boolean {
+    return !!this.product && this.product?.category !== null;
+  }
+
+  public increase(): void {
+    this.product!.quantity && this.selectedQuantity < this.product!.quantity ? this.selectedQuantity++ : this.selectedQuantity;
+  }
+
+  public decrease(): void {
+    this.product!.quantity && this.selectedQuantity > 0 ? this.selectedQuantity-- : this.selectedQuantity;
   }
 
 }

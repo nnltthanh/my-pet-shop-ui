@@ -1,5 +1,6 @@
 import { Gender } from "../gender.model";
 import { HealthRecord } from "./health-record.model";
+import { InventoryStatus } from "./inventory-status.model";
 import { PetCategory } from "./pet-category.model";
 import { ImageData } from "./product-list-display/image-data.model";
 import { Product } from "./product.model";
@@ -13,16 +14,18 @@ export class PetProduct extends Product {
     override imageData: ImageData;
     override updatedAt: Date;
     override rate: number;
-    weight: number;
-    age: number;
-    category: PetCategory;
-    gender: Gender;
-    origin: string;
-    dateOfBirth: Date | string;
-    color: string;
-    quantity: number;
-    latestHealthRecord: HealthRecord | null;
-    healthRecord: HealthRecord[]
+    override inventoryStatus: InventoryStatus;
+    override countSold: number;
+    override weight: number;
+    override age: number;
+    override category: PetCategory;
+    override gender: Gender;
+    override origin: string;
+    override dateOfBirth: Date | string;
+    override color: string;
+    override quantity: number;
+    override latestHealthRecord: HealthRecord | null;
+    override healthRecord: HealthRecord[]
     
     constructor() {
         super()

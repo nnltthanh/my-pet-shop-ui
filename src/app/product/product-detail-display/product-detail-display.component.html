@@ -2,82 +2,101 @@
   <div class="col-6 d-flex flex-row">
     <div class="col-2 d-flex align-items-center flex-column p-0 mx-2">
       <div
-        class="card image-box mb-3 hover-shadow"
-        [ngStyle]="{
-          backgroundImage: 'url(/assets/categories/accessory-category.jpg)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        }"
-      ></div>
-      <div
-        class="card image-box mb-3 hover-shadow"
-        [ngStyle]="{
-          backgroundImage: 'url(/assets/categories/accessory-category.jpg)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        }"
-      ></div>
-      <div
-        class="card image-box mb-3 hover-shadow"
-        [ngStyle]="{
-          backgroundImage: 'url(/assets/categories/accessory-category.jpg)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        }"
-      ></div>
-      <div
-        class="card image-box mb-3 hover-shadow"
-        [ngStyle]="{
-          backgroundImage: 'url(/assets/categories/accessory-category.jpg)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        }"
-      ></div>
+        class="image-box mb-3 hover-shadow"
+      >
+      <img [src]="product?.imageData?.imageUrls" class="hover-shadow" alt="" class="h-100">
+    </div>
     </div>
     <div
-      class="col-9 card mt-0 m-3 p-0 hover-shadow"
-      [style.background-image]="'url(' + product?.imageData?.imageUrls + ')'"
-      [ngStyle]="{
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover'
-      }"
-    ></div>
+      class="col-9 mt-0 m-3 p-0 d-flex align-items-center justify-content-center img-thumbnail-container"
+    >
+    <img class="hover-shadow" [src]="product?.imageData?.imageUrls" alt="{{ product?.name }}" class="w-90 hover-shadow">
+  </div>
   </div>
   <div class="col">
     <div class="fs-4 fw-bolder text-blue">{{ product?.name | uppercase }}</div>
     <div class="row">
       <div class="col fs-6">
-        <span class="fa {{ calculateRate1() }}"></span>
-        <span class="fa {{ calculateRate2() }}"></span>
-        <span class="fa {{ calculateRate3() }}"></span>
-        <span class="fa {{ calculateRate4() }}"></span>
-        <span class="fa {{ calculateRate5() }}"></span>
-        | Số lượt đánh giá: 0 | Đã bán: 0
+        @if (!isPet()) {
+          <span class="fa {{ calculateRate1() }}"></span>
+          <span class="fa {{ calculateRate2() }}"></span>
+          <span class="fa {{ calculateRate3() }}"></span>
+          <span class="fa {{ calculateRate4() }}"></span>
+          <span class="fa {{ calculateRate5() }}"></span> | Số lượt đánh giá: 0 | 
+        }
+       Còn lại: {{ product?.quantity }} | Đã bán: {{ product?.countSold }}
       </div>
     </div>
-    <div class="fs-6 old-price text-secondary text-decoration-line-through">
+    <!-- <div class="fs-6 old-price text-secondary text-decoration-line-through">
       {{ product?.price | currency : "VND" }}
-    </div>
+    </div> -->
     <div class="fs-4 current-price fw-bold text-blue">
       {{ product?.price | currency : "VND" }}
     </div>
-    <div>
-      <div>Màu sắc</div>
-      <div class="btn btn-outline-primary mx-2">Xanh</div>
-      <div class="btn btn-outline-primary mx-2">Đỏ</div>
+    
+    <div class="py-3 d-flex flex-rows">
+      <div class="col-5">
+        <div class="d-flex align-items-center"><span class="fw-bold col-7 text-end">Loại thú nuôi:</span> 
+          @switch (product?.category?.breed?.toString()) {
+            @case ('HAMSTER') {
+              Hamster
+            }
+            @case ('CAT') {
+              Mèo
+            }
+            @case ('DOG') {
+              Chó
+            }
+          }
+          </div>
+        <div class="d-flex align-items-center"><span class="fw-bold col-7 text-end">Giống thú nuôi:</span> {{ product?.category?.name }}</div>
+        <div class="d-flex align-items-center"><span class="fw-bold col-7 text-end">Giới tính: </span><span>
+          @switch (product?.gender?.toString()) {
+            @case ('MALE') {
+              Đực
+            }
+            @case ('FEMALE') {
+              Cái
+            }
+            @default {
+              Chưa biết
+            }
+          }
+        </span>
+        </div>
+        <div class="d-flex align-items-center"><span class="fw-bold col-7 text-end">Màu lông:</span> {{ product?.color }}</div>
+      </div>
+      
+      <div class="col">
+        @if (product?.latestHealthRecord?.age) {
+          <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Tuổi:</span> {{ product?.latestHealthRecord?.age }} tháng</div>
+        } @else if (product?.category?.breed?.toString() !== 'HAMSTER') {
+          <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Tuổi:</span> Chưa cập nhật</div>
+        }
+        @if (product?.latestHealthRecord?.weight) {
+          <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Cân nặng:</span> {{ product?.latestHealthRecord?.weight }} kg</div>
+        } @else if (product?.category?.breed?.toString() !== 'HAMSTER') {
+          <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Cân nặng:</span> Chưa cập nhật</div>
+        }
+        @if (product?.latestHealthRecord?.petLength) {
+          <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Chiều dài:</span> {{ product?.latestHealthRecord?.petLength }} cm</div>
+        } @else if (product?.category?.breed?.toString() !== 'HAMSTER') {
+          <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Chiều dài:</span> Chưa cập nhật</div>
+        }
+        @if (product?.latestHealthRecord?.vaccination) {
+          <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Tình trạng tiêm chủng:</span> {{ product?.latestHealthRecord?.vaccination }}</div>
+        } @else if (product?.category?.breed?.toString() !== 'HAMSTER') {
+          <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Tình trạng tiêm chủng:</span> Chưa cập nhật</div>
+        }
+      </div>
     </div>
-    <div>
-      <div>Kích thước</div>
-      <div class="btn btn-outline-primary mx-2">S</div>
-      <div class="btn btn-outline-primary mx-2">M</div>
-    </div>
+
     <div class="row">
-      <div>Số lượng</div>
       <div class="d-flex">
         <div class="border-1 col-1 count-group ms-0 p-0 overflow-hidden">
-          <div class="decrease-btn hover-blue px-3" type="button">-</div>
-          <input class="input-count" type="number" name="" id="" value="0" />
-          <div class="increase-btn hover-blue px-3" type="button">+</div>
+          <div class="decrease-btn hover-blue px-3 prevent-select" type="button" (click)="decrease()">-</div>
+          <input class="input-count" type="number" name="product-quantity" id="product-quantity" [(ngModel)]="selectedQuantity" />
+          <div class="increase-btn hover-blue px-3 prevent-select" type="button" (click)="increase()">+</div>
         </div>
         <div
           class="border-1 col-9 add-to-cart-btn mx-3 hover-blue user-select-none"

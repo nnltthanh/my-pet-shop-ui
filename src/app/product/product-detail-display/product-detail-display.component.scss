@@ -9,7 +9,7 @@
 
 .hover-shadow:hover {
   transform: translateY(0px) !important;
-  box-shadow: none !important;
+  box-shadow: 5px !important;
   cursor: pointer;
 }
 
@@ -66,4 +66,8 @@
 .fa-star-o {
   margin-right: 2px;
   font-size: 1.0rem;
+}
+
+.w-90 {
+  width: 90%;
 }

@@ -2,7 +2,7 @@
 (click)="navigateToDetail()">
   <div class="card-img-top d-flex justify-content-center">
     <img
-      src="https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-happy-smile-dog-images-png-image_10276876.png"
+      [src]="product()?.imageData?.imageUrls"
       alt="Tên sản phẩm"
     />
   </div>

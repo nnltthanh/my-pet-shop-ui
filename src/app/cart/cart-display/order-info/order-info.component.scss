@@ -1,0 +1,36 @@
+
+.order-detail {
+    max-height: fit-content;
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 85px;
+    align-self: flex-start; /* <-- this is the fix */
+    overflow-y: scroll;
+    max-height: 80vh;
+    font-family: "Nunito", sans-serif !important;
+  }
+  
+  ::ng-deep .p-timeline-event-opposite {
+    display: none;
+  }
+  
+  :host ::ng-deep .card-container {
+    .card {
+      width: 75px;
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      user-select: none;
+      padding: 0;
+  
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  
+.ng-invalid.ng-touched {
+    border: 1px solid red;
+ }

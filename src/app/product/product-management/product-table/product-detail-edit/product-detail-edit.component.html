@@ -197,6 +197,55 @@
               </small>
             </div>
           </div>
+          <div class="field">
+            <label for="description">Mô tả</label>
+            <p-editor
+              id="description"
+              [(ngModel)]="petProduct!.description"
+              [style]="{ 
+              height: '10rem', 
+              fontFamily: 'Nunito',
+            }"
+            >
+              <ng-template pTemplate="header">
+                <span class="ql-formats">
+                  <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                  <button class="ql-underline"></button>
+                  <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-blockquote"></button>
+                  <button class="ql-link"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-header" value="1"></button>
+                  <button class="ql-header" value="2"></button>
+                  <button class="ql-header" value="3"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-list" value="ordered"></button>
+                  <button class="ql-list" value="bullet"></button>
+                  <button class="ql-indent" value="-1"></button>
+                  <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-direction" value="rtl"></button>
+                  <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-clean"></button>
+                </span>
+              </ng-template>
+            </p-editor>
+          </div>
         </p-panel>
 
         <div class="my-3"></div>
@@ -308,55 +357,7 @@
       </div>
     </div>
 
-    <div class="field">
-      <label for="description">Mô tả</label>
-      <p-editor
-        id="description"
-        [(ngModel)]="petProduct!.description"
-        [style]="{ 
-        height: '320px', 
-        fontFamily: 'Nunito',
-      }"
-      >
-        <ng-template pTemplate="header">
-          <span class="ql-formats">
-            <select class="ql-size"></select>
-          </span>
-          <span class="ql-formats">
-            <button class="ql-bold"></button>
-            <button class="ql-italic"></button>
-            <button class="ql-underline"></button>
-            <button class="ql-strike"></button>
-          </span>
-          <span class="ql-formats">
-            <select class="ql-color"></select>
-            <select class="ql-background"></select>
-          </span>
-          <span class="ql-formats">
-            <button class="ql-blockquote"></button>
-            <button class="ql-link"></button>
-          </span>
-          <span class="ql-formats">
-            <button class="ql-header" value="1"></button>
-            <button class="ql-header" value="2"></button>
-            <button class="ql-header" value="3"></button>
-          </span>
-          <span class="ql-formats">
-            <button class="ql-list" value="ordered"></button>
-            <button class="ql-list" value="bullet"></button>
-            <button class="ql-indent" value="-1"></button>
-            <button class="ql-indent" value="+1"></button>
-          </span>
-          <span class="ql-formats">
-            <button class="ql-direction" value="rtl"></button>
-            <select class="ql-align"></select>
-          </span>
-          <span class="ql-formats">
-            <button class="ql-clean"></button>
-          </span>
-        </ng-template>
-      </p-editor>
-    </div>
+    
   </ng-template>
 
   <ng-template pTemplate="footer">

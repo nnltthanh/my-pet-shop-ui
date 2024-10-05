@@ -1,6 +1,6 @@
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -23,6 +23,7 @@ import { Product } from '../../product.model';
 import { ProductDetailEditComponent } from './product-detail-edit/product-detail-edit.component';
 import { ProductAddDialogComponent } from './product-add-dialog/product-add-dialog.component';
 import { ImporterService } from '../../../services/importer.service';
+import { InventoryStatus } from '../../inventory-status.model';
 
 @Component({
   selector: 'app-product-table',
@@ -71,7 +72,7 @@ export class ProductTableComponent implements OnInit {
 
   loading: boolean = false;
 
-  inventoryStatus: string = '';
+  displayingInventoryStatus: string = '';
 
   imagePath: any;
 
@@ -82,13 +83,18 @@ export class ProductTableComponent implements OnInit {
     private petProductService: PetProductService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private importerService: ImporterService
+    private importerService: ImporterService,
+    private cdr: ChangeDetectorRef
   ) {}
 
+  ngAfterViewChecked(){
+    //your code to update the model
+    this.cdr.detectChanges();
+ }
+ 
   ngOnInit() {
     this.petProductService
       .findAll()
-      .pipe(take(1))
       .subscribe((data) => {
         this.products = [...data.data];
         this.total = data.total;
@@ -161,14 +167,17 @@ export class ProductTableComponent implements OnInit {
     return id;
   }
 
-  getSeverity(status: string) {
-    switch (status) {
-      case 'INSTOCK':
+  getSeverityInventoryStatus(status: string) {
+    switch ((InventoryStatus as any)[status]) {
+      case InventoryStatus.ON_HAND:
+        this.displayingInventoryStatus = InventoryStatus.ON_HAND;
         return 'success';
-      case 'LOWSTOCK':
+      case InventoryStatus.INCOMING:
+        this.displayingInventoryStatus = InventoryStatus.INCOMING;
         return 'warning';
-      case 'OUTOFSTOCK':
-        return 'danger';
+      case InventoryStatus.SOLD_OUT:
+        this.displayingInventoryStatus = InventoryStatus.SOLD_OUT;
+        return 'secondary';
       default:
         return 'info';
     }
@@ -199,16 +208,16 @@ export class ProductTableComponent implements OnInit {
     this.loading = true;
 
     let params = new HttpParams();
-    params = params.append('pageSize', event.rows ?? 15);
-    params = params.append('page', (event.first ?? 0) / (event.rows ?? 15));
+    params = params.append('pageSize', event?.rows ?? 15);
+    params = params.append('page', (event?.first ?? 0) / (event?.rows ?? 15));
     if (event?.multiSortMeta) {
       let ascValues: string[] = [];
       let descValues: string[] = [];
-      event.multiSortMeta.forEach((field) => {
-        if (field.order === 1) {
+      event?.multiSortMeta.forEach((field) => {
+        if (field?.order === 1) {
           ascValues.push(field.field);
-        } else if (field.order === -1) {
-          descValues.push(field.field);
+        } else if (field?.order === -1) {
+          descValues.push(field?.field);
         }
       });
       if (ascValues.length > 0) {
@@ -228,12 +237,9 @@ export class ProductTableComponent implements OnInit {
       .subscribe((data) => {
         this.products = [...data.data];
         this.total = data.total;
+        console.log(data);
+        
       });
-  }
-
-  openDetail(product: PetProduct) {
-    // this.productDetailDialog = true;
-    this.product = product;
   }
 
   onImportPetProduct(event: any) {
@@ -241,13 +247,11 @@ export class ProductTableComponent implements OnInit {
       this.loading = true;
       let file: File = event.target.files[0];
       this.importerService.importProducts('PET', file).subscribe({
-        // error: (error) => {
-        //   console.log(error);
-        //   this.loading = false;
-        // },
+        error: (error) => {
+          console.log(error);
+          this.loading = false;
+        },
         complete: () => {
-          console.log("complete");
-          
           this.loadPetProducts(this.currentTableLazyLoadEvent);
         }
       });
