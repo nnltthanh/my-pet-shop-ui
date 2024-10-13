@@ -1,0 +1,54 @@
+<div class="account-content my-50">
+  <div class="account-address">
+    <h2 class="account-page-title">Địa chỉ của tôi</h2>
+    <button
+      class="account-page-button"
+      (click)="openAddDialog()"
+    >
+      Thêm địa chỉ mới
+    </button>
+  </div>
+
+  <div class="account-address-title">Sổ địa chỉ</div>
+
+  @if (addresses.length == 0 && !isLoading) {
+  <div class="account-address-content fst-italic text-secondary" v-if="">
+    Vui lòng cập nhật địa chỉ...
+  </div>
+  } @else if (!isLoading) {
+
+  <div class="account-address-content">
+    @for (address of addresses; track $index) {
+    <div class="account-address-item">
+      <div class="account-address-content">
+        <div class="account-address-head">
+          <div>{{ address.belongsTo }}</div>
+          @if (address.isDefault) {
+          <span>Mặc định</span>
+          }
+        </div>
+        <div class="account-address-text">
+          {{ address.phone }}<br />
+          {{ address.displayingAddress }}
+        </div>
+      </div>
+      <div class="account-address-action">
+        <div class="account-address-buttons">
+          <button
+          >
+            Cập nhật
+          </button>
+          <button (click)="deleteAddress(address)">Xóa</button>
+        </div>
+        @if (!address.isDefault) {
+          <button class="account-address-button" (click)="setAddressToDefault(address)">
+            Đặt làm mặc định
+          </button>
+        }
+      </div>
+    </div>
+    }
+  </div>
+
+  }
+</div>

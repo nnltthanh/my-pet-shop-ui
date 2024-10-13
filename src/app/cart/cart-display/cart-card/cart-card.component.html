@@ -2,22 +2,42 @@
   <div>
     <label class="container">
       <!-- <span class="fw-bold fs-5">Phụ kiện thú cưng</span> -->
-      <input type="checkbox" name="selected" [(ngModel)]="selected" />
+      <input type="checkbox" name="selected" [ngModel]="selected" (ngModelChange)="onSelectedChange($event)"/>
       <span class="checkmark"></span>
     </label>
   </div>
   <div>
     <div class="card width-100px user-select-none">
-      <img src="/assets/hamster.jpg" alt="" srcset="" />
+      <img 
+        [src]="getImage()" 
+        [alt]="cartDetail().productDetail.product.name"/>
     </div>
   </div>
   <div class="col flex-column py-0 px-2">
     <div class="d-flex flex-row text-blue" (click)="selected = !selected">
-      <div class="col fw-bold fs-6">Phụ kiện thú cưng</div>
-      <div class="col-3 text-end fw-bolder">{{40000000 | currency : "VND"}}</div>
+      <div class="col fw-bold fs-6">{{ cartDetail().productDetail.product.name }} </div>
+      <div class="col-3 text-end fw-bolder">{{ cartDetail().total | currency : "VND"}}</div>
     </div>
     <div class="d-flex flex-row select-none px-0">
-      <div class="col fs-7 text-secondary">{{40000000 | currency : "VND"}} | Hamster</div>
+      <div class="col fs-7 text-secondary">{{cartDetail().productDetail.product.price | currency : "VND"}} 
+        @if (isPet() && cartDetail().productDetail.product && cartDetail().productDetail.product.category) {
+          | 
+        @switch (cartDetail().productDetail.product.category.breed.toString()) {
+          @case ('HAMSTER') {
+            Hamster
+          }
+          @case ('CAT') {
+            Mèo
+          }
+          @case ('DOG') {
+            Chó
+          }
+
+          @default {}
+        }
+
+        }
+      </div>
     </div>
     <div class="d-flex flex-row select-none px-0">
       <div class="col flex-row d-flex">
@@ -29,7 +49,7 @@
         >
           <span>-</span>
         </div>
-        <input type="number" id="number" [(ngModel)]="quantity" />
+        <input type="number" id="number" [ngModel]="cartDetail().quantity" readonly="true"/>
         <div
           class="value-button"
           id="increase"
@@ -38,7 +58,7 @@
         >
           <span>+</span>
         </div>
-        <div class="px-3">
+        <!-- <div class="px-3">
           <select class="form-select" aria-label="Default select example">
             @for (item of options; track $index) {
             <option [selected]="item.key === '2'" [value]="item.key">
@@ -46,7 +66,7 @@
             </option>
             }
           </select>
-        </div>
+        </div> -->
       </div>
       <div class="text-end col">
         <i class="fa fa-trash-o" aria-hidden="true"></i> Xóa

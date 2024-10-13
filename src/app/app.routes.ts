@@ -19,6 +19,10 @@ export const routes: Routes = [
       {
         path: "info",
         loadComponent: () => import('./user/user-page/user-info-display/user-info-display.component').then(m => m.UserInfoDisplayComponent)
+      },
+      {
+        path: "address-book",
+        loadComponent: () => import('./user/user-page/address-book-display/address-book-display.component').then(m => m.AddressBookDisplayComponent)
       }
     ],
   },

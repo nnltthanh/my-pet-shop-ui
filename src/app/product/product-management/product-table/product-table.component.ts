@@ -237,8 +237,6 @@ export class ProductTableComponent implements OnInit {
       .subscribe((data) => {
         this.products = [...data.data];
         this.total = data.total;
-        console.log(data);
-        
       });
   }
 

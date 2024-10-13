@@ -1,0 +1,54 @@
+<div class="modal-content address-modal">
+  <div class="modal-header" style="z-index: 1">
+    <div class="modal-title h3" id="exampleModalLabel">Thêm địa chỉ</div>
+    <button
+      type="button"
+      class="btn-close me-3"
+      aria-label="Close"
+      aria-label="Close"
+      (click)="dismissDialog()"
+    ></button>
+  </div>
+
+  <div class="modal-body" style="z-index: 2">
+    <div class="d-flex flex-row">
+      <div class="col">
+        <span class="mx-2 text-secondary">Tên người nhận</span>
+        <input
+          type="text"
+          name="name"
+          placeholder="Nguyễn Văn A"
+          [(ngModel)]="customerName"
+          class="form-control custom-cursor-default-hover"
+        />
+      </div>
+      <div class="col">
+        <div class="phone-block">
+          <span class="mx-2 text-secondary">Số điện thoại</span>
+          <input
+            type="text"
+            name="phone"
+            [(ngModel)]="customerPhone"
+            placeholder="01234xxxxx"
+            autocomplete="off"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <app-address-selection
+      (addressChanged)="onAddressChanged($event)"></app-address-selection>
+    </div>
+  </div>
+
+  <div class="modal-footer" style="z-index: 1">
+    <button type="button" class="btn-save btn" (click)="saveAddress()">
+      Thêm
+    </button>
+    <button type="button" class="btn btn-cancel" (click)="closeDialog()">
+      Trở lại
+    </button>
+  </div>
+</div>

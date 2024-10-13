@@ -10,6 +10,9 @@ import { ProductService } from '../../services/product.service';
 import { PetBreed } from '../pet-category.model';
 import { Product } from '../product.model';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { CartService } from '../../services/cart.service';
+import { ProductDetail } from '../product-detail.model';
+import { CartDetail } from '../../cart/cart-detail.model';
 
 @Component({
   selector: 'app-product-detail-display',
@@ -34,7 +37,8 @@ export class ProductDetailDisplayComponent implements OnInit {
 
   constructor(private productDetailService: ProductDetailService,
     private productService: ProductService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -96,6 +100,19 @@ export class ProductDetailDisplayComponent implements OnInit {
 
   public decrease(): void {
     this.product!.quantity && this.selectedQuantity > 0 ? this.selectedQuantity-- : this.selectedQuantity;
+  }
+
+  public addToCart() {
+    let productDetail = this.product?.productDetails[0];
+    let cartDetail = new CartDetail({
+      quantity: this.selectedQuantity,
+      productDetail: productDetail
+    });
+    this.cartService.addToCart(1, cartDetail).subscribe({
+      complete: () => {
+        console.log("Add to cart successfully");
+      }
+    });
   }
 
 }

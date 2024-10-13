@@ -1,0 +1,57 @@
+<div class="d-flex flex-row">
+  <div class="col address-block">
+    <span class="mx-2 text-secondary">Địa chỉ</span>
+    <input
+      type="text"
+      name="address"
+      [(ngModel)]="numberAddress"
+      placeholder="Địa chỉ (ví dụ: 103 Vạn Phúc, phường Vạn Phúc)"
+      autocomplete="off"
+      class="form-control"
+    />
+  </div>
+</div>
+
+<div class="d-flex flex-row">
+  <div class="col">
+    <label class="text-secondary">Thành phố</label>
+    <ng-select
+      [items]="cities"
+      [virtualScroll]="true"
+      [loading]="isCityDropdownLoading"
+      bindLabel="selectedNameExtension"
+      placeholder="Chọn Tỉnh / Thành"
+      [(ngModel)]="selectedCity"
+      (change)="onClickToSelectDistrict()"
+    >
+    </ng-select>
+  </div>
+
+  <div class="col">
+    <label class="text-secondary">Quận / Huyện</label>
+    <ng-select
+      [items]="districts"
+      [virtualScroll]="true"
+      [loading]="isDistrictDropdownLoading"
+      bindLabel="selectedNameExtension"
+      placeholder="Chọn Quận / Huyện"
+      [(ngModel)]="selectedDistrict"
+      (change)="onClickToSelectWard()"
+    >
+    </ng-select>
+  </div>
+
+  <div class="col">
+    <label class="text-secondary">Phường / Xã</label>
+    <ng-select
+      [items]="wards"
+      [virtualScroll]="true"
+      [loading]="isWardDropdownLoading"
+      bindLabel="selectedNameExtension"
+      placeholder="Chọn Phường / Xã"
+      [(ngModel)]="selectedWard"
+      (change)="onAddressChanged()"
+    >
+    </ng-select>
+  </div>
+</div>

@@ -1,35 +1,81 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, input, OnChanges, output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CartDetail } from '../../cart-detail.model';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-cart-card',
   standalone: true,
-  imports: [FormsModule,CurrencyPipe],
+  imports: [FormsModule, CurrencyPipe],
   templateUrl: './cart-card.component.html',
   styleUrl: './cart-card.component.scss'
 })
-export class CartCardComponent {
+export class CartCardComponent implements OnChanges {
+
+  cartDetail = input.required<CartDetail>();
+
+  onCartDetailSelected = output<boolean>();
+
+  onCartDetailChanged = output<CartDetail>();
+
   selected: boolean = false;
-  quantity: number = 1;
+
   options = [
-    {key: "1", value: "One"},
-    {key: "2", value: "Two"},
-    {key: "3", value: "Three"},
-    {key: "4", value: "Four"}
+    { key: "1", value: "One" },
+    { key: "2", value: "Two" },
+    { key: "3", value: "Three" },
+    { key: "4", value: "Four" }
   ]
-    
+
+  constructor(private cartService: CartService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['cartDetail']) {
+      this.calculateTotal();
+    }
+  }
+
+  public calculateTotal() {
+    let total = this.cartDetail().productDetail.price * this.cartDetail().quantity;
+    this.cartDetail().total = total;
+    this.cartService.update(1, this.cartDetail()).subscribe({
+      complete: () => {
+        this.onCartDetailChanged.emit(this.cartDetail());
+      }
+    });
+  }
+
   public increase(): void {
-    // this.product!.quantity && this.selectedQuantity < this.product!.quantity ? this.selectedQuantity++ : this.selectedQuantity;
-    this.quantity++;
+    if (this.cartDetail().quantity >= this.cartDetail().productDetail.quantity) {
+      console.error("can not add more");
+    } else {
+      ++this.cartDetail().quantity;
+      this.calculateTotal();
+    }
   }
 
   public decrease(): void {
-    // this.product!.quantity && this.selectedQuantity > 0 ? this.selectedQuantity-- : this.selectedQuantity;
-    this.quantity > 1 ? this.quantity-- : this.deleteCartDetail();
+    this.cartDetail().quantity > 1 ? --this.cartDetail().quantity : this.deleteCartDetail();
+    this.calculateTotal();
   }
 
   public deleteCartDetail() {
-    this.quantity = 0;
+    this.cartDetail().quantity = 0;
   }
+
+
+  public isPet(): boolean {
+    return !!this.cartDetail().productDetail.product && this.cartDetail().productDetail.product?.category !== null;
+  }
+
+  public getImage(): string {
+    return this.cartDetail().productDetail.imageData?.imageUrls || this.cartDetail().productDetail.product.imageData?.imageUrls;
+  }
+
+  public onSelectedChange(isSelected: boolean): void {
+    this.selected = isSelected;
+    this.onCartDetailSelected.emit(this.selected);
+  }
+
 }

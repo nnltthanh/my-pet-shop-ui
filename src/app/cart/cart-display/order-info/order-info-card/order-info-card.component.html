@@ -1,12 +1,14 @@
 <div class="card cart-card flex-row d-flex cursor-pointer my-2 p-2">
     <div>
       <div class="card width-100px user-select-none">
-        <img src="/assets/hamster.jpg" alt="" srcset="" />
+        <img 
+          [src]="getImage()" 
+          [alt]="cartDetail().productDetail.product.name"/>
       </div>
     </div>
     <div class="col flex-column py-0 px-2">
       <div class="d-flex flex-row text-blue">
-        <div class="col fw-bold fs-6 py-0">Phụ kiện thú cưng</div>
+        <div class="col fw-bold fs-6 py-0">{{ cartDetail().productDetail.product.name }}</div>
         <div class="text-end col-1 py-0">
             <i class="fa fa-trash-o" aria-hidden="true"></i>
           </div>
@@ -21,7 +23,7 @@
           >
             <span>-</span>
           </div>
-          <input type="number" id="number" [(ngModel)]="quantity" />
+          <input type="number" id="number" [ngModel]="cartDetail().quantity" readonly="true"/>
           <div
             class="value-button"
             id="increase"
@@ -30,7 +32,7 @@
           >
             <span>+</span>
           </div>
-          <div class="px-3">
+          <!-- <div class="px-3">
             <select class="form-select" aria-label="Default select example">
               @for (item of options; track $index) {
               <option [selected]="item.key === '2'" [value]="item.key">
@@ -38,12 +40,11 @@
               </option>
               }
             </select>
-          </div>
+          </div> -->
         </div>
     </div>
     <div class="text-blue fw-bolder text-end">
-        {{40000000 | currency : "VND"}}
+        {{ cartDetail().total | currency : "VND" }}
     </div>
     </div>
   </div>
-  

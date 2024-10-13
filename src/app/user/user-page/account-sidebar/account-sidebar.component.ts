@@ -34,7 +34,7 @@ export class AccountSidebarComponent {
       isActive: false,
     },
     {
-      path: 'myAddresses',
+      path: 'address-book',
       label: 'Sổ địa chỉ',
       imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip2_76.png',
       name: 'addressBook',
@@ -57,10 +57,14 @@ export class AccountSidebarComponent {
       if (sidebarItem.name === name) {
         sidebarItem.isActive = true;
         path = sidebarItem.path;
+        this.router.navigate([this.getRoute(), path]);
       } else {
         sidebarItem.isActive = false;
       }
-      this.router.navigate([path], { relativeTo: this.route });
     });
+  }
+  
+  private getRoute() {
+    return "customer/me/";
   }
 }
