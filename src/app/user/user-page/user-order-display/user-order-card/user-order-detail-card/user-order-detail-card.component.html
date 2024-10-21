@@ -1,0 +1,38 @@
+<div class="card p-3 cart-card flex-row d-flex cursor-pointer my-2">
+    <div>
+      <div class="card width-100px user-select-none">
+        <img 
+          [src]="getImage()" 
+          [alt]="orderDetail()?.productDetail?.product?.name"/>
+      </div>
+    </div>
+    <div class="col flex-column py-0 px-2">
+      <div class="d-flex flex-row text-blue">
+        <div class="col fw-bold fs-6">{{ orderDetail()!.productDetail!.product!.name }} </div>
+        <div class="col-3 text-end fw-bolder">{{ orderDetail()!.total | currency : "VND"}}</div>
+      </div>
+      <div class="d-flex flex-row select-none px-0">
+        <div class="col fs-7 text-secondary">{{orderDetail()!.total | currency : "VND"}} 
+          @if (isPet() && orderDetail()!.productDetail.product && orderDetail()!.productDetail!.product.category) {
+            | 
+          @switch (orderDetail()!.productDetail.product.category.breed.toString()) {
+            @case ('HAMSTER') {
+              Hamster
+            }
+            @case ('CAT') {
+              Mèo
+            }
+            @case ('DOG') {
+              Chó
+            }
+  
+            @default {}
+          }
+  
+          }
+        </div>
+      </div>
+     
+    </div>
+  </div>
+  

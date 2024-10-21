@@ -1,0 +1,59 @@
+@if ($addresses | async; as addresses) {
+<div class="modal-content address-modal">
+  <div class="modal-header " style="z-index: 1">
+    <div class="modal-title fs-4" id="exampleModalLabel">Sổ địa chỉ</div>
+    <button
+      type="button"
+      class="btn-close me-3"
+      aria-label="Close"
+      aria-label="Close"
+      (click)="dismissDialog()"
+    ></button>
+  </div>
+
+  <div class="modal-body" style="z-index: 2">
+    <div class="list-group">
+      @for (address of addresses; track $index) {
+      <label class="list-group-item border-0 mx-1">
+        <div class="d-flex flex-col cursor-pointer">
+          <div>
+            <input
+              class="form-check-input me-2"
+              type="radio"
+              value="address.id"
+              name="AddressRadio"
+              (input)="onSelected(address)"
+          />
+          </div>
+          <div class="d-flex flex-column">
+            <div
+            class="d-flex w-100 justify-content-between account-address-head"
+          >
+            <div class="mb-1">{{ address.belongsTo }}</div>
+            @if (address.isDefault) {
+            <span>Mặc định</span>
+            }
+          </div>
+          <small class="text-muted mt-1">{{ address.phone }}</small>
+          <small class="text-muted mt-1">{{ address.displayingAddress }}</small>
+        </div>
+          </div>
+      </label>
+      @if ($index < addresses.length - 1) {
+        <hr class="m-1"/>
+      }
+      }
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer" style="z-index: 1">
+    <button type="button" class="btn-save btn" (click)="closeDialog()">
+      Cập nhật
+    </button>
+    <button type="button" class="btn btn-cancel" (click)="dismissDialog()">
+      Trở lại
+    </button>
+  </div>
+
+}

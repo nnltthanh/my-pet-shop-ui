@@ -110,7 +110,7 @@ export class AddressSelectionComponent {
       address.districtId = this.selectedDistrict.DistrictID;
       address.wardId = this.selectedWard.WardCode;
       address.address = this.numberAddress;
-      
+      address.displayingAddress = `${this.numberAddress}, ${this.selectedWard.selectedNameExtension}, ${this.selectedDistrict.selectedNameExtension}, ${this.selectedCity.selectedNameExtension}`;
       this.addressChanged.emit(address);
     }
 

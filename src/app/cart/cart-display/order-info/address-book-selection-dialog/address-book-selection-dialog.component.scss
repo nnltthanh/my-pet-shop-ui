@@ -1,0 +1,52 @@
+.account-address-head span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, .1333333333);
+    border-radius: 100vmax;
+    padding: 4px 10px 5px;
+    font-size: .75rem;
+    margin-left: 0.5rem;
+}
+
+.account-address-head span:before {
+    content: "";
+    width: 0.625rem;
+    height: 0.625rem;
+    display: block;
+    background-image: url(https://mcdn.coolmate.me/image/September2023/mceclip0_65.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50%;
+    margin-right: 0.25rem;
+}
+
+
+.btn {
+    height: auto;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    line-height: 1;
+    box-sizing: border-box;
+    // font-family: "CriteriaCF", "Pangea", sans-serif;
+    margin-right: 10px;
+    border: 1px solid #252525;
+    cursor: pointer;
+}
+
+
+.btn-cancel:hover {
+    background-color: #181819;
+    color: #e4dddd;
+    border: 1px solid #232325;
+}
+
+.btn-save {
+    background-color: #2f5acf;
+    color: #e4dddd;
+}
+
+.btn-save:hover {
+    background-color: #143aa2;
+    color: #e4dddd;
+}

@@ -39,6 +39,7 @@ export class AddressBookAddDialogComponent {
     this.address.belongsTo = this.customerName;
     this.address.phone = this.customerPhone;
     this.address.isDefault = false;
+    this.address.displayingAddress = address.displayingAddress;
   }
 
   saveAddress() {

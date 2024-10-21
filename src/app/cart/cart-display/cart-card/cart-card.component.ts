@@ -3,6 +3,7 @@ import { Component, input, OnChanges, output, SimpleChanges } from '@angular/cor
 import { FormsModule } from '@angular/forms';
 import { CartDetail } from '../../cart-detail.model';
 import { CartService } from '../../../services/cart.service';
+import { getLoggedInUserId } from '../../../services/user.service';
 
 @Component({
   selector: 'app-cart-card',
@@ -18,6 +19,8 @@ export class CartCardComponent implements OnChanges {
   onCartDetailSelected = output<boolean>();
 
   onCartDetailChanged = output<CartDetail>();
+
+  onDeleted = output<number>();
 
   selected: boolean = false;
 
@@ -39,7 +42,7 @@ export class CartCardComponent implements OnChanges {
   public calculateTotal() {
     let total = this.cartDetail().productDetail.price * this.cartDetail().quantity;
     this.cartDetail().total = total;
-    this.cartService.update(1, this.cartDetail()).subscribe({
+    this.cartService.update(getLoggedInUserId(), this.cartDetail()).subscribe({
       complete: () => {
         this.onCartDetailChanged.emit(this.cartDetail());
       }
@@ -61,7 +64,11 @@ export class CartCardComponent implements OnChanges {
   }
 
   public deleteCartDetail() {
-    this.cartDetail().quantity = 0;
+    this.cartService.delete(getLoggedInUserId(), this.cartDetail().id).subscribe({
+      complete: () => {
+        this.onDeleted.emit(this.cartDetail().id);
+      }
+    })
   }
 
 

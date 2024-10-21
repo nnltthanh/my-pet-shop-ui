@@ -10,5 +10,10 @@ export class Address {
     wardId: string;
     customer: User;
     isDefault: boolean;
-    displayingAddress: string
+    displayingAddress: string;
+
+    public constructor(user: Partial<Address> = {}) {
+        Object.assign(this, user);
+    }
+
 }

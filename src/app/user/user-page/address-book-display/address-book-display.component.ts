@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Address } from '../../../auth/address.model';
 import { AddressService } from '../../../services/address.service';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressBookAddDialogComponent } from './address-book-add-dialog/address-book-add-dialog.component';
 import { AddressSelectionComponent } from './address-selection/address-selection.component';
-import { forkJoin } from 'rxjs';
+import { getLoggedInUserId } from '../../../services/user.service';
 
 
 @Component({
@@ -42,34 +42,26 @@ export class AddressBookDisplayComponent {
   }
 
   getAddressesByCustomerId() {
-    this.addressService.getAddressesByCustomerId(1).subscribe((addresses) => {
+    this.addressService.getAddressesByCustomerId(getLoggedInUserId()).subscribe((addresses) => {
 
       this.addresses = addresses;
-      this.addresses.reverse().forEach((address, index) => {
+      
+      if (!addresses || addresses.length === 0) {
+        this.addresses = [];
+        return;
+      }
 
-        forkJoin({
-          getCity: this.addressService.getCityById(address.cityId),
-          getDistrict: this.addressService.getDistrictById(address.cityId, address.districtId),
-          getWard: this.addressService.getWardById(address.districtId, address.wardId)
-        })
-        .subscribe(({getCity, getDistrict, getWard}) => {
-          let city = getCity.data.find(x => +x.ProvinceID === +address.cityId)?.NameExtension[1];
-          let district = getDistrict.data.find(x => +x.DistrictID === +address.districtId)?.DistrictName;
-          let ward = getWard.data.find(x => x.WardCode === address.wardId)?.NameExtension[0];
+      addresses = addresses.reverse();
 
-          address.displayingAddress =
-          address.address +
-          ', ' + ward +
-          ', ' + district +
-          ', ' + city;
+      let index = addresses.findIndex(item => item.isDefault);
+      if (index !== -1) {
+        let address = addresses[index];
+        addresses.splice(index, 1);
+        addresses.unshift(address);
+      }
 
-        if (address.isDefault) {
-          this.addresses.splice(index, 1);
-          this.addresses.unshift(address);
-        }
-        });
+      this.addresses = [...addresses];
 
-      });
     });
   }
 
@@ -85,10 +77,11 @@ export class AddressBookDisplayComponent {
     modalRef.result.then(
       (result) => {
         console.log(result);
-        this.getAddressesByCustomerId();
+        if (result.true) {
+          this.getAddressesByCustomerId();
+        }
       },
       (reason) => {
-       
         if (
           reason == ModalDismissReasons.BACKDROP_CLICK ||
           reason == ModalDismissReasons.ESC
@@ -99,7 +92,7 @@ export class AddressBookDisplayComponent {
 
   setAddressToDefault(address: Address) {
     address.isDefault = true;
-    this.addressService.updateAddress(1, address).subscribe(data => {
+    this.addressService.updateAddress(getLoggedInUserId(), address).subscribe(data => {
       this.getAddressesByCustomerId();
     })
   }

@@ -4,11 +4,12 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { FooterComponent } from "./footer/footer.component";
 import { HeaderComponent } from "./header/header.component";
+import { KeycloakAngularModule } from 'keycloak-angular';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, NgIf, AsyncPipe, NgClass],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, NgIf, AsyncPipe, NgClass, KeycloakAngularModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

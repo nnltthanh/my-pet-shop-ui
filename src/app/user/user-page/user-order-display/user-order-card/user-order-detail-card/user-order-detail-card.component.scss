@@ -1,0 +1,54 @@
+.container {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.value-button {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 20px;
+  height: 30px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+  padding-top: 2px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.width-100px {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  img {
+    flex-shrink: 0;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
+}
+
+.form-select {
+  height: 30px;
+  font-size: 0.8rem;
+  max-width: 300px;
+  width: fit-content;
+}

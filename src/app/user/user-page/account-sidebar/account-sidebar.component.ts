@@ -20,7 +20,7 @@ export class AccountSidebarComponent {
       isActive: false,
     },
     {
-      path: 'myOrders',
+      path: 'orders',
       label: 'Lịch sử đơn hàng',
       imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip4_7.png',
       name: 'orderHistory',
@@ -41,7 +41,7 @@ export class AccountSidebarComponent {
       isActive: false,
     },
     {
-      path: 'myReviews',
+      path: 'reviews',
       label: 'Đánh giá và phản hồi',
       imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip3_71.png',
       name: 'reviewsFeedback',

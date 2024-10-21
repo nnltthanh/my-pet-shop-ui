@@ -1,0 +1,107 @@
+.width-150px {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  img {
+    flex-shrink: 0;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
+}
+input[type="radio"] {
+  -webkit-appearance: none;
+}
+
+.checked {
+  color: orange;
+}
+
+.upload {
+ 
+    &__inputfile {
+      width: .1px;
+      height: .1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+    
+    &__btn {
+      display: inline-block;
+      font-weight: 600;
+      color: #4045ba;
+      text-align: center;
+      width: 80px;
+      height: 80px;
+      padding: 5px;
+      transition: all .3s ease;
+      cursor: pointer;
+      border: 2px solid;
+      border-color: #4045ba;
+      border-radius: 10px;
+      line-height: 18px;
+      font-size: 12px;
+      margin-left: 10px;
+
+      &:hover {
+        background-color: rgb(234, 239, 243);
+        color: #4045ba;
+        transition: all .3s ease;
+      }
+      
+      &-box {
+        margin-bottom: 10px;
+      }
+    }
+    
+    &__img {
+      &-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+      }
+      
+      &-box {
+        width: 80px;
+        padding: 0;
+        margin-bottom: 12px;
+      }
+      
+      &-close {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background-color: rgba(0, 0, 0, 0.5);
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          text-align: center;
+          line-height: 10px;
+          z-index: 1;
+          cursor: pointer;
+  
+          &:after {
+            content: '\2716';
+            font-size: 7px;
+            color: white;
+          }
+        }
+    }
+  }
+  
+  .img-bg {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    padding-bottom: 100%;
+    margin-left: 10px;
+  }

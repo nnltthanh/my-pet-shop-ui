@@ -1,0 +1,11 @@
+<div class="w-100 text-center margin-top">
+    <div class="d-flex flex-column">
+        @if(isSuccess) {
+            <i class="bi bi-check-circle text-success" style="font-size: 200px;"></i>
+            <span class="text-black fs-4 fw-bold">Thanh toán đơn hàng thành công!</span>
+        } @else {
+            <i class="bi bi-x-circle text-danger" style="font-size: 200px;"></i>
+            <span class="text-black fs-4 fw-bold">Thanh toán đơn hàng không thành công!</span>
+        }
+    </div>
+</div>

@@ -1,0 +1,24 @@
+@if($orders | async; as orders) {
+<div id="info-tab" class="account-info account-content">
+  <h2 class="account-page-title">Lịch sử đơn hàng</h2>
+
+  @if (orders.length === 0) {
+  <div class="account-page-label">
+    <span class="d-grid"> Bạn chưa có đơn hàng nào... </span>
+  </div>
+  } @else {
+  <div>
+    <div class="account-page-label">
+      Bạn có <span> <span class="fw-bolder">{{ orders.length }}</span> đơn hàng</span>
+    </div>
+    <div class="orders-body mt-3">
+      <div class="orders-wrapper">
+        @for (order of orders; track $index) {
+            <app-user-order-card [order]="order" ></app-user-order-card>
+        }
+      </div>
+    </div>
+  </div>
+  }
+</div>
+}

@@ -3,6 +3,7 @@ import { Component, input, output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CartDetail } from '../../../cart-detail.model';
 import { CartService } from '../../../../services/cart.service';
+import { getLoggedInUserId } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-order-info-card',
@@ -37,7 +38,7 @@ export class OrderInfoCardComponent {
   public calculateTotal() {
     let total = this.cartDetail().productDetail.price * this.cartDetail().quantity;
     this.cartDetail().total = total;
-    this.cartService.update(1, this.cartDetail()).subscribe({
+    this.cartService.update(getLoggedInUserId(), this.cartDetail()).subscribe({
       complete: () => {
         this.onCartDetailChanged.emit(this.cartDetail());
       }

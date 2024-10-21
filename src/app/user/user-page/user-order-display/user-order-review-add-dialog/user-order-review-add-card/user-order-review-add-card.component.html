@@ -1,0 +1,107 @@
+@if (isChecked | async; as existingReview) {
+<div class="mb-3">
+  <div class="d-flex flex-row">
+    <div class="card width-150px user-select-none">
+      <img
+        [src]="getImage()"
+        [alt]="orderDetail().productDetail.product.name"
+      />
+    </div>
+    <div class="col d-flex flex-column p-0 mb-2">
+      <div>
+        <span class="fs-5 fw-bolder text-blue">{{
+          orderDetail().productDetail.product.name
+        }}</span>
+      </div>
+      <div>
+        <div class="star-rating my-2">
+          @for (ratingValue of [1,2,3,4,5]; track $index) {
+          <input
+            class="fa fa-star me-2 fs-4 cursor-pointer"
+            [class.checked]="ratingValue <= rating"
+            type="radio"
+            value="ratingValue"
+            name="ratingOrderValue"
+            [ngModel]="rating"
+            [readOnly]="isAlreadyReviewed()"
+            (input)="onRating(ratingValue)"
+          />
+          }
+        </div>
+        <div class="upload__box">
+          <div class="upload__img-wrap">
+            @for (image of fileImages; track $index) {
+
+            <div class="upload__img-box">
+              <div
+                class="img-bg"
+                [style]="{
+                  backgroundImage: 'url(' + fileImages[$index] + ')'
+                }"
+              >
+                @if(!isAlreadyReviewed()) {
+                <div
+                  class="upload__img-close"
+                  (click)="removeImage($index)"
+                ></div>
+                }
+              </div>
+            </div>
+            } 
+            @if(!isAlreadyReviewed()) {
+            <div class="upload__btn-box">
+              <label
+                class="upload__btn"
+                [class.disabled]="files && files.length >= 5"
+              >
+                <div class="d-flex flex-column justify-content-center">
+                  <i class="bi bi-upload"></i>
+                  Tải hình ảnh
+                </div>
+                <input
+                  type="file"
+                  multiple
+                  [maxLength]="5"
+                  class="upload__inputfile"
+                  (input)="handleFileInputChange($event)"
+                />
+              </label>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-row">
+    <div class="col pe-0">
+      <label
+        for="review-product-{{ orderDetail().id }}"
+        class="form-label text-secondary mb-1"
+        >Đánh giá:
+      </label>
+      <textarea
+        type="text"
+        class="form-control"
+        id="review-product-{{ orderDetail().id }}"
+        [placeholder]="isAlreadyReviewed() ? 'Không có nội dung đánh giá' : 'Đánh giá sản phẩm...'"
+        name="review-product-{{ orderDetail().id }}"
+        #reviewProduct
+        [(ngModel)]="reviewContent"
+        [readOnly]="isAlreadyReviewed()"
+        rows="3"
+        required
+      ></textarea>
+    </div>
+  </div>
+
+  @if(!isAlreadyReviewed()) {
+  <div class="w-100 text-end">
+    <div type="button" class="btn btn-primary" (click)="onReview()">
+      Gửi đánh giá
+    </div>
+  </div>
+  }
+</div>
+
+}

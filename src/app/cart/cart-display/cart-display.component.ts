@@ -5,7 +5,7 @@ import { OrderInfoComponent } from './order-info/order-info.component';
 import { CartService } from '../../services/cart.service';
 import { Cart } from '../cart.model';
 import { CartDetail } from '../cart-detail.model';
-import { UserService } from '../../services/user.service';
+import { getLoggedInUserId, UserService } from '../../services/user.service';
 import { User } from '../../auth/user.model';
 
 @Component({
@@ -30,13 +30,14 @@ export class CartDisplayComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.cartService.getCart(1).subscribe(data => {
+    if (this.userService.getLoggedInUser()) {
+      this.loggedInUser = this.userService.getLoggedInUser();
+    }
+    
+    this.cartService.getCart(getLoggedInUserId()).subscribe(data => {
       this.cartDetails = data;
     })
 
-    this.userService.findById(1).subscribe(user => {
-      this.loggedInUser = user;
-    })
   }
 
   public onCartDetailSelected(cartDetail: CartDetail, isSelected: boolean) {
@@ -67,6 +68,23 @@ export class CartDisplayComponent implements OnInit {
       this.selectedCartDetails[index] = cartDetail;
       this.selectedCartDetails = [...this.selectedCartDetails];
     }
+  }
+
+  onCartDetailDeleted(event: number) {
+    
+    let index2 = this.cartDetails.findIndex(item => item.id === event);
+    if (index2 !== -1) {
+      this.cartDetails.splice(index2, 1);
+      this.cartDetails = [... this.cartDetails];
+    }
+
+    let index = this.selectedCartDetails.findIndex(item => item.id === event);
+    if (index !== -1) {
+      this.selectedCartDetails.splice(index, 1);
+      this.selectedCartDetails = [... this.selectedCartDetails];
+    }
+
+
   }
 
 }

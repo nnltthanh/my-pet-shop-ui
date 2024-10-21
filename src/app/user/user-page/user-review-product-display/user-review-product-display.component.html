@@ -1,0 +1,77 @@
+@if($reviews | async; as reviews) {
+    <div id="info-tab" class="account-info account-content">
+      <h2 class="account-page-title">Đánh giá và phản hồi</h2>
+    
+      @if (reviews.length === 0) {
+      <div class="account-page-label">
+        <span class="d-grid"> Bạn chưa viết đánh giá nào... </span>
+      </div>
+      } @else {
+      <div>
+       
+        <div class="reviews-body m-3">
+          <div class="reviews-wrapper">
+            @for (review of firstReviews; track $index) {
+                <div class="card my-3 cursor-pointer">
+                    <div class="card-header">
+                        <div class="text-secondary m-2">Ngày đăng: {{ review.createDate | date: "dd/MM/yyyy" }}</div>
+                    </div>
+                    <div class="p-3 cart-card flex-row d-flex ">
+                        <div>
+                          <div class="card width-100px user-select-none">
+                            <img 
+                              [src]="getImage(review)" 
+                              />
+                          </div>
+                        </div>
+                        <div class="col flex-column py-0 px-2">
+                          <div class="d-flex flex-row text-blue">
+                            <div class="col fw-bold fs-5 px-0">{{ review.orderDetail!.productDetail!.product!.name }} </div>
+                          </div>
+                          <div class="d-flex flex-row select-none px-0">
+                            <div>
+                                @for (ratingValue of [1,2,3,4,5]; track $index) {
+                                    <input
+                                      class="fa fa-star me-2 fs-5 cursor-pointer"
+                                      [class.checked]="ratingValue <= review.rate"
+                                      type="radio"
+                                      value="ratingValue"
+                                      name="ratingOrderValue"
+                                      [value]="review.rate"
+                                      [readOnly]="true"
+                                    />
+                                    }
+                            </div>
+                          </div>
+                         
+                          <div class="d-flex flex-row ms-0 my-2">
+                            @for (item of getImageUrls(review); track $index) {
+                                <div class="upload__img-box">
+                                    <div
+                                      class="img-bg"
+                                      [style]="{
+                                        backgroundImage: 'url(' + item + ')'
+                                      }"
+                                    >
+                                    </div>
+                                  </div>
+                            }
+                          </div>
+                        </div>
+                    </div>
+    
+                    <hr class="text-secondary my-1 mx-4"/>
+                    <div class="d-flex flex-column mx-4 my-2 p-2">
+                        <div class="text-secondary">Ngày đăng: {{ review.createDate | date: "dd/MM/yyyy" }}</div>
+                        <div class="fs-5"> {{ review.content }}</div>
+                    </div>
+                </div>
+                  
+            }
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    }
+    
