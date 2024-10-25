@@ -1,0 +1,213 @@
+<div class="modal-content address-modal">
+  <div class="modal-header" style="z-index: 1">
+    <div class="modal-title fs-4" id="exampleModalLabel">
+      Thêm tài khoản người dùng
+    </div>
+    <button
+      type="button"
+      class="btn-close me-3"
+      aria-label="Close"
+      aria-label="Close"
+      (click)="dismissDialog()"
+    ></button>
+  </div>
+
+  <div class="modal-body" style="z-index: 2">
+    <div class="formgrid grid">
+      <div class="field col-5">
+        <p-fileUpload
+          class="text-end h-100"
+          chooseIcon="pi pi-upload"
+          name="myFile[]"
+          uploadLabel=""
+          chooseLabel="Tải lên"
+          url="./upload.php"
+          accept="image/*"
+          maxFileSize="5000000"
+          [auto]="true"
+          progress="none"
+          (onSelect)="onSelectImage($event.currentFiles[0])"
+          required
+        >
+          <ng-template
+            pTemplate="header"
+            let-files
+            let-chooseCallback="chooseCallback"
+            let-clearCallback="clearCallback"
+            let-uploadCallback="uploadCallback"
+          >
+            <div
+              class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2"
+            >
+              <div class="flex gap-2">
+                <p-button
+                  (onClick)="choose($event, chooseCallback)"
+                  icon="pi pi-cloud-upload"
+                  [rounded]="true"
+                  [outlined]="true"
+                />
+                <p-button
+                  (onClick)="imageSrc = ''"
+                  icon="pi pi-times"
+                  [rounded]="true"
+                  [outlined]="true"
+                  severity="danger"
+                  [disabled]="!imageSrc"
+                />
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-file pTemplate="file" class="d-none"> </ng-template>
+          <ng-template pTemplate="content">
+            @if(!imageSrc) {
+            <div
+              class="flex align-items-center justify-content-center flex-column"
+            >
+              <i
+                class="pi pi-cloud-upload border-2 border-circle p-3 text-4xl text-400 border-400 h-50 mb-3"
+              ></i>
+              <p class="m-0">Kéo thả hình để tải lên...</p>
+            </div>
+            } @else {
+            <img
+              [src]="imageSrc"
+              class="block m-auto pb-3"
+              style="max-width: 300px"
+            />
+            }
+          </ng-template>
+        </p-fileUpload>
+      </div>
+
+      <div class="field col">
+        <div class="card p-4">
+            <div class="formgrid grid mb-3">
+            
+          <div class="d-flex flex-column field col">
+            <label for="name">Tên người dùng </label>
+            <input
+              type="text"
+              pInputText
+              id="name"
+              [(ngModel)]="name"
+              required
+              autofocus
+            />
+          </div>
+          
+        </div>
+        <div class="formgrid grid mb-3">
+            <div class="d-flex flex-column field col">
+                <label for="availableGroups">Vai trò</label>
+                <p-multiSelect 
+                    [options]="availableGroups" 
+                    [(ngModel)]="selectedGroups" 
+                    [filter]="false" 
+                    class="d-grid"
+                    [showHeader]="false"
+                   />
+              </div>
+        </div>
+
+          <div class="formgrid grid mb-3">
+            <div class="d-flex flex-column field col">
+              <label for="account">Tài khoản đăng nhập </label>
+              <input
+                type="text"
+                pInputText
+                id="account"
+                [(ngModel)]="account"
+                required
+                autofocus
+              />
+            </div>
+            <div class="d-flex flex-column field col">
+              <label for="password">Mật khẩu </label>
+              <p-password
+                [(ngModel)]="password"
+                [toggleMask]="true"
+                [feedback]="false"
+              />
+            </div>
+          </div>
+          <div class="formgrid grid mb-3">
+            <div class="field col">
+              <label for="dob">Ngày sinh</label>
+              <p-calendar
+                [(ngModel)]="dob"
+                view="date"
+                dateFormat="dd/mm/yy"
+                class="d-grid"
+              />
+            </div>
+            <div class="field col">
+              <label for="gender">Giới tính</label>
+              <div class="formgrid grid">
+                <div class="field-radiobutton col-4">
+                  <p-radioButton
+                    id="gender1"
+                    name="gender"
+                    value="MALE"
+                    [(ngModel)]="gender"
+                  />
+                  <label for="gender1">Nam</label>
+                </div>
+                <div class="field-radiobutton col-4">
+                  <p-radioButton
+                    id="gender2"
+                    name="gender"
+                    value="FEMALE"
+                    [(ngModel)]="gender"
+                  />
+                  <label for="gender2">Nữ</label>
+                </div>
+                <div class="field-radiobutton col-4">
+                  <p-radioButton
+                    id="gender3"
+                    name="gender"
+                    value="OTHER"
+                    [(ngModel)]="gender"
+                  />
+                  <label for="gender3">Khác</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="formgrid grid mb-3">
+            <div class="d-flex flex-column field col">
+              <label for="email">Email </label>
+              <input
+                type="email"
+                pInputText
+                id="email"
+                [(ngModel)]="email"
+                autofocus
+              />
+            </div>
+
+            <div class="d-flex flex-column field col">
+              <label for="phone">Số điện thoại </label>
+              <input
+                type="phone"
+                pInputText
+                id="phone"
+                [(ngModel)]="phone"
+                autofocus
+              />
+            </div>
+          </div>
+        </div >
+
+        <div class="my-3"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer" style="z-index: 1">
+  <button type="button" class="btn-save btn" (click)="saveUser()">Lưu</button>
+  <button type="button" class="btn btn-cancel" (click)="dismissDialog()">
+    Trở lại
+  </button>
+</div>

@@ -72,8 +72,6 @@ export class ProductTableComponent implements OnInit {
 
   submitted: boolean = false;
 
-  loading: boolean = false;
-
   displayingInventoryStatus: string = '';
 
   imagePath: any;
@@ -100,7 +98,6 @@ export class ProductTableComponent implements OnInit {
       .subscribe((data) => {
         this.products = [...data.data];
         this.total = data.total;
-        this.loading = false;
       });
   }
 
@@ -129,11 +126,9 @@ export class ProductTableComponent implements OnInit {
   }
 
   deleteProduct(product: Product) {
-    this.loading = true;
     this.productService.delete(product.id).subscribe({
       error: (error) => {
         console.log(error);
-        this.loading = false;
       },
       complete: () => {
         this.loadPetProducts(this.currentTableLazyLoadEvent);
@@ -157,16 +152,6 @@ export class ProductTableComponent implements OnInit {
     // }
 
     return index;
-  }
-
-  createId(): string {
-    let id = '';
-    var chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
   }
 
   getSeverityInventoryStatus(status: string) {
@@ -201,10 +186,6 @@ export class ProductTableComponent implements OnInit {
     });
   }
 
-  onLoading(event: boolean) {
-    this.loading = event;
-  }
-
   onSelect(event: any) {
     this.imagePath =
       event.currentFiles[0].objectURL?.changingThisBreaksApplicationSecurity;
@@ -212,8 +193,6 @@ export class ProductTableComponent implements OnInit {
 
   loadPetProducts(event: TableLazyLoadEvent) {
     this.currentTableLazyLoadEvent = event;
-
-    this.loading = true;
 
     let params = new HttpParams();
     params = params.append('pageSize', event?.rows ?? 15);
@@ -237,11 +216,6 @@ export class ProductTableComponent implements OnInit {
     }
     this.petProductService
       .findAllBy(params)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
       .subscribe((data) => {
         this.products = [...data.data];
         this.total = data.total;
@@ -250,12 +224,10 @@ export class ProductTableComponent implements OnInit {
 
   onImportPetProduct(event: any) {
     if (event.target.files.length > 0) {
-      this.loading = true;
       let file: File = event.target.files[0];
       this.importerService.importProducts('PET', file).subscribe({
         error: (error) => {
           console.log(error);
-          this.loading = false;
         },
         complete: () => {
           this.loadPetProducts(this.currentTableLazyLoadEvent);

@@ -212,9 +212,9 @@ textarea:focus, input:focus{
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
 }
 
 ::ng-deep .p-datepicker table td {
-  padding: 0.13rem; // use as per your requirement.
+  padding: 0.13rem !important; // use as per your requirement.
 }

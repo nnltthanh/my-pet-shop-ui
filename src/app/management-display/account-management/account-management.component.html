@@ -1,0 +1,159 @@
+<div>
+  <p-table
+    [lazy]="true"
+    [scrollable]="true"
+    scrollHeight="65vh"
+    scrollDirection="both"
+    (onLazyLoad)="loadUsers($event)"
+    [paginator]="true"
+    [rows]="15"
+    [totalRecords]="total"
+    #dt
+    [value]="users"
+    sortMode="multiple"
+    [globalFilterFields]="['id', 'name']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedUsers"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Hiển thị từ {first} tới {last} trên {totalRecords} người dùng."
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="d-flex align-items-center">
+        <h5 class="m-0">QUẢN LÝ TÀI KHOẢN NGƯỜI DÙNG</h5>
+        <p-button
+          severity="success"
+          label="Thêm mới"
+          icon="pi pi-plus"
+          class="ms-2"
+          (onClick)="openNew()"
+        />
+        <div class="ms-auto">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <!-- <input
+                  #search
+                  pInputText
+                  type="text"
+                  (input)="onSearch(search.value)"
+                  placeholder="Search..."
+                /> -->
+            <input
+              #search
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal(search.value, 'contains')"
+              placeholder="Tìm kiếm..."
+            />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 2rem">
+          <p-tableHeaderCheckbox />
+        </th>
+        <th pSortableColumn="id" style="min-width: 2rem">
+          ID <p-sortIcon field="id" />
+        </th>
+        <th class="d-flex justify-content-center">Hình ảnh</th>
+
+        <th pSortableColumn="name" style="min-width: 15rem">
+          Tên người dùng <p-sortIcon field="name" />
+        </th>
+
+        <th>Email</th>
+        <th
+          pSortableColumn="inventoryStatus"
+          style="min-width: 10rem"
+          class="text-center"
+        >
+          Trạng thái <p-sortIcon field="inventoryStatus" />
+        </th>
+
+        <th
+          pSortableColumn="category.breed"
+          style="min-width: 5rem"
+          class="text-center"
+        >
+          Vai trò <p-sortIcon field="category.breed" />
+        </th>
+
+        <th style="min-width: 5rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="user" />
+        </td>
+        <td>
+          {{ user.id }}
+        </td>
+        <td class="d-flex justify-content-center">
+          @if(user.avatarUrl) {
+          <img
+            [src]="user.avatarUrl"
+            [alt]="user.name"
+            width="50"
+            class="shadow-4"
+          />
+          }
+        </td>
+        <td>
+          {{ user.name }}
+        </td>
+
+        <td>
+          {{ user.email }}
+        </td>
+
+        <td class="text-center">
+          @if(user.blocked) {
+            <span class="text-danger">Bị khóa</span>
+          } @else {
+            <span class="text-success">Khả dụng</span>
+          }
+        </td>
+
+        <td class="text-center">
+          <!-- Type -->
+        </td>
+
+        <td class="text-center px-0">
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            [style.width]="30"
+            [style.height]="30"
+            (onClick)="onSearch(user)"
+          />
+          @if (user.validTo || user.blocked) {
+            <p-button
+            icon="pi pi-lock-open"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            [title]="'Mở khóa tài khoản'"
+            (onClick)="onUnblock(user)"
+          />
+          } @else {
+            <p-button
+            icon="pi pi-lock"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            [title]="'Khóa tài khoản'"
+            (onClick)="onBlock(user)"
+          />
+          }
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

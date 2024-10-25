@@ -58,7 +58,7 @@ export const routes: Routes = [
   },
   {
     
-    path: 'management/',
+    path: 'management',
     // canActivate: [AuthGuard],
     loadComponent: () => import('./management-display/management-display.component').then(m => m.ManagementDisplayComponent),
     children: [
@@ -67,20 +67,8 @@ export const routes: Routes = [
         loadComponent: () => import('./product/product-management/product-management.component').then(m => m.ProductManagementComponent)
       },
       {
-        path: "address-book",
-        loadComponent: () => import('./user/user-page/address-book-display/address-book-display.component').then(m => m.AddressBookDisplayComponent)
-      },
-      {
-        path: "orders",
-        loadComponent: () => import('./user/user-page/user-order-display/user-order-display.component').then(m => m.UserOrderDisplayComponent)
-      },
-      {
-        path: "reviews",
-        loadComponent: () => import('./user/user-page/user-review-product-display/user-review-product-display.component').then(m => m.UserReviewProductDisplayComponent)
-      },
-      {
-        path: "my-pet",
-        loadComponent: () => import('./user/user-page/customer-pet-management/customer-pet-management.component').then(m => m.CustomerPetManagementComponent)
+        path: "accounts",
+        loadComponent: () => import('./management-display/account-management/account-management.component').then(m => m.AccountManagementComponent)
       },
     ],
   },

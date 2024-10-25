@@ -102,8 +102,6 @@ export class ProductAddDialogComponent {
 
   latestHealthRecord: HealthRecord | null = new HealthRecord();
 
-  loading = output<boolean>();
-
   constructor(
     private messageService: MessageService,
     private petProductService: PetProductService
@@ -148,7 +146,6 @@ export class ProductAddDialogComponent {
 
   saveProduct() {
     if (this.petName.trim()) {
-      this.loading.emit(true);
       let petProduct: PetProduct = new PetProduct();
       petProduct.name = this.petName;
       if (this.petPrice) {
@@ -191,7 +188,6 @@ export class ProductAddDialogComponent {
       this.petProductService.add(petProduct, this.uploadFile).subscribe({
         error: (error) => {
           console.log(error);
-          this.loading.emit(false);
         },
         complete: () => {
           this.submittedChanged.emit(true);
@@ -202,7 +198,6 @@ export class ProductAddDialogComponent {
             detail: 'Product Updated',
             life: 3000,
           });
-          this.loading.emit(false);
         },
       });
     }

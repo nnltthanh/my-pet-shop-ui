@@ -31,7 +31,7 @@ export class UserInfoDisplayComponent implements OnInit {
   }
 
   clickSaveUpdate(): void {
-    this.userService.update(this.userInfo.id, this.userInfo).subscribe({
+    this.userService.update(this.userInfo.id, this.userInfo, null).subscribe({
       complete: () => {
         this.isEditMode = false;
       }

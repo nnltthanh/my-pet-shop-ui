@@ -18,20 +18,19 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { EditorModule } from 'primeng/editor';
 import { FileUploadModule } from 'primeng/fileupload';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { PanelModule } from 'primeng/panel';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TagModule } from 'primeng/tag';
-import { finalize } from 'rxjs';
 import { Gender } from '../../../../gender.model';
 import { PetProductService } from '../../../../services/pet-product.service';
+import { HealthRecord } from '../../../health-record.model';
 import { PetBreed } from '../../../pet-category.model';
 import { PetProduct } from '../../../pet-product.model';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { HealthRecord } from '../../../health-record.model';
 
 @Component({
   selector: 'app-product-detail-edit',
@@ -88,8 +87,6 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
   imageSrc?: string;
 
   updatedFile: File;
-
-  loading = output<boolean>();
 
   defaultDob: Date;
 
@@ -151,7 +148,6 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
 
   saveProduct() {
     if (this.petProduct) {
-        this.loading.emit(true);
         if (this.petProduct.dateOfBirth) {
           let currentDate = new Date();
           let dob: Date = new Date(this.petProduct.dateOfBirth);
@@ -171,7 +167,6 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
         
         this.petProductService
           .update(this.petProduct.id, this.petProduct, this.updatedFile)
-          .pipe(finalize(() => this.loading.emit(false)))
           .subscribe({
             complete: () => {
               this.submittedChanged.emit(true);

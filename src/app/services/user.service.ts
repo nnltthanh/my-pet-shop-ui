@@ -26,6 +26,10 @@ export class UserService {
     return this.http.get<User>(`${this.getBaseUri()}/${customerId}`);
   }
 
+  findAll(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.getBaseUri()}`);
+  }
+
   getLoggedInUser(): User {
     if (!localStorage.getItem("user")) {
       this.findById(1).subscribe({
@@ -37,17 +41,42 @@ export class UserService {
     return JSON.parse(localStorage.getItem("user")!);
   }
 
-  update(id: number, user: User): Observable<User> {
-    // let formData = new FormData();
-    // let userData = new Blob([JSON.stringify(user)], {
-    //   type: 'application/json',
-    // });
-    // formData.append("petProduct", userData);
-    return this.http.put<User>(`${this.getBaseUri()}/basic-info/${id}`, user)
-    .pipe(map((data) => {
-      localStorage.setItem("user", JSON.stringify(data));
-      return data;
-    }));
+  add(user: User, avatar: File | null): Observable<User> { // for admin -> not save to local storage
+    let formData: FormData = new FormData();
+    let userData = new Blob([JSON.stringify(user)], {
+      type: 'application/json',
+    });
+    formData.append("user", userData);
+
+    if (avatar) {
+      formData.append("avatar", avatar);
+    }
+    return this.http.post<User>(`${this.getBaseUri()}`, formData);
+  }
+
+  update(id: number, user: User, avatar: File | null): Observable<User> {
+    let formData: FormData = new FormData();
+    let userData = new Blob([JSON.stringify(user)], {
+      type: 'application/json',
+    });
+    formData.append("user", userData);
+
+    if (avatar) {
+      formData.append("avatar", avatar);
+    }
+    return this.http.put<User>(`${this.getBaseUri()}/basic-info/${id}`, formData)
+      .pipe(map((data) => {
+        localStorage.setItem("user", JSON.stringify(data));
+        return data;
+      }));
+  }
+
+  updatePartially(userId: number, fieldName: string, value: string) {
+    return this.http.put<User>(`${this.getBaseUri()}/${userId}/fields/${fieldName}`, value)
+      .pipe(map((data) => {
+        localStorage.setItem("user", JSON.stringify(data));
+        return data;
+      }));
   }
 
 }

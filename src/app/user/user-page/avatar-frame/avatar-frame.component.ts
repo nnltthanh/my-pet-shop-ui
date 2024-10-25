@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { getLoggedInUserId, UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-avatar-frame',
@@ -8,9 +9,15 @@ import { Component } from '@angular/core';
   templateUrl: './avatar-frame.component.html',
   styleUrl: './avatar-frame.component.scss'
 })
-export class AvatarFrameComponent {
+export class AvatarFrameComponent implements OnInit {
 
   avatar?: string;
+
+  userService = inject(UserService);
+
+  ngOnInit(): void {
+    this.avatar = this.userService.getLoggedInUser().avatarUrl;
+  }
 
   onDrop(event: DragEvent) {
     event.preventDefault();
@@ -27,11 +34,13 @@ export class AvatarFrameComponent {
     reader.onload = async () => {
 
       this.avatar = reader.result as string;
-      console.log(this.avatar);
-
       let data = new FormData();
       data.append('image', file);
-
+      this.userService.update(getLoggedInUserId(), this.userService.getLoggedInUser(), file).subscribe({
+        next: data => {
+          localStorage.setItem("user", JSON.stringify(data));
+        }
+      })
     };
     reader.readAsDataURL(file);
   }

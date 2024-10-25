@@ -15,12 +15,17 @@ export class ManagementDisplayComponent {
     {
       path: 'products',
       label: 'Quản lý sản phẩm',
-      imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip6_34.png',
       name: 'productManagement',
       isActive: false,
     },
+    {
+      path: 'accounts',
+      label: 'Quản lý tài khoản',
+      name: 'accountManagement',
+      isActive: false,
+    },
    
-  ];
+];
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
@@ -38,7 +43,7 @@ export class ManagementDisplayComponent {
   }
   
   private getRoute() {
-    return "management/";
+    return "management";
   }
 
 }

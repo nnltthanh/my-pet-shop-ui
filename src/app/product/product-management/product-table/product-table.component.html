@@ -11,17 +11,8 @@
     </ng-template>
 
     <ng-template pTemplate="right">
-        <!-- <p-fileUpload
-        mode="basic"
-        [maxFileSize]="1000000"
-        label="Import"
-        chooseLabel="Import"
-        uploadLabel="Import"
-        class="mr-2 inline-block p-3"
-        (onUpload)="onImportPetProduct($event.files[0])"
-      /> -->
+  
       <input type="file" accept=".xlsx,.xls" #file (change)="onImportPetProduct($event)" class="d-none">
-      <!-- <button (click)="file.click()">Import</button> -->
       <p-button severity="info" label="Import" icon="pi pi-plus" (click)="file.click()" class=" mx-3"/>
       <p-button severity="help" label="Export" icon="pi pi-upload" />
     </ng-template>
@@ -29,12 +20,13 @@
 
   <p-table
     [lazy]="true"
+    [scrollable]="true"
+    scrollHeight="65vh"
+    scrollDirection="both"
     (onLazyLoad)="loadPetProducts($event)"
     [paginator]="true"
     [rows]="15"
     [totalRecords]="total"
-    #table
-    [loading]="loading"
     #dt
     [value]="products"
     sortMode="multiple"
@@ -43,7 +35,7 @@
     [(selection)]="selectedProducts"
     [rowHover]="true"
     dataKey="id"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    currentPageReportTemplate="Hiển thị từ {first} tới {last} trên {totalRecords} sản phẩm."
     [showCurrentPageReport]="true"
   >
     <ng-template pTemplate="caption">
@@ -200,18 +192,12 @@
         </td>
       </tr>
     </ng-template>
-    <ng-template pTemplate="summary">
-      <div class="flex align-items-center justify-content-between">
-        Tất cả {{ products ? total : 0 }} sản phẩm.
-      </div>
-    </ng-template>
   </p-table>
 
   @if(productDialog) {
     <app-product-detail-edit
       [product]="product"
       [(productDialog)]="productDialog"
-      (loading)="onLoading($event)"
       (submittedChanged)="onSubmitted($event)"
     >
     </app-product-detail-edit>
@@ -220,7 +206,6 @@
   @if(addProductDialog) {
     <app-product-add-dialog
       [(addProductDialog)]="addProductDialog"
-      (loading)="onLoading($event)"
       (submittedChanged)="onSubmitted($event)">
     </app-product-add-dialog>
   }
