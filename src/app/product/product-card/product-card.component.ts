@@ -66,7 +66,7 @@ export class ProductCardComponent implements OnInit {
 
   private formatNumber(): number {
     if (this.product()) {
-      return Math.round(this.product()!.rate * 10) / 10;
+      return Math.round(this.product()!.rating * 10) / 10;
     }
     return 0;
   }

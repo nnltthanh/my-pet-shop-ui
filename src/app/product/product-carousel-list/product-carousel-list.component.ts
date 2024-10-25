@@ -21,7 +21,9 @@ export class ProductCarouselListComponent {
       '',
       new ImageData(1, '', ''),
       new Date(),
-      4.5
+      4.5,
+      5,
+      1
     );
   slides = [
     { img: 'http://placehold.it/350x150/000000' },

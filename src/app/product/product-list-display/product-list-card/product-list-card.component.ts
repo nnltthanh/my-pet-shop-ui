@@ -58,6 +58,6 @@ export class ProductListCardComponent {
     if (this.product()?.id === 3) {
       return 2.5;
     }
-    return Math.round(this.product()!.rate * 10) / 10;
+    return Math.round(this.product()!.rating * 10) / 10;
   }
 }

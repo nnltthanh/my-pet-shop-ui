@@ -54,6 +54,8 @@ import { InventoryStatus } from '../../inventory-status.model';
 export class ProductTableComponent implements OnInit {
   readonly petBreed = PetBreed;
 
+  readonly inventoryStatus = InventoryStatus;
+
   productDialog: boolean = false;
 
   addProductDialog: boolean = false;
@@ -177,10 +179,16 @@ export class ProductTableComponent implements OnInit {
         return 'warning';
       case InventoryStatus.SOLD_OUT:
         this.displayingInventoryStatus = InventoryStatus.SOLD_OUT;
+        console.log(this.displayingInventoryStatus);
+        
         return 'secondary';
       default:
         return 'info';
     }
+  }
+
+  getDisplayingInventoryStatus(status: string) {
+    return (InventoryStatus as any)[status];
   }
 
   onSearch(value: string) {}

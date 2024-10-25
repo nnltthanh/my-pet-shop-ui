@@ -26,7 +26,9 @@ export class PetProduct extends Product {
     override quantity: number;
     override latestHealthRecord: HealthRecord | null;
     override healthRecord: HealthRecord[]
-    
+    override countRating: number;
+    override rating: number;
+
     constructor() {
         super()
     }

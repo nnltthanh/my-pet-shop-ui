@@ -1,0 +1,28 @@
+@if($petCustomers | async; as pets) {
+<div id="info-tab" class="account-info account-content ">
+  <div class="account-pet">
+    <h2 class="account-page-title">Quản lý thú cưng</h2>
+  <button
+  class="account-page-button"
+  (click)="openAddDialog()"
+>
+  Thêm thú cưng mới
+</button>
+  </div>
+  @if (pets.length === 0) {
+  <div class="account-page-label">
+    <span class="d-grid"> Bạn chưa có thú cưng nào... </span>
+  </div>
+  } @else {
+  <div>
+    <div class="pets-body m-3">
+      <div class="reviews-wrapper">
+        @for (pet of pets; track $index) {
+            <app-customer-pet-card [pet]="pet" />
+        }
+      </div>
+    </div>
+  </div>
+  }
+</div>
+}

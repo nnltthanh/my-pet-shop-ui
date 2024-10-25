@@ -38,7 +38,7 @@
     #dt
     [value]="products"
     sortMode="multiple"
-    [globalFilterFields]="['id', 'name', 'price', 'soldCount']"
+    [globalFilterFields]="['id', 'name', 'price', 'countSold', 'quantity']"
     [tableStyle]="{ 'min-width': '75rem' }"
     [(selection)]="selectedProducts"
     [rowHover]="true"
@@ -92,11 +92,18 @@
           Trạng thái <p-sortIcon field="inventoryStatus" />
         </th>
         <th
-          pSortableColumn="soldCount"
+          pSortableColumn="quantity"
           style="min-width: 5rem"
           class="text-center"
         >
-          Số lượng đã bán <p-sortIcon field="soldCount" />
+          Số lượng nhập vào <p-sortIcon field="quantity" />
+        </th>
+        <th
+          pSortableColumn="countSold"
+          style="min-width: 5rem"
+          class="text-center"
+        >
+          Số lượng đã bán <p-sortIcon field="countSold" />
         </th>
         <th
           pSortableColumn="category.breed"
@@ -149,11 +156,14 @@
         </td>
         <td class="text-center">
           <p-tag 
-            [value]="displayingInventoryStatus" 
+            [value]="getDisplayingInventoryStatus(product.inventoryStatus)" 
             [severity]="getSeverityInventoryStatus(product.inventoryStatus)" />
         </td>
         <td class="text-center">
-          {{ product.soldCount }}
+          {{ product.quantity }}
+        </td>
+        <td class="text-center">
+          {{ product.countSold }}
         </td>
         <td class="text-center">
           <span *ngIf="product.category?.breed === 'CAT'">

@@ -1,0 +1,15 @@
+<div *ngIf="showSpinner$ | async" class="d-flex justify-content-center">
+    <div class="page-overlay-warpper fixed-top container-fluid w-100 h-100 border-0 start-0"></div>
+    
+    <div class="blockMsg rounded">
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <span class="visually-hidden">Loading...</span>
+          </div> 
+    </div>
+</div>

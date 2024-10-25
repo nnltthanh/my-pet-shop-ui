@@ -9,8 +9,8 @@ export class ProductOverview {
         public description: string,
         public imageData: ImageData,
         public updatedAt: Date,
-        public rate: number
-    ) {
-        rate = 1;
-     }
+        public countRating: number,
+        public rating: number,
+        public countSold: number,
+    ) { }
 }

@@ -27,7 +27,8 @@ export class Product {
     latestHealthRecord: HealthRecord | null;
     healthRecord: HealthRecord[];
     productDetails: ProductDetail[];
-
+    public countRating: number;
+    public rating: number;
 
     public constructor(product: Partial<Product> = {}) {
         Object.assign(this, product);

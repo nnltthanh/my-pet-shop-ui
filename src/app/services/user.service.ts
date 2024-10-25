@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { User } from '../auth/user.model';
 
@@ -14,20 +14,13 @@ export const getLoggedInUserId = (): number => {
 })
 export class UserService {
 
+  loggedInUser: User;
+
   constructor(private http: HttpClient) { }
 
   private getBaseUri(): string {
     return `${environment.BACKEND_URL}/users`;
   }
-
-//   findAll(customerId: number): Observable<PetProductOverviewResponse> {
-//     return this.http.get<PetProductOverviewResponse>(`${this.getBaseUri(customerId)}`);
-//   }
-
-//   findAllBy(customerId: number, queryParams: HttpParams | null): Observable<PetProductOverviewResponse> {
-//     return queryParams === null ? this.findAll(customerId) :
-//       this.http.get<PetProductOverviewResponse>(`${this.getBaseUri(customerId)}`, { params: queryParams });
-//   }
 
   findById(customerId: number): Observable<User> {
     return this.http.get<User>(`${this.getBaseUri()}/${customerId}`);
@@ -44,20 +37,17 @@ export class UserService {
     return JSON.parse(localStorage.getItem("user")!);
   }
 
-
-
-//   update(customerId: number, id: number, pet: PetProduct, image?: File): Observable<PetProduct> {
-//     console.log("update", pet);
-    
-//     let formData: FormData = new FormData();
-//     let petData = new Blob([JSON.stringify(pet)], {
-//       type: 'application/json',
-//     });
-//     formData.append("petProduct", petData);
-//     if (image) {
-//       formData.append("image", image);
-//     }
-//     return this.http.put<PetProduct>(`${this.getBaseUri(customerId)}/${id}`, formData);
-//   }
+  update(id: number, user: User): Observable<User> {
+    // let formData = new FormData();
+    // let userData = new Blob([JSON.stringify(user)], {
+    //   type: 'application/json',
+    // });
+    // formData.append("petProduct", userData);
+    return this.http.put<User>(`${this.getBaseUri()}/basic-info/${id}`, user)
+    .pipe(map((data) => {
+      localStorage.setItem("user", JSON.stringify(data));
+      return data;
+    }));
+  }
 
 }

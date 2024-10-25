@@ -12,7 +12,7 @@
       <span class="fa {{ calculateRate3() }}"></span>
       <span class="fa {{ calculateRate4() }}"></span>
       <span class="fa {{ calculateRate5() }}"></span>
-      <span class="count-review mx-1">({{ 5 }} đánh giá)</span>
+      <span class="count-review mx-1">({{ product()?.countRating }} đánh giá)</span>
       <p class="card-text original-price mb-0">
         <del>{{ product()?.price | currency : "VND" }}</del>
       </p>

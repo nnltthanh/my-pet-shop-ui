@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
@@ -56,6 +56,7 @@ import { HealthRecord } from '../../../health-record.model';
     InputGroupModule,
     InputGroupAddonModule
   ],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './product-detail-edit.component.html',
   styleUrl: './product-detail-edit.component.scss',
 })

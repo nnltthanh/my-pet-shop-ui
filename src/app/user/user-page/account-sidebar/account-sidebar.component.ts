@@ -47,6 +47,13 @@ export class AccountSidebarComponent {
       name: 'reviewsFeedback',
       isActive: false,
     },
+    {
+      path: 'my-pet',
+      label: 'Quản lý hồ sơ thú cưng',
+      imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip3_71.png',
+      name: 'myPetManagement',
+      isActive: false,
+    },
   ];
 
   constructor(private router: Router, private route: ActivatedRoute) { }

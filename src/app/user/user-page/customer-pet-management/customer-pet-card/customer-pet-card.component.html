@@ -1,0 +1,21 @@
+@if (petValue) {
+  <div class="card my-3 cursor-pointer" (click)="openDetailDialog()">
+    <div class="card-header">
+      <div class="text-secondary m-2">
+        Ngày nhập hồ sơ: {{ petValue.createdAt | date : "dd/MM/yyyy" }}
+      </div>
+    </div>
+    <div class="p-3 cart-card flex-row d-flex">
+      <div>
+        <div class="card width-100px user-select-none">
+          <img [src]="getImage(petValue)" />
+        </div>
+      </div>
+      <div class="col flex-column py-0 px-2">
+        <div class="d-flex flex-row text-blue">
+          <div class="col fw-bold fs-5 px-0">{{ petValue.name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,40 +1,41 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../auth/user.model';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-user-info-display',
   standalone: true,
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule, NgIf, CalendarModule],
   templateUrl: './user-info-display.component.html',
   styleUrl: './user-info-display.component.scss'
 })
-export class UserInfoDisplayComponent {
+export class UserInfoDisplayComponent implements OnInit {
 
-  isUpdatedOK = false;
-  isUpdatedFailed = false;
-  showUpdateModal = false;
+  userInfo: User;
 
-  userInfo = {
-    name: 'Thanh Nguyen',
-    email: 'thanh2006@gmail.com',
-    phone: '0123456789',
-    dob: "06-20-2002",
-    address: 'Can Tho',
-    account: 'nnlthanh',
-  };
+  isEditMode: boolean = false;
 
-  clickUpdate(): void {
-    this.showUpdateModal = true;
+  userService = inject(UserService);
+
+  ngOnInit(): void {
+    if (this.userService.getLoggedInUser()) {
+      this.userInfo = this.userService.getLoggedInUser();
+    }
   }
 
-  submitUpdateInfo(): void {
-    // Implement your update logic here
+  clickUpdate(): void {
+    this.isEditMode = true;
+  }
 
-    // Example of setting update status
-    this.isUpdatedOK = true;
-    this.isUpdatedFailed = false;
-    this.showUpdateModal = false;
+  clickSaveUpdate(): void {
+    this.userService.update(this.userInfo.id, this.userInfo).subscribe({
+      complete: () => {
+        this.isEditMode = false;
+      }
+    })
   }
 
   formatDate(date: string): string {
