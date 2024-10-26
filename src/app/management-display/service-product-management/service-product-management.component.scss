@@ -1,0 +1,12 @@
+.menu-tab-services {
+    width: 200px;
+    background-color: #dfe3e8;
+    color: #2063aa;
+    margin: 10px 10px 10px 0px;
+    
+}
+.menu-tab-services:hover, .menu-tab-services.active {
+    background-color: #2063aa;
+    color: white;
+    cursor: pointer;
+  }

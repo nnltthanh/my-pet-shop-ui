@@ -1,0 +1,15 @@
+<div class="d-flex flex-column">
+    <div class="d-flex flex-row">
+        @for (item of serviceMenuItems; track $index) {
+        <tr>
+            <div class="menu-tab-services rounded-top p-3 fs-5 text-center fw-medium" [class.active]="item.isActive"
+                (click)="toggleActive(item.name)">
+                <span class="item-label">{{ item.label }}</span>
+            </div>
+        </tr>
+        }
+    </div>
+    <div class="w-100">
+        <router-outlet></router-outlet>
+      </div>
+</div>

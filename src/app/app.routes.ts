@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('./product/product-display/product-display.component').then(m => m.ProductDisplayComponent),
   },
   {
+    path: 'services',
+    loadComponent: () => import('./service-product/service-product-display/service-product-display.component').then(m => m.ServiceProductDisplayComponent),
+  },
+  {
     path: 'products/:id',
     loadComponent: () => import('./product/product-detail-display/product-detail-display.component').then(m => m.ProductDetailDisplayComponent),
   },
@@ -69,6 +73,20 @@ export const routes: Routes = [
       {
         path: "accounts",
         loadComponent: () => import('./management-display/account-management/account-management.component').then(m => m.AccountManagementComponent)
+      },
+      {
+        path: "services",
+        loadComponent: () => import('./management-display/service-product-management/service-product-management.component').then(m => m.ServiceProductManagementComponent),
+        children: [
+          {
+            path: "list",
+            loadComponent: () => import('./management-display/service-product-management/service-product-list-display/service-product-list-display.component').then(m => m.ServiceProductListDisplayComponent)
+          },
+          {
+            path: "calendar",
+            loadComponent: () => import('./management-display/service-product-management/service-product-calendar-display/service-product-calendar-display.component').then(m => m.ServiceProductCalendarDisplayComponent)
+          },
+        ]
       },
     ],
   },

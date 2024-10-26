@@ -24,6 +24,12 @@ export class ManagementDisplayComponent {
       name: 'accountManagement',
       isActive: false,
     },
+    {
+      path: 'services',
+      label: 'Quản lý dịch vụ',
+      name: 'serviceManagement',
+      isActive: false,
+    },
    
 ];
 

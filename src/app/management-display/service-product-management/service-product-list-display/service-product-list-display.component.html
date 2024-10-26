@@ -1,0 +1,133 @@
+<div>
+  <p-table
+    [scrollable]="true"
+    scrollHeight="65vh"
+    scrollDirection="both"
+    [paginator]="true"
+    [rows]="15"
+    [totalRecords]="total"
+    #dt
+    [value]="products"
+    sortMode="multiple"
+    [globalFilterFields]="['id', 'name', 'type', 'price', 'sold', 'type']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedProducts"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Hiển thị từ {first} tới {last} trên {totalRecords} dịch vụ."
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="d-flex align-items-center">
+        <h5 class="m-0">QUẢN LÝ DỊCH VỤ</h5>
+        <p-button
+          severity="success"
+          label="Thêm mới"
+          icon="pi pi-plus"
+          class="ms-2"
+          (onClick)="openNew()"
+        />
+        <div class="ms-auto">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <!-- <input
+                    #search
+                    pInputText
+                    type="text"
+                    (input)="onSearch(search.value)"
+                    placeholder="Search..."
+                  /> -->
+            <input
+              #search
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal(search.value, 'contains')"
+              placeholder="Tìm kiếm..."
+            />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 2rem">
+          <p-tableHeaderCheckbox />
+        </th>
+        <th pSortableColumn="id" style="min-width: 2rem">
+          ID <p-sortIcon field="id" />
+        </th>
+        <th class="d-flex justify-content-center">Hình ảnh</th>
+
+        <th pSortableColumn="name" style="min-width: 15rem">
+          Tên dịch vụ <p-sortIcon field="name" />
+        </th>
+
+        <th pSortableColumn="type" style="min-width: 15rem">
+          Loại dịch vụ <p-sortIcon field="type" />
+        </th>
+
+        <th pSortableColumn="price">Giá gốc <p-sortIcon field="price" /></th>
+        <th pSortableColumn="sold" style="min-width: 10rem" class="text-center">
+          Lượt sử dụng <p-sortIcon field="sold" />
+        </th>
+
+        <th style="min-width: 5rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="user" />
+        </td>
+        <td>
+          {{ user.id }}
+        </td>
+        <td class="d-flex justify-content-center">
+          @if(user.imageData) {
+          <img
+            [src]="user.imageData?.imageUrls"
+            [alt]="user.name"
+            width="50"
+            class="shadow-4"
+          />
+          }
+        </td>
+        <td>
+          {{ user.name }}
+        </td>
+
+        <td>
+          {{ user.type | enumValue : ServiceProductType }}
+        </td>
+
+        <td>
+          {{ user.price }}
+        </td>
+
+        <td class="text-center">
+          {{ user.countSold }}
+        </td>
+
+        <td class="text-center px-0">
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            [style.width]="30"
+            [style.height]="30"
+            (onClick)="edit(user)"
+          />
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            (onClick)="delete(user)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,28 +1,31 @@
 <div class="d-flex flex-row">
-    <div class="col-2 px-0">
-        <div class="account-sidebar-items position-sticky">
-            <div class="avatar">
-                <app-avatar-frame class="d-flex" />
+  <div class="col-2 px-0">
+    <div class="account-sidebar-items position-sticky">
+      <div class="avatar">
+        <app-avatar-frame class="d-flex" />
+      </div>
+      <hr />
+      <table class="table table-hover">
+        <tbody>
+          @for (item of sidebarItems; track $index) {
+          <tr>
+            <div
+              class="account-sidebar-item"
+              role="button"
+              [class.active]="item.isActive"
+              (click)="toggleActive(item.name)"
+            >
+              <span class="account-option">
+                <span class="item-label">{{ item.label }}</span>
+              </span>
             </div>
-            <hr/>
-            <table class="table table-hover">
-                <tbody>
-                    @for (item of sidebarItems; track $index) {
-                        <tr>
-                         <div class="account-sidebar-item" role='button' [class.active]="item.isActive"
-                         (click)="toggleActive(item.name)">
-                         <span class="account-option">
-                             <span class="item-label">{{ item.label }}</span>
-                         </span>
-                     </div>
-                        </tr>
-                         }
-                </tbody>
-              </table>
-            
-        </div>
+          </tr>
+          }
+        </tbody>
+      </table>
     </div>
-    <div class="col-10 py-0 pe-0">
-        <router-outlet></router-outlet>
-    </div>
+  </div>
+  <div class="col-10 py-0 pe-0">
+    <router-outlet></router-outlet>
+  </div>
 </div>
