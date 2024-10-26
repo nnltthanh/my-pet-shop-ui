@@ -5,15 +5,17 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { routes } from './app.routes';
 import { SpinnerInterceptor } from './spinner.interceptor';
+import { KeycloakInitializerProvider } from './keycloak-init.factory';
+import { KeycloakService } from 'keycloak-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
-    // KeycloakInitializerProvider,
+    KeycloakInitializerProvider,
     // KeycloakBearerInterceptorProvider,
     
-    // KeycloakService,
+    KeycloakService,
     // provideHttpClient(withInterceptors([authenticationInterceptor]))
     {
       provide: HTTP_INTERCEPTORS,

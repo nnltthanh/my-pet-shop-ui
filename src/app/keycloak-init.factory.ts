@@ -12,14 +12,11 @@ export function initializeKeycloak(keycloak: KeycloakService) {
         realm: environment.keycloak.realm,
         clientId: environment.keycloak.clientId,
       },
-        initOptions: {
+      initOptions: {
         onLoad: 'login-required',
-        // checkLoginIframe: true,
-        redirectUri: 'http://localhost:4200/',
-
       },
-      enableBearerInterceptor: true,
-      bearerPrefix: 'Bearer ',
+      // enableBearerInterceptor: true,
+      // bearerPrefix: 'Bearer ',
     });
 }
 
