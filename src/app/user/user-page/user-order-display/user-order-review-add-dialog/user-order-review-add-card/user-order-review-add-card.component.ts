@@ -60,6 +60,9 @@ export class UserOrderReviewAddCardComponent implements OnInit {
     this.reviewService.create(0, this.orderDetail().id, review, this.files).subscribe({
       next: review => {
         console.log(review);
+        let reviews = this.existingReview.getValue();
+        reviews.push(review);
+        this.existingReview.next(reviews);
       }
     })
   }

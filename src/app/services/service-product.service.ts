@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { PetProduct } from '../product/pet-product.model';
 import { PetProductOverviewResponse } from '../product/pet-product-overview-response.model';
-import { ServiceProduct } from '../product/service-product.model';
+import { ServiceProduct, ServiceProductType } from '../product/service-product.model';
 import { ProductDetail } from '../product/product-detail.model';
+import { getEnumName } from '../product/enum-name-getter';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,10 @@ export class ServiceProductService {
 
   findAll(): Observable<ServiceProduct[]> {
     return this.http.get<ServiceProduct[]>(`${this.getBaseUri()}`);
+  }
+
+  findAllByType(type: string): Observable<ServiceProduct[]> {
+    return this.http.get<ServiceProduct[]>(`${this.getBaseUri()}/types/${getEnumName(type, ServiceProductType)}`);
   }
 
   add(service: ServiceProduct, productDetails: ProductDetail[], image?: File): Observable<ServiceProduct> {

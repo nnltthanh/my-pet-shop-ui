@@ -5,5 +5,6 @@ export const environment = {
         clientId: "pet-shop-ui",
         realm: "petshoprealm",
         issuer: "http://localhost:8180",
+        redirectUrl: "http://localhost:4200"
     }
 };

@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 import { HomeDisplayComponent } from './home/home-display/home-display.component';
+import { RoleName } from './role-name.model';
 // import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
-  { path: '', pathMatch: "full", redirectTo: "cart" },
+  { path: '', pathMatch: "full", redirectTo: "products" },
   { path: 'home', component: HomeDisplayComponent },
   {
     path: 'products',
@@ -12,6 +14,20 @@ export const routes: Routes = [
   {
     path: 'services',
     loadComponent: () => import('./service-product/service-product-display/service-product-display.component').then(m => m.ServiceProductDisplayComponent),
+    children: [
+      {
+        path: "spa-grooming",
+        loadComponent: () => import('./service-product/spa-grooming-display/spa-grooming-display.component').then(m => m.SpaGroomingDisplayComponent)
+      },
+      {
+        path: "pet-hotel",
+        loadComponent: () => import('./service-product/pet-hotel-display/pet-hotel-display.component').then(m => m.PetHotelDisplayComponent)
+      },
+      {
+        path: "others",
+        loadComponent: () => import('./service-product/other-serivces-display/other-serivces-display.component').then(m => m.OtherSerivcesDisplayComponent)
+      },
+    ]
   },
   {
     path: 'products/:id',
@@ -19,7 +35,8 @@ export const routes: Routes = [
   },
   {
     path: 'customer/me',
-    // canActivate: [AuthGuard],
+    data: { "roles": [ RoleName.CUSTOMER ] },
+    canActivate: [AuthGuard],
     loadComponent: () => import('./user/user-page/customer-page/customer-page.component').then(m => m.CustomerPageComponent),
     children: [
       {
@@ -42,16 +59,22 @@ export const routes: Routes = [
         path: "my-pet",
         loadComponent: () => import('./user/user-page/customer-pet-management/customer-pet-management.component').then(m => m.CustomerPetManagementComponent)
       },
+      {
+        path: "my-services",
+        loadComponent: () => import('./user/user-page/customer-services-management/customer-services-management.component').then(m => m.CustomerServicesManagementComponent)
+      },
     ],
   },
   {
     path: "orders/payment-result/:id",
-    // canActivate: [AuthGuard],
+    data: { "roles": [ RoleName.CUSTOMER ] },
+    canActivate: [AuthGuard],
     loadComponent: () => import('./payment-result-page/payment-result-page.component').then(m => m.PaymentResultPageComponent)
   },
   {
     path: 'cart',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+    data: { "roles": [ RoleName.CUSTOMER ] },
     loadComponent: () => import('./cart/cart-display/cart-display.component').then(m => m.CartDisplayComponent),
     children: [
       {
@@ -61,7 +84,6 @@ export const routes: Routes = [
     ],
   },
   {
-    
     path: 'management',
     // canActivate: [AuthGuard],
     loadComponent: () => import('./management-display/management-display.component').then(m => m.ManagementDisplayComponent),
@@ -90,4 +112,8 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: "access-denied",
+    loadComponent: () => import('./access-denied/access-denied.component').then(m => m.AccessDeniedComponent),
+  }
 ];

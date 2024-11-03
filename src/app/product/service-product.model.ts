@@ -45,6 +45,7 @@ export class ServiceProduct extends Product {
     override healthRecord: HealthRecord[]
     override countRating: number;
     override rating: number;
+    public createdAt: Date | string;
 
     // public suitableFor: PetBreed;
     public type: ServiceProductType | string;

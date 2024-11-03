@@ -89,8 +89,11 @@
         <i class="bi bi-person-circle fs-4 ms-3"></i>
         <ul class="dropdown-menu user-control-menu">
             <li><span class="dropdown-item" routerLink="customer/me/info">Trang cá nhân</span></li>
-            <li><span class="dropdown-item" routerLink="home">Đăng nhập</span></li>
-            <li><span class="dropdown-item" routerLink="products">Đăng xuất</span></li>
+            @if(isLoggedIn()) {
+              <li><span class="dropdown-item" (click)="logout()">Đăng xuất</span></li>
+            } @else {
+              <li><span class="dropdown-item" (click)="login()">Đăng nhập</span></li>
+            }
           </ul>
       </div>
     </div>

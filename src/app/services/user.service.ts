@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, Subject, tap } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { User } from '../auth/user.model';
 
@@ -14,7 +14,9 @@ export const getLoggedInUserId = (): number => {
 })
 export class UserService {
 
-  loggedInUser: User;
+  loggedInUser = new BehaviorSubject<User | undefined>(undefined);
+
+  loggedInUser$ = this.loggedInUser.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -31,14 +33,25 @@ export class UserService {
   }
 
   getLoggedInUser(): User {
-    if (!localStorage.getItem("user")) {
-      this.findById(1).subscribe({
-        next: user => {
-          localStorage.setItem("user", JSON.stringify(user));
-        }
-      })
+    if (localStorage.getItem("user")) {
+      this.loggedInUser.next(JSON.parse(localStorage.getItem("user")!));
+    } else {
+      this.loggedInUser.next(undefined);
     }
     return JSON.parse(localStorage.getItem("user")!);
+  }
+
+  login(): Observable<User> {
+    return this.http.get<User>(`${this.getBaseUri()}/login`)
+    .pipe(tap((user) => {
+      localStorage.setItem("user", JSON.stringify(user));
+      this.loggedInUser.next(user);
+    }));
+  }
+
+  logout(): void {
+    localStorage.removeItem("user");
+    this.loggedInUser.next(undefined);
   }
 
   add(user: User, avatar: File | null): Observable<User> { // for admin -> not save to local storage

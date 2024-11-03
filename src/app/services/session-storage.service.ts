@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 @Injectable({
     providedIn: 'root',
 })
-export class SessionStorageService {
+export class  SessionStorageService {
 
 
     public removeAll(): void {

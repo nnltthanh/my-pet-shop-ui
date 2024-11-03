@@ -49,9 +49,16 @@ export class AccountSidebarComponent {
     },
     {
       path: 'my-pet',
-      label: 'Quản lý hồ sơ thú cưng',
+      label: 'Quản lý thú cưng',
       imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip3_71.png',
       name: 'myPetManagement',
+      isActive: false,
+    },
+    {
+      path: 'my-services',
+      label: 'Quản lý dịch vụ',
+      imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip3_71.png',
+      name: 'myPetServiceManagement',
       isActive: false,
     },
   ];

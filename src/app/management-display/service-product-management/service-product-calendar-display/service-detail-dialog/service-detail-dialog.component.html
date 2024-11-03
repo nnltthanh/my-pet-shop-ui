@@ -1,0 +1,149 @@
+@if(service) {
+<div class="modal-content address-modal">
+  <div class="modal-header" style="z-index: 1">
+    <div class="modal-title h3" id="exampleModalLabel">Thông tin lịch hẹn</div>
+    <button
+      type="button"
+      class="btn-close me-3"
+      aria-label="Close"
+      aria-label="Close"
+      (click)="dismissDialog()"
+    ></button>
+  </div>
+
+  <div class="modal-body" style="z-index: 2">
+    <div class="d-flex flex-column my-3">
+      <div class="fs-5 border-bottom fw-bolder">Thông tin khách hàng</div>
+
+      <div
+        class="row w-100 justify-content-center align-content-center align-items-center"
+      >
+        <div class="width-100px col-3">
+          @if (service.serveFor.imageData) {
+          <img
+            [src]="service.serveFor.imageData.imageUrls"
+            [alt]="'Hình ảnh thú cưng'"
+            [title]="'Hình ảnh thú cưng'"
+          />
+          } @else {
+          <span class="fst-italic">Chưa có hình ảnh thú cưng</span>
+          }
+        </div>
+        <div class="col">
+          <div class="row w-100">
+            <span class="mx-2 text-secondary col-4 text-end"
+              >Tên khách hàng:</span
+            >
+            <span class="col">{{ service.serveFor.customer.name }}</span>
+          </div>
+          <div class="row w-100">
+            <span class="mx-2 text-secondary col-4 text-end"
+              >Số điện thoại:</span
+            >
+            <span class="col">{{ service.serveFor.customer.phone }}</span>
+          </div>
+          <div class="row w-100">
+            <span class="mx-2 text-secondary col-4 text-end">Email:</span>
+            <span class="col">{{ service.serveFor.customer.email }}</span>
+          </div>
+
+          <div class="row w-100">
+            <span class="mx-2 text-secondary col-4 text-end"
+              >Tên thú cưng:</span
+            >
+            <span class="col">{{ service.serveFor.name }}</span>
+          </div>
+
+          <div class="row w-100">
+            <span class="mx-2 text-secondary col-4 text-end"
+              >Loại thú nuôi:</span
+            >
+            <span class="col"
+              >{{ service.serveFor.category.breed | enumValue : PetBreed }} -
+              {{ service.serveFor.category.name }}</span
+            >
+          </div>
+
+          @if (service.serveFor.latestHealthRecord) {
+          <div class="row w-100">
+            <div class="row w-100">
+              <span class="mx-2 text-secondary col-4 text-end">Tuổi:</span>
+              <span class="col">{{
+                service.serveFor.latestHealthRecord.age
+              }}</span>
+            </div>
+            <div class="row w-100">
+              <span class="mx-2 text-secondary col-4 text-end">Cân nặng:</span>
+              <span class="col">{{
+                service.serveFor.latestHealthRecord.weight
+              }}</span>
+            </div>
+            <div class="row w-100">
+              <span class="mx-2 text-secondary col-4 text-end">Độ dài:</span>
+              <span class="col">{{
+                service.serveFor.latestHealthRecord.petLength
+              }}</span>
+            </div>
+          </div>
+          <div class="row w-100">
+            <span class="mx-2 text-secondary col-4 text-end"
+              >Tình trạng vaccine:</span
+            >
+            <span class="col">{{
+              service.serveFor.latestHealthRecord.vaccination
+            }}</span>
+          </div>
+          }
+        </div>
+      </div>
+
+      <div class="d-flex flex-column my-3">
+        <div class="fs-5 border-bottom fw-bolder">Chi tiết lịch hẹn</div>
+
+        <div class="row w-100">
+          <span class="mx-2 text-secondary col-4 text-end">Tên dịch vụ:</span>
+          <span class="col">{{ service.serviceProduct.name }}</span>
+        </div>
+
+        <div class="row w-100">
+          <span class="mx-2 text-secondary col-4 text-end">Thời gian sử dụng:</span>
+          <span class="col"
+            >{{ service.serveFrom | date : "dd-MM-yyyy H:mm" }} -
+            {{ service.serveTo | date : "dd-MM-yyyy H:mm" }}</span
+          >
+        </div>
+        @for (item of service.order.orderDetails; track $index) {
+            <div class="row w-100">
+                <span class="mx-2 text-secondary col-4 text-end">{{ item.productDetail.petServiceVariant.variantName | enumValue: PetServiceVariantName }}:</span>
+                <span class="col">{{ item.productDetail.petServiceVariant.variantValue }} </span>
+                
+            </div>
+        }
+        <div class="row w-100">
+          <span class="mx-2 text-secondary col-4 text-end"
+            >Ghi chú của khách hàng:</span
+          >
+          <span class="col">{{ service.customerNote }}</span>
+        </div>
+        <div class="row w-100 fw-bolder text-blue">
+            <span class="mx-2 text-secondary col-4 text-end"
+              >Chi phí ước tính:</span
+            >
+            <span class="col">{{ service.order.total | currency: "VND" }}</span>
+          </div>
+      </div>
+    </div>
+
+</div>
+<div class="modal-footer" style="z-index: 1">
+  <button
+    type="button"
+    class="btn btn-cancel btn-outline-secondary"
+    (click)="dismissDialog()"
+  >
+    Trở lại
+  </button>
+</div>
+</div>
+
+}

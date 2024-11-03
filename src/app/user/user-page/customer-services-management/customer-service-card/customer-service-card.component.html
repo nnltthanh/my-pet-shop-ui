@@ -1,0 +1,27 @@
+@if (service()) {
+    <div class="card my-3 cursor-pointer">
+      <div class="card-header">
+        {{ service()?.serviceProduct?.name }}
+      </div>
+      <div class="p-3 cart-card flex-row d-flex">
+        <div>
+          <div class="card width-100px user-select-none">
+            <img [src]="service()?.serveFor?.imageData?.imageUrls" />
+          </div>
+        </div>
+        <div class="col flex-column py-0 px-2">
+          <div class="d-flex flex-row text-blue">
+            <div class="col fw-bold fs-5 px-0">{{ service()?.serveFor?.name }}</div>
+          </div>
+          <div class="text-secondary">
+            <span class="fw-bolder" >Thời gian: </span >
+            {{ service()?.serveFrom | date : "dd/MM/yyyy H:mm" }} - 
+            {{ service()?.serveTo | date : "dd/MM/yyyy H:mm" }}
+        </div>
+          @if (service()?.customerNote) {
+            <div class="fst-italic text-secondary"><span class="fw-bolder" >Ghi chú:</span > {{ service()?.customerNote }}</div>
+          }
+        </div>
+      </div>
+    </div>
+  }

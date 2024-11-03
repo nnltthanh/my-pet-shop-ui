@@ -1,5 +1,6 @@
 import { User } from "../auth/user.model";
 import { Payment } from "./payment.model";
+import { PetServiceVariant } from "./pet-service-variant.model";
 import { ProductDetail } from "./product-detail.model";
 import { Shipment } from "./shipment.model";
 

@@ -28,6 +28,10 @@ export class OrderService {
         return this.http.put<Order>(`${this.getBaseUri(customerId)}/${order.id}`, order);
     }
 
+    public findAllServiceProductOrdersByCustomer(customerId: number): Observable<Order[]> {
+        return this.http.get<Order[]>(`${this.getBaseUri(customerId)}/search-by-criteria/products/services`);
+    }
+
     private getBaseUri(customerId: number): string {
         return `${environment.BACKEND_URL}/customers/${customerId}/orders`;
     }

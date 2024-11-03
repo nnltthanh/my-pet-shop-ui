@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { ProductOverview } from '../product-overview.model';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
@@ -6,6 +6,9 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { ImageData } from '../product-list-display/image-data.model';
 import { Router } from '@angular/router';
+import { CartService } from '../../services/cart.service';
+import { CartDetail } from '../../cart/cart-detail.model';
+import { getLoggedInUserId } from '../../services/user.service';
 
 @Component({
   selector: 'app-product-card',
@@ -17,6 +20,8 @@ import { Router } from '@angular/router';
 export class ProductCardComponent implements OnInit {
 
   product = input<ProductOverview>();
+
+  cartService = inject(CartService);
 
   constructor(private router: Router) {}
 
@@ -74,4 +79,18 @@ export class ProductCardComponent implements OnInit {
   navigateToDetail() {
     this.router.navigate(['products', this.product()?.id]);
   }
+
+  public addToCart() {
+    // let productDetail = this.product()?.productDetails[0];
+    // let cartDetail = new CartDetail({
+    //   quantity: 1,
+    //   productDetail: productDetail,
+    // });
+    // this.cartService.addToCart(getLoggedInUserId(), cartDetail).subscribe({
+    //   complete: () => {
+    //     console.log('Add to cart successfully');
+    //   },
+    // });
+  }
+
 }

@@ -36,9 +36,12 @@ export class AddressBookDisplayComponent {
   deleteAddress(address: Address) {
     this.isLoading = true;
 
-    this.addressService.deleteAddress(address.id);
-
-    this.getAddressesByCustomerId();
+    this.addressService.deleteAddress(address.id).subscribe({
+      complete: () => {
+        this.getAddressesByCustomerId();
+      }
+    }
+    );
   }
 
   getAddressesByCustomerId() {
@@ -61,7 +64,7 @@ export class AddressBookDisplayComponent {
       }
 
       this.addresses = [...addresses];
-
+      this.isLoading = false;
     });
   }
 
@@ -76,8 +79,7 @@ export class AddressBookDisplayComponent {
 
     modalRef.result.then(
       (result) => {
-        console.log(result);
-        if (result.true) {
+        if (result) {
           this.getAddressesByCustomerId();
         }
       },

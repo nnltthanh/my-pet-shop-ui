@@ -129,7 +129,126 @@
             <div class="col px-0">Thành tiền</div>
             <div class="col text-end">{{ subTotal | currency : "VND" }}</div>
           </div>
-          <div class="row">
+
+          <div>
+            <form>
+              <label
+                for="payment-COD"
+                class="payment-method__item custom-cursor-on-hover"
+                [class.active]="paymentOption === 'COD'"
+              >
+                <span class="payment-method__item-custom-checkbox custom-radio">
+                  <input
+                    type="radio"
+                    id="payment-COD"
+                    name="payment-method"
+                    autocomplete="off"
+                    value="COD"
+                    [ngModel]="paymentOption"
+                    (click)="chooseOption('COD')"
+                  />
+                  <span
+                    class="checkmark"
+                    [style.display]="paymentOption === 'COD' ? 'block' : 'none'"
+                  ></span>
+                </span>
+                <span class="payment-method__item-icon-wrapper">
+                  <img src="https://www.coolmate.me/images/COD.svg" alt="COD <br>Thanh toán khi nhận hàng" />
+                </span>
+                <span class="payment-method__item-name">
+                  COD <br />Thanh toán khi nhận hàng
+                </span>
+              </label>
+          
+              <!-- Momo -->
+              <!-- <label
+                for="payment-momo"
+                class="payment-method__item"
+                [class.active]="paymentOption === 'momo'"
+              >
+                <span class="payment-method__item-custom-checkbox custom-radio">
+                  <input
+                    type="radio"
+                    id="payment-momo"
+                    name="payment-method"
+                    autocomplete="off"
+                    value="momo"
+                    (click)="chooseOption('momo')"
+                  />
+                  <span
+                    class="checkmark"
+                    [style.display]="paymentOption === 'momo' ? 'block' : 'none'"
+                  ></span>
+                </span>
+                <span class="payment-method__item-icon-wrapper">
+                  <img src="https://www.coolmate.me/images/momo-icon.png" alt="Thanh Toán MoMo" />
+                </span>
+                <span class="payment-method__item-name">Thanh Toán MoMo</span>
+              </label> -->
+          
+              <!-- vnpay -->
+
+              <label
+                for="payment-vnpay"
+                class="payment-method__item"
+                [class.active]="paymentOption === 'vnpay'"
+              >
+                <span class="payment-method__item-custom-checkbox custom-radio">
+                  <input
+                    type="radio"
+                    id="payment-vnpay"
+                    name="payment-method"
+                    autocomplete="off"
+                    [ngModel]="paymentOption"
+                    value="vnpay"
+                    (click)="chooseOption('vnpay')"
+                  />
+                  <span
+                    class="checkmark"
+                    [style.display]="paymentOption === 'vnpay' ? 'block' : 'none'"
+                  ></span>
+                </span>
+                <span class="payment-method__item-icon-wrapper">
+                  <img src="https://www.coolmate.me/images/vnpay.png" alt="Thẻ ATM<br>Thẻ tín dụng (Credit card) / Thẻ ghi nợ (Debit card)<br>VNPay QR" />
+                </span>
+                <span class="payment-method__item-name">
+                  Thẻ ATM / Thẻ tín dụng (Credit card) / Thẻ ghi nợ (Debit card) /VNPay QR
+                </span>
+              </label>
+          
+              <!-- vietqr -->
+<!-- 
+              <label
+                for="payment-vietqr"
+                class="payment-method__item"
+                [class.active]="paymentOption === 'vietqr'"
+              >
+                <span class="payment-method__item-custom-checkbox custom-radio">
+                  <input
+                    type="radio"
+                    id="payment-vietqr"
+                    name="payment-method"
+                    autocomplete="off"
+                    value="vietqr"
+                    (click)="chooseOption('vietqr')"
+                  />
+                  <span
+                    class="checkmark"
+                    [style.display]="paymentOption === 'vietqr' ? 'block' : 'none'"
+                  ></span>
+                </span>
+                <span class="payment-method__item-icon-wrapper">
+                  <img src="https://gateway.zalopay.vn/image/emvco/icon-vietqr.svg" alt="Quét QR &amp; Thanh toán bằng ứng dụng ngân hàng<br/>Mở ứng dụng ngân hàng để thanh toán" />
+                </span>
+                <span class="payment-method__item-name">
+                  Quét QR &amp; Thanh toán bằng ứng dụng ngân hàng<br />Mở ứng dụng ngân hàng để thanh toán
+                </span>
+              </label> -->
+            </form>
+          </div>
+          
+
+          <div class="row mt-2">
             <div
               class="btn btn-info px-0 text-white fw-medium"
               [class.disabled]="!isValidToMakeOrder()"

@@ -1,0 +1,23 @@
+@if ($isLoaded | async) {
+    @for (product of products; track $index) {
+        <div class="card float-right max-width-card mx-2">
+            <div class="row">
+              <div class="col-sm-5">
+                <img class="d-block w-100" [src]="product.imageData.imageUrls">
+              </div>
+              <div class="col-sm-7">
+                <div class="card-block">
+                  <div class="text-blue fw-bold">{{ product.name }}</div>
+                  <div [innerHTML]="product.description"></div>
+                  <br>
+                  <div role="button" class="btn btn-primary btn-sm float-right">Đăng ký</div>
+                </div>
+              </div>
+            </div>
+          </div>
+    }
+}
+
+@if (isRegistering) {
+
+}

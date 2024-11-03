@@ -7,6 +7,7 @@ import { Cart } from '../cart.model';
 import { CartDetail } from '../cart-detail.model';
 import { getLoggedInUserId, UserService } from '../../services/user.service';
 import { User } from '../../auth/user.model';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-cart-display',
@@ -22,6 +23,8 @@ export class CartDisplayComponent implements OnInit {
   loggedInUser: User;
 
   selectedCartDetails: CartDetail[] = [];
+
+  isLoading: boolean = true;
  
   constructor(
     private cartService: CartService,
@@ -34,7 +37,9 @@ export class CartDisplayComponent implements OnInit {
       this.loggedInUser = this.userService.getLoggedInUser();
     }
     
-    this.cartService.getCart(getLoggedInUserId()).subscribe(data => {
+    this.cartService.getCart(getLoggedInUserId())
+    .pipe(finalize(() => this.isLoading = false))
+    .subscribe(data => {
       this.cartDetails = data;
     })
 

@@ -13,10 +13,13 @@ export function initializeKeycloak(keycloak: KeycloakService) {
         clientId: environment.keycloak.clientId,
       },
       initOptions: {
-        onLoad: 'login-required',
+        // onLoad: 'login-required',
+        enableLogging: true,
+        onLoad: 'check-sso',
+        checkLoginIframe: false
       },
-      // enableBearerInterceptor: true,
-      // bearerPrefix: 'Bearer ',
+      enableBearerInterceptor: true,
+      bearerPrefix: 'Bearer ',
     });
 }
 

@@ -2,7 +2,7 @@
   <div class="avatar">
     <app-avatar-frame class="d-flex"/>
   </div>
-  @for (item of sidebarItems; track item.imageSrc) {
+  @for (item of sidebarItems; track $index) {
   <div
     class="account-sidebar-item"
     role='button'
@@ -12,7 +12,6 @@
     <span class="account-option">
       <img
         [src]="item.imageSrc"
-        alt="Thông tin tài khoản"
         style="margin-right: 8px"
       />
       <span class="item-label">{{ item.label }}</span>

@@ -1,11 +1,13 @@
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { KeycloakAngularModule } from 'keycloak-angular';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { UserService } from './services/user.service';
+import { User } from './auth/user.model';
 
 @Component({
   selector: 'app-root',
@@ -26,11 +28,19 @@ import { SpinnerComponent } from './spinner/spinner.component';
 export class AppComponent {
   title = 'my-pet-shop-ui';
 
+  $user: Observable<User>;
+
   $customerHeader = new BehaviorSubject<boolean>(false);
+
+  authService = inject(UserService);
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    this.authService.login().subscribe({
+      next: (data) => {
+      }
+    });
     this.router.events.subscribe((value) => {
       if (value instanceof NavigationEnd) {
         if (value.url.includes('management')) {

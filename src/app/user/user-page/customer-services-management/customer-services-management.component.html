@@ -1,0 +1,23 @@
+@if($petServices | async; as pets) {
+<div id="info-tab" class="account-info account-content ">
+    <div class="account-pet">
+        <h2 class="account-page-title">Quản lý sử dụng dịch vụ</h2>
+
+    </div>
+    @if (pets.length === 0) {
+    <div class="account-page-label">
+        <span class="d-grid"> Bạn chưa sử dụng dịch vụ thú cưng nào... </span>
+    </div>
+    } @else {
+    <div>
+        <div class="pets-body m-3">
+            <div class="reviews-wrapper">
+                @for (pet of pets; track $index) {
+                <app-customer-service-card [service]="pet" />
+                }
+            </div>
+        </div>
+    </div>
+    }
+</div>
+}

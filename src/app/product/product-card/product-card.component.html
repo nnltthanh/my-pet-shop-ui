@@ -1,24 +1,25 @@
-<div [id]="product()!.id" class="product-card card hover-shadow"
-(click)="navigateToDetail()">
-  <div class="card-img-top d-flex justify-content-center">
-    <img
-      [src]="product()?.imageData?.imageUrls"
-      alt="Tên sản phẩm"
-    />
-  </div>
-  <div class="card-body mx-1">
-    <p class="card-title fw-bold mb-0 product-title-hovered">{{ product()?.name }}</p>
-    <span class="fa {{ calculateRate1() }}"></span>
-    <span class="fa {{ calculateRate2() }}"></span>
-    <span class="fa {{ calculateRate3() }}"></span>
-    <span class="fa {{ calculateRate4() }}"></span>
-    <span class="fa {{ calculateRate5() }}"></span>
-    <span class="count-review mx-1">({{ product()?.countRating }} đánh giá)</span>
-    <p class="card-text original-price mb-0">
-      <del>{{ product()?.price | currency : "VND" }}</del>
-    </p>
-    <p class="card-text price mb-0">
-      <bdi>{{ product()?.price | currency : "VND" }}</bdi>
-    </p>
+<div class="col-md-4 col-sm-6" role="button" (click)="navigateToDetail()">
+  <div class="product-card">
+      <div class="product-image">
+          <img [src]="product()?.imageData?.imageUrls"
+          [alt]="product()?.name" class="img-fluid">
+      </div>
+      <div class="product-details p-3">
+          <h6 class="product-title mb-2">{{ product()?.name }}</h6>
+          <div class="price-rating d-flex justify-content-between align-items-center mb-3">
+              <span class="price">{{ product()?.price | currency : "VND" }}</span>
+              <div class="rating ">
+                <span class="fs-6 fa {{ calculateRate1() }}"></span>
+                <span class="fs-6 fa {{ calculateRate2() }}"></span>
+                <span class="fs-6 fa {{ calculateRate3() }}"></span>
+                <span class="fs-6 fa {{ calculateRate4() }}"></span>
+                <span class="fs-6 fa {{ calculateRate5() }}"></span>
+                  <span class="rating-text">({{ product()?.countRating }})</span>
+              </div>
+          </div>
+          <!-- <button class="btn btn-add-cart w-100" aria-label="Add to Cart" (click)="addToCart()">
+              <i class="bi bi-cart-plus me-2"></i>Thêm vào giỏ hàng
+          </button> -->
+      </div>
   </div>
 </div>

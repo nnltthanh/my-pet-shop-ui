@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { getLoggedInUserId, UserService } from '../../../services/user.service';
+import { User } from '../../../auth/user.model';
 
 @Component({
   selector: 'app-avatar-frame',
@@ -15,8 +16,11 @@ export class AvatarFrameComponent implements OnInit {
 
   userService = inject(UserService);
 
+  loggedInUser: User;
+
   ngOnInit(): void {
     this.avatar = this.userService.getLoggedInUser().avatarUrl;
+    this.loggedInUser = this.userService.getLoggedInUser();
   }
 
   onDrop(event: DragEvent) {

@@ -24,8 +24,6 @@ export class SpinnerService {
   }
 
   show() {
-    console.log("show", this.activeRequests);
-    
     this.activeRequests++;
     this.activeRequest$.next(this.activeRequests);
   }

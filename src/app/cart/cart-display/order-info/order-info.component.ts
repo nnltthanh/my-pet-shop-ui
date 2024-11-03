@@ -5,7 +5,7 @@ import {
   input,
   OnChanges,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,6 +22,7 @@ import { CartDetail } from '../../cart-detail.model';
 import { AddressBookSelectionDialogComponent } from './address-book-selection-dialog/address-book-selection-dialog.component';
 import { OrderInfoCardComponent } from './order-info-card/order-info-card.component';
 import { getLoggedInUserId, UserService } from '../../../services/user.service';
+import { Router } from '@angular/router';
 
 interface EventItem {
   status?: string;
@@ -90,9 +91,17 @@ export class OrderInfoComponent implements OnChanges {
 
   userService = inject(UserService);
 
+  paymentOption: string = 'vnpay';
+
   @ViewChild('customerInfoForm') customerInfoForm: NgForm;
 
-  constructor(private cartService: CartService, private addressService: AddressService, private modalService: NgbModal, private orderService: OrderService) {
+  constructor(
+    private cartService: CartService,
+    private addressService: AddressService,
+    private modalService: NgbModal,
+    private orderService: OrderService,
+    private router: Router
+  ) {
     this.events = [
       {
         id: 'step-1',
@@ -137,29 +146,32 @@ export class OrderInfoComponent implements OnChanges {
       if (this.loggedInUser()) {
         this.customerEmail = this.loggedInUser().email;
 
-        this.addressService.getDefaultAddressOfCustomer(getLoggedInUserId()).subscribe(address => {
-
-          if (!address) {
-            this.defaultAddress = address;
-            this.customerName = this.loggedInUser().name;
-            this.customerPhone = this.loggedInUser().phone;
-            return;
-          }
-
-          this.customerName = address.belongsTo;
-          this.customerPhone = address.phone;
-          this.customerAddress = address.displayingAddress;
-
-          this.events.forEach((event) => {
-            if (event.id === "step-1") {
-              event.color = this.colorStatus[1].color;
+        this.addressService
+          .getDefaultAddressOfCustomer(getLoggedInUserId())
+          .subscribe((address) => {
+            if (!address) {
+              this.defaultAddress = address;
+              this.customerName = this.loggedInUser().name;
+              this.customerPhone = this.loggedInUser().phone;
+              return;
             }
-          });
 
-        })
+            this.customerName = address.belongsTo;
+            this.customerPhone = address.phone;
+            this.customerAddress = address.displayingAddress;
+
+            this.events.forEach((event) => {
+              if (event.id === 'step-1') {
+                event.color = this.colorStatus[1].color;
+              }
+            });
+          });
       }
     }
+  }
 
+  chooseOption(option: string): void {
+    this.paymentOption = option;
   }
 
   validate(eventId: string): boolean {
@@ -175,7 +187,7 @@ export class OrderInfoComponent implements OnChanges {
           event.color = this.colorStatus[1].color;
         }
       }
-    })
+    });
 
     this.events = [...this.events];
 
@@ -187,7 +199,6 @@ export class OrderInfoComponent implements OnChanges {
   public calculateShipAmount() {
     this.cartService.getShipCost(1, '2', 3, 4, '5').subscribe({
       next: (data) => {
-
         if ((data as any)['code'] == 200) {
           this.shipAmount = ((data as any)['data'] as any)['total'];
         } else {
@@ -244,37 +255,45 @@ export class OrderInfoComponent implements OnChanges {
         address: new Address({
           displayingAddress: this.customerAddress,
           phone: this.customerPhone,
-          belongsTo: this.customerName
+          belongsTo: this.customerName,
         }),
         shipCost: this.shipAmount,
       }),
-      cartDetails: this.selectedCartDetails().map(cartDetail => cartDetail.id)
+      cartDetails: this.selectedCartDetails().map(
+        (cartDetail) => cartDetail.id
+      ),
     });
 
     this.orderService.createOrder(getLoggedInUserId(), orderRequest).subscribe({
       next: (order) => {
         this.goToPayment(order);
-      }
-    })
-  }
-
-  public goToPayment(order: Order) {
-    this.cartService.paymentByVNPay(order).subscribe({
-      next: (data) => {
-        if (data != null) {
-          window.open(data);
-        }
       },
     });
   }
 
-  public openAddressBookDialog() {
+  public goToPayment(order: Order) {
+    if (this.paymentOption == 'vnpay') {
+      this.cartService.paymentByVNPay(order).subscribe({
+        next: (data) => {
+          if (data != null) {
+            window.open(data);
+          }
+        },
+      });
+    } else {
+      this.router.navigate(["customer/me/orders"]);
+    }
+  }
 
-    const modalRef = this.modalService.open(AddressBookSelectionDialogComponent, {
-      backdrop: 'static',
-      centered: true,
-      scrollable: true,
-    });
+  public openAddressBookDialog() {
+    const modalRef = this.modalService.open(
+      AddressBookSelectionDialogComponent,
+      {
+        backdrop: 'static',
+        centered: true,
+        scrollable: true,
+      }
+    );
     modalRef.componentInstance.activeModal = modalRef;
 
     modalRef.result.then(
@@ -285,12 +304,12 @@ export class OrderInfoComponent implements OnChanges {
           this.customerPhone = this.defaultAddress.phone;
           this.customerAddress = this.defaultAddress.displayingAddress;
           this.customerInfoForm.setValue({
-            "name": this.customerName,
-            "phone": this.customerPhone,
-            "email": this.customerEmail,
-            "address": this.customerAddress
+            name: this.customerName,
+            phone: this.customerPhone,
+            email: this.customerEmail,
+            address: this.customerAddress,
           });
-          this.validate("step-1")
+          this.validate('step-1');
         }
       },
       (reason) => {
@@ -299,7 +318,7 @@ export class OrderInfoComponent implements OnChanges {
           reason == ModalDismissReasons.ESC
         ) {
         }
-      })
-
+      }
+    );
   }
 }
