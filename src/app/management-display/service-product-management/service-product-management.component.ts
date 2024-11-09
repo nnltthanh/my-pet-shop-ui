@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -8,14 +8,14 @@ import { Router, RouterOutlet } from '@angular/router';
   templateUrl: './service-product-management.component.html',
   styleUrl: './service-product-management.component.scss'
 })
-export class ServiceProductManagementComponent {
+export class ServiceProductManagementComponent implements OnInit {
 
   serviceMenuItems = [
     {
       path: 'list',
       label: 'Danh sách dịch vụ',
       name: "serviceList",
-      isActive: false,
+      isActive: true,
     },
     {
       path: 'calendar',
@@ -26,6 +26,10 @@ export class ServiceProductManagementComponent {
   ]
 
   router = inject(Router);
+
+  ngOnInit(): void {
+    this.router.navigate(['management/services/list']);
+  }
 
   toggleActive(name: string) {
     let path: string;

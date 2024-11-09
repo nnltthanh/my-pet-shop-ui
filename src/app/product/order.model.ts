@@ -20,9 +20,10 @@ export class Order {
     status: OrderStatus;
     payment: Payment;
     shipment: Shipment;
-    // staff: User; 
+    employee: User; 
     customer: User;
     note: string;
+    createDate: Date;
     orderDetails: OrderDetail[]
 
 

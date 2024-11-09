@@ -1,7 +1,7 @@
 <!-- @if($user | async) { -->
 <app-header
   *ngIf="$customerHeader | async"
-  class="header d-flex justify-content-center w-95"
+  class="header d-flex justify-content-center"
 ></app-header>
 <div class="w-100" [ngClass]="{ 'margin-top': $customerHeader | async }">
   <router-outlet></router-outlet>
@@ -9,3 +9,7 @@
 <!-- <app-footer></app-footer> -->
 <app-spinner></app-spinner>
 <!-- } -->
+
+<div class="scroll-to-top-btn text-center rounded" role="button" (click)="scrollToTop()">
+  <i class="fa fa-chevron-up" aria-hidden="true"></i>
+</div>

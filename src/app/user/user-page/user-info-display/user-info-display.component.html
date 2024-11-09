@@ -53,11 +53,11 @@
           </div>
           <div class="account-info-value">
             <span style="opacity: 0.6; font-size: 0.85em">
-              <i>{{
-                userInfo.dob
-                  ? formatDate(userInfo.dob.toString())
-                  : "Chưa cập nhật!"
-              }}</i>
+              @if (userInfo.dob) {
+                <i>{{ userInfo.dob | date: "dd/MM/yyyy" }}</i>
+              } @else {
+                <i>Chưa cập nhật!</i>
+              }
             </span>
           </div>
         </div>

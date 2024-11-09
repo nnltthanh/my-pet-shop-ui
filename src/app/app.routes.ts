@@ -85,7 +85,9 @@ export const routes: Routes = [
   },
   {
     path: 'management',
-    // canActivate: [AuthGuard],
+    data: { "roles": [ RoleName.CUSTOMER, RoleName.ADMIN ] },
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     loadComponent: () => import('./management-display/management-display.component').then(m => m.ManagementDisplayComponent),
     children: [
       {
@@ -109,6 +111,10 @@ export const routes: Routes = [
             loadComponent: () => import('./management-display/service-product-management/service-product-calendar-display/service-product-calendar-display.component').then(m => m.ServiceProductCalendarDisplayComponent)
           },
         ]
+      },
+      {
+        path: "orders",
+        loadComponent: () => import('./management-display/product-order-management/product-order-management.component').then(m => m.ProductOrderManagementComponent)
       },
     ],
   },

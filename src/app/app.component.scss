@@ -2,10 +2,22 @@
 
 .header {
     top: 0px;
-    position: fixed;
     z-index: 999;
 }
 
 .margin-top {
     margin-top: calc(#{$header-height} + 30px);
+}
+
+.scroll-to-top-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    color: white;
+    padding: 10px 13px;
+    background-color: #2063aa;
+}
+
+.scroll-to-top-btn:hover {
+    background-color: #1a5390;
 }

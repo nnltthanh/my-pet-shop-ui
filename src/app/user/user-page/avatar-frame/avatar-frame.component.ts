@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { getLoggedInUserId, UserService } from '../../../services/user.service';
 import { User } from '../../../auth/user.model';
+import { getLoggedInUserId, UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-avatar-frame',
@@ -19,8 +19,14 @@ export class AvatarFrameComponent implements OnInit {
   loggedInUser: User;
 
   ngOnInit(): void {
-    this.avatar = this.userService.getLoggedInUser().avatarUrl;
-    this.loggedInUser = this.userService.getLoggedInUser();
+    this.userService.loggedInUser.subscribe(
+      data => {
+        if (data) {
+          this.loggedInUser = data;
+          this.avatar = data.avatarUrl;
+        }
+      }
+    )
   }
 
   onDrop(event: DragEvent) {
@@ -34,22 +40,32 @@ export class AvatarFrameComponent implements OnInit {
   }
 
   handleImageUpload(file: File) {
-    const reader = new FileReader();
-    reader.onload = async () => {
-
-      this.avatar = reader.result as string;
-      let data = new FormData();
-      data.append('image', file);
-      this.userService.update(getLoggedInUserId(), this.userService.getLoggedInUser(), file).subscribe({
-        next: data => {
-          localStorage.setItem("user", JSON.stringify(data));
-        }
-      })
-    };
-    reader.readAsDataURL(file);
+    this.uploadAvatar(file);
   }
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
+  }
+
+  onAvatarChanged(file: any | File[]) {
+    if (file && file.length > 0) {
+      this.uploadAvatar(file[0]);
+    }
+  }
+
+  private uploadAvatar(file: File) {
+    const reader = new FileReader();
+      reader.onload = async () => {
+  
+        this.avatar = reader.result as string;
+        let data = new FormData();
+        data.append('image', file);
+        this.userService.update(getLoggedInUserId(), this.userService.getLoggedInUser(), file).subscribe({
+          next: data => {
+            localStorage.setItem("user", JSON.stringify(data));
+          }
+        })
+      };
+      reader.readAsDataURL(file);
   }
 }

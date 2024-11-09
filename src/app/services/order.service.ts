@@ -32,6 +32,18 @@ export class OrderService {
         return this.http.get<Order[]>(`${this.getBaseUri(customerId)}/search-by-criteria/products/services`);
     }
 
+    public getAll(): Observable<Order[]> {
+        return this.http.get<Order[]>(`${this.getManagementBaseUri()}`);
+    }
+
+    public getDetail(orderId: number): Observable<Order> {
+        return this.http.get<Order>(`${this.getManagementBaseUri()}/${orderId}/details}`);
+    }
+
+    private getManagementBaseUri(): string {
+        return `${environment.BACKEND_URL}/managements/orders`;
+    }
+
     private getBaseUri(customerId: number): string {
         return `${environment.BACKEND_URL}/customers/${customerId}/orders`;
     }

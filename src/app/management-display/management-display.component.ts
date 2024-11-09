@@ -30,6 +30,12 @@ export class ManagementDisplayComponent {
       name: 'serviceManagement',
       isActive: false,
     },
+    {
+      path: 'orders',
+      label: 'Quản lý đơn hàng',
+      name: 'orderManagement',
+      isActive: false,
+    },
    
 ];
 

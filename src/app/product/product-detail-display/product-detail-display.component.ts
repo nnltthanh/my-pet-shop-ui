@@ -12,8 +12,11 @@ import { ProductDetailService } from '../../services/product-detail.service';
 import { ProductService } from '../../services/product.service';
 import { getLoggedInUserId } from '../../services/user.service';
 import { PetBreed } from '../pet-category.model';
-import { Product } from '../product.model';
+import { overviewFromDetail, Product } from '../product.model';
 import { ProductDetailReviewDisplayComponent } from './product-detail-review-display/product-detail-review-display.component';
+import { ProductRatingDisplayComponent } from '../product-rating-display/product-rating-display.component';
+import { ProductCardComponent } from '../product-card/product-card.component';
+import { ProductOverview } from '../product-overview.model';
 
 @Component({
   selector: 'app-product-detail-display',
@@ -27,7 +30,9 @@ import { ProductDetailReviewDisplayComponent } from './product-detail-review-dis
     UpperCasePipe,
     CurrencyPipe,
     InputNumberModule,
-    ProductDetailReviewDisplayComponent
+    ProductDetailReviewDisplayComponent,
+    ProductRatingDisplayComponent,
+    ProductCardComponent
   ],
   templateUrl: './product-detail-display.component.html',
   styleUrl: './product-detail-display.component.scss',
@@ -45,6 +50,8 @@ export class ProductDetailDisplayComponent implements OnInit {
 
   product: Product;
 
+  productOverview: ProductOverview;
+
   constructor(
     private productDetailService: ProductDetailService,
     private productService: ProductService,
@@ -57,6 +64,7 @@ export class ProductDetailDisplayComponent implements OnInit {
       .findById(this.route.snapshot.params['id'])
       .subscribe((product) => {
         this.product = product;
+        this.productOverview = overviewFromDetail(this.product);
       });
   }
 

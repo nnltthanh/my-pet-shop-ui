@@ -8,15 +8,9 @@
           <h6 class="product-title mb-2">{{ product()?.name }}</h6>
           <div class="price-rating d-flex justify-content-between align-items-center mb-3">
               <span class="price">{{ product()?.price | currency : "VND" }}</span>
-              <div class="rating ">
-                <span class="fs-6 fa {{ calculateRate1() }}"></span>
-                <span class="fs-6 fa {{ calculateRate2() }}"></span>
-                <span class="fs-6 fa {{ calculateRate3() }}"></span>
-                <span class="fs-6 fa {{ calculateRate4() }}"></span>
-                <span class="fs-6 fa {{ calculateRate5() }}"></span>
-                  <span class="rating-text">({{ product()?.countRating }})</span>
-              </div>
-          </div>
+              <app-product-rating-display class="fs-6"
+                [rating]="product() ? product()!.rating : 0"
+                [countRating]="product() ? product()!.countRating : 0" />
           <!-- <button class="btn btn-add-cart w-100" aria-label="Add to Cart" (click)="addToCart()">
               <i class="bi bi-cart-plus me-2"></i>Thêm vào giỏ hàng
           </button> -->

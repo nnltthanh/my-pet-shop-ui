@@ -25,13 +25,20 @@ a {
 nav {
   background-color: white;
   position: fixed;
-  width: 80% !important;
+  width: 80%;
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 10px;
   border-radius: 40px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   z-index: 9999;
+  transition: width 0.3s ease-in-out;
+}
+
+nav.expanded {
+  width: 100%;
+  margin: 0px;
+  border-radius: 0px;
 }
 
 .search-box {

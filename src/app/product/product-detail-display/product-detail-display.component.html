@@ -1,38 +1,34 @@
 @if(product) {
   <div class="row mx-3">
-    <div class="col-6 d-flex flex-row">
-      <div class="col-2 d-flex align-items-center flex-column p-0 mx-2">
-        <div
-          class="image-box mb-3 hover-shadow"
-        >
-        <img [src]="product.imageData.imageUrls" class="hover-shadow" alt="" class="h-100">
-      </div>
-      </div>
+    <div class="col-5 d-flex flex-row justify-content-center">
       <div
-        class="col-9 mt-0 m-3 p-0 d-flex align-items-center justify-content-center img-thumbnail-container"
+        class="col-12 mt-0 ms-3 p-0 px-5 d-flex align-items-center justify-content-center img-thumbnail-container"
       >
-      <img class="hover-shadow" [src]="product.imageData.imageUrls" alt="{{ product.name }}" class="w-90 hover-shadow">
+      <img class="shadow-sm rounded image-card w-90" [src]="product.imageData.imageUrls" alt="{{ product.name }}">
     </div>
     </div>
     <div class="col">
-      <div class="fs-4 fw-bolder text-blue">{{ product.name | uppercase }}</div>
-      <div class="row">
-        <div class="col fs-6">
-          @if (!isPet()) {
-            <span class="fa {{ calculateRate1() }}"></span>
-            <span class="fa {{ calculateRate2() }}"></span>
-            <span class="fa {{ calculateRate3() }}"></span>
-            <span class="fa {{ calculateRate4() }}"></span>
-            <span class="fa {{ calculateRate5() }}"></span> | Số lượt đánh giá: 0 | 
-          }
-         Còn lại: {{ product.quantity }} | Đã bán: {{ product.countSold }}
-        </div>
-      </div>
+      <div class="fs-2 fw-bolder text-blue mt-3">{{ product.name | uppercase }}</div>
+      <div class="d-flex mb-4">
+          <app-product-rating-display
+          class="flex-shrink-1 me-3 fs-4"
+          [rating]="product.rating"
+              [countRating]="product.countRating" />
+            </div>
+        <div>Còn lại: {{ product.quantity }} | Đã bán: {{ product.countSold }}</div>
       <!-- <div class="fs-6 old-price text-secondary text-decoration-line-through">
         {{ product.price | currency : "VND" }}
       </div> -->
       <div class="fs-4 current-price fw-bold text-blue">
         {{ product.price | currency : "VND" }}
+      </div>
+
+      <div class="my-3 w-75">
+        Mô tả thú cưng Mô tả thú cưng Mô tả thú cưng
+        Mô tả thú cưng Mô tả thú cưng Mô tả thú cưng
+        Mô tả thú cưng Mô tả thú cưng Mô tả thú cưng
+        Mô tả thú cưng Mô tả thú cưng Mô tả thú cưng
+        Mô tả thú cưng Mô tả thú cưng Mô tả thú cưngMô tả thú cưng Mô tả thú cưng Mô tả thú cưng
       </div>
       
       <div class="py-3 d-flex flex-rows">
@@ -114,8 +110,18 @@
     </div>
   </div>
   
+  <div class="bg-gray-light-custom py-4 my-5 px-3">
+    <div class="w-100 text-center fw-bolder text-blue fs-4 mb-3">GỢI Ý SẢN PHẨM</div>
+    <div class="d-flex flex-wrap justify-content-between w-100 px-5 gap-2">
+      <app-product-card [product]="productOverview"></app-product-card>
+      <app-product-card [product]="productOverview"></app-product-card>
+      <app-product-card [product]="productOverview"></app-product-card>
+      <app-product-card [product]="productOverview"></app-product-card>
+      <app-product-card [product]="productOverview"></app-product-card>
+    </div>
+  </div>
   
-  <app-product-detail-review-display
+  <app-product-detail-review-display>
   [product]="product">
   
   </app-product-detail-review-display>

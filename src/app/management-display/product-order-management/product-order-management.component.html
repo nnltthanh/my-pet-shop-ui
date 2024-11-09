@@ -1,0 +1,221 @@
+  <div class="card">
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <p-button
+          severity="success"
+          label="Thêm mới"
+          icon="pi pi-plus"
+          class="mr-2"
+          (onClick)="openNew()"
+        />
+      </ng-template>
+<!--   
+      <ng-template pTemplate="right">
+    
+        <input type="file" accept=".xlsx,.xls" #file (change)="onImportPetProduct($event)" class="d-none">
+        <p-button severity="info" label="Import" icon="pi pi-plus" (click)="file.click()" class=" mx-3"/>
+        <p-button severity="help" label="Export" icon="pi pi-upload" />
+      </ng-template> -->
+    </p-toolbar>
+  
+    <p-table
+      [resizableColumns]="true"
+      [lazy]="true"
+      [scrollable]="true"
+      scrollHeight="65vh"
+      scrollDirection="both"
+      (onLazyLoad)="loadOrders($event)"
+      [paginator]="true"
+      [rows]="15"
+      [totalRecords]="total"
+      #dt
+      [value]="orders"
+      sortMode="multiple"
+      [globalFilterFields]="['id', 'name', 'price', 'countSold', 'quantity']"
+      [tableStyle]="{ 'min-width': '75rem' }"
+      [(selection)]="selectedOrders"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Hiển thị từ {first} tới {last} trên {totalRecords} sản phẩm."
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <h5 class="m-0">QUẢN LÝ ĐƠN HÀNG</h5>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <!-- <input
+              #search
+              pInputText
+              type="text"
+              (input)="onSearch(search.value)"
+              placeholder="Search..."
+            /> -->
+            <input
+              #search
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal(search.value, 'contains')"
+              placeholder="Tìm kiếm..."
+            />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 2rem">
+            <p-tableHeaderCheckbox />
+          </th>
+          <th pSortableColumn="id" style="min-width: 2rem">
+            ID <p-sortIcon field="id" />
+          </th>
+          <th pSortableColumn="name" style="min-width: 5rem">
+            Ngày đặt <p-sortIcon field="name" />
+          </th>
+          <th class="d-flex justify-content-center" style="min-width: 5rem">Khách hàng</th>
+          <th pSortableColumn="price" class="text-center">
+            Chi tiết <p-sortIcon field="price" />
+          </th>
+          <th class="text-center">Tổng cộng</th>
+          <th class="text-center">Nhân viên xử lý</th>
+          <th
+            pSortableColumn="inventoryStatus"
+            style="min-width: 10rem"
+            class="text-center"
+          >
+            Trạng thái <p-sortIcon field="inventoryStatus" />
+          </th>
+          
+          <th style="min-width: 5rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="order" />
+          </td>
+          <td>
+            {{ order.id }}
+          </td>
+          <td>
+            {{ order.createDate }}
+          </td>
+          <td>
+            #{{ order.customer.id }} - {{ order.customer?.name }}
+          </td>
+          <td class="d-flex flex-column">
+            @for (item of order.orderDetails; track $index) {
+              <div class="mb-1">
+                @if(item.productDetail?.imageData) {
+                  <img
+                    [src]="item.productDetail?.imageData.imageUrls"
+                    [alt]="item.productDetail?.product?.name"
+                    width="25"
+                    class="shadow-4"
+                  />
+                }
+                @else if (item.productDetail?.product?.imageData) {
+                  <img
+                    [src]="item.productDetail?.product?.imageData.imageUrls"
+                    [alt]="item.productDetail?.product?.name"
+                    width="25"
+                    class="shadow-4"
+                  />
+                }
+
+                <span> {{ item.productDetail?.product?.name }} 
+                  <span class="text-secondary"> - x{{ item.quantity }} </span>
+                </span>
+              </div>
+
+            }
+          </td>
+          <td class="text-center">
+            {{ order.total | currency : "VND" }}
+          </td>
+
+          <td>
+            <p-dropdown 
+                [options]="receptionists" 
+                appendTo="body"
+                [(ngModel)]="order.employee" 
+                optionLabel="name"
+                dataKey="id"
+                [style]="{'width':'100%'}"
+                (onChange)="onStatusChange(order)"
+                placeholder="Chọn nhân viên">
+                <!-- <ng-template pTemplate="selectedItem">
+                  @if (order.employee) {
+                    {{ order.employee?.name }}
+                  }
+                </ng-template>
+                <ng-template let-option pTemplate="item">
+                  @if (receptionists) {
+                    {{ option?.name }}
+                  }
+                </ng-template> -->
+            </p-dropdown>
+          </td>
+
+          <td>
+            <p-dropdown 
+                [options]="statuses" 
+                appendTo="body" 
+                [(ngModel)]="order.status" 
+                [style]="{'width':'100%'}"
+                (onChange)="onStatusChange(order)">
+                <ng-template pTemplate="selectedItem">
+                  <p-tag 
+                    [value]="getDisplayingOrderStatus(order.status)" 
+                    [severity]="getSeverityOrderStatus(order.status)" />
+                </ng-template>
+                <ng-template let-option pTemplate="item">
+                  <p-tag
+                    [value]="option"
+                    [severity]="getSeverityOrderStatus(option)"
+                  />
+                </ng-template>
+            </p-dropdown>
+          </td>
+          
+          <td class="text-center px-0">
+            <p-button
+              icon="pi pi-pencil"
+              class="mr-2"
+              [rounded]="true"
+              [outlined]="true"
+              severity="success"
+              [style.width]="30"
+              [style.height]="30"
+              (onClick)="editOrder(order)"
+            />
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              [rounded]="true"
+              [outlined]="true"
+              (onClick)="cancelOrder(order)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  
+    <!-- @if(productDialog) {
+      <app-product-detail-edit
+        [product]="product"
+        [(productDialog)]="productDialog"
+        (submittedChanged)="onSubmitted($event)"
+      >
+      </app-product-detail-edit>
+    }
+  
+    @if(addProductDialog) {
+      <app-product-add-dialog
+        [(addProductDialog)]="addProductDialog"
+        (submittedChanged)="onSubmitted($event)">
+      </app-product-add-dialog>
+    }
+   -->
+    <!-- <p-confirmDialog [style]="{ width: '450px' }" /> -->
+  </div>

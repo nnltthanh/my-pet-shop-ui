@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
 @Component({
@@ -12,6 +12,10 @@ export class HeaderComponent {
 
   authService = inject(AuthService);
 
+  isExpanded: boolean = false;
+
+  navWidth: string = "80%";
+
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
@@ -23,4 +27,11 @@ export class HeaderComponent {
     console.log("login", this.authService.isLoggedIn());
     this.authService.onLogin();
   }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: any) {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      this.isExpanded = scrollTop > 50;
+  }
+
 }

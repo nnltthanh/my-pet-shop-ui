@@ -1,4 +1,4 @@
-import { AsyncPipe, CurrencyPipe, NgClass } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import {
   Component,
   inject,
@@ -7,7 +7,8 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TimelineModule } from 'primeng/timeline';
 import { Address } from '../../../auth/address.model';
@@ -18,11 +19,10 @@ import { Shipment } from '../../../product/shipment.model';
 import { AddressService } from '../../../services/address.service';
 import { CartService } from '../../../services/cart.service';
 import { OrderService } from '../../../services/order.service';
+import { getLoggedInUserId, UserService } from '../../../services/user.service';
 import { CartDetail } from '../../cart-detail.model';
 import { AddressBookSelectionDialogComponent } from './address-book-selection-dialog/address-book-selection-dialog.component';
 import { OrderInfoCardComponent } from './order-info-card/order-info-card.component';
-import { getLoggedInUserId, UserService } from '../../../services/user.service';
-import { Router } from '@angular/router';
 
 interface EventItem {
   status?: string;
@@ -37,14 +37,10 @@ interface EventItem {
   selector: 'app-order-info',
   standalone: true,
   imports: [
-    OrderInfoComponent,
     FormsModule,
     TimelineModule,
     OrderInfoCardComponent,
-    NgClass,
-    ReactiveFormsModule,
     CurrencyPipe,
-    AsyncPipe,
   ],
   templateUrl: './order-info.component.html',
   styleUrl: './order-info.component.scss',

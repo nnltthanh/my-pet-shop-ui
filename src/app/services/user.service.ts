@@ -32,6 +32,10 @@ export class UserService {
     return this.http.get<User[]>(`${this.getBaseUri()}`);
   }
 
+  getUsersInGroup(groupName: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.getBaseUri()}/groups/${groupName}`);
+  }
+
   getLoggedInUser(): User {
     if (localStorage.getItem("user")) {
       this.loggedInUser.next(JSON.parse(localStorage.getItem("user")!));
@@ -80,6 +84,7 @@ export class UserService {
     return this.http.put<User>(`${this.getBaseUri()}/basic-info/${id}`, formData)
       .pipe(map((data) => {
         localStorage.setItem("user", JSON.stringify(data));
+        this.loggedInUser.next(data);
         return data;
       }));
   }
@@ -88,6 +93,7 @@ export class UserService {
     return this.http.put<User>(`${this.getBaseUri()}/${userId}/fields/${fieldName}`, value)
       .pipe(map((data) => {
         localStorage.setItem("user", JSON.stringify(data));
+        this.loggedInUser.next(data);
         return data;
       }));
   }

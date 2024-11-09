@@ -4,6 +4,7 @@ import { InventoryStatus } from "./inventory-status.model";
 import { PetCategory } from "./pet-category.model";
 import { ImageData } from "./product-list-display/image-data.model";
 import { ProductDetail } from "./product-detail.model";
+import { ProductOverview } from "./product-overview.model";
 
 export class Product {
     id: number;
@@ -33,4 +34,19 @@ export class Product {
     public constructor(product: Partial<Product> = {}) {
         Object.assign(this, product);
     }
+
+}
+export const overviewFromDetail = (product: Product): ProductOverview => {
+    return new ProductOverview(
+        product.id,
+        product.name,
+        product.engName,
+        product.price,
+        product.description,
+        product.imageData,
+        product.updatedAt,
+        product.countRating,
+        product.rating,
+        product.countSold
+    );
 }

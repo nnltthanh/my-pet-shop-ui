@@ -1,20 +1,23 @@
-import { NgIf } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { DatePipe, NgIf } from '@angular/common';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UserService } from '../../../services/user.service';
-import { User } from '../../../auth/user.model';
 import { CalendarModule } from 'primeng/calendar';
+import { User } from '../../../auth/user.model';
+import { UserService } from '../../../services/user.service';
+import { AvatarFrameComponent } from '../avatar-frame/avatar-frame.component';
 
 @Component({
   selector: 'app-user-info-display',
   standalone: true,
-  imports: [FormsModule, NgIf, CalendarModule],
+  imports: [FormsModule, NgIf, CalendarModule, DatePipe],
   templateUrl: './user-info-display.component.html',
   styleUrl: './user-info-display.component.scss'
 })
 export class UserInfoDisplayComponent implements OnInit {
 
   userInfo: User;
+
+  avatarFrameComponent = viewChild(AvatarFrameComponent);
 
   isEditMode: boolean = false;
 
@@ -23,6 +26,9 @@ export class UserInfoDisplayComponent implements OnInit {
   ngOnInit(): void {
     if (this.userService.getLoggedInUser()) {
       this.userInfo = this.userService.getLoggedInUser();
+      if (this.userInfo.dob) {
+        this.userInfo.dob = new Date(this.userInfo.dob);
+      }
     }
   }
 
@@ -32,14 +38,12 @@ export class UserInfoDisplayComponent implements OnInit {
 
   clickSaveUpdate(): void {
     this.userService.update(this.userInfo.id, this.userInfo, null).subscribe({
-      complete: () => {
+      next: (data: User) => {
         this.isEditMode = false;
+        if (this.avatarFrameComponent()) {
+          this.avatarFrameComponent()!.loggedInUser = data;
+        }
       }
     })
   }
-
-  formatDate(date: string): string {
-    return new Date(date).toLocaleDateString();
-  }
-
 }
