@@ -36,6 +36,12 @@ export class ManagementDisplayComponent {
       name: 'orderManagement',
       isActive: false,
     },
+    {
+      path: 'reports',
+      label: 'Thống kê báo cáo',
+      name: 'reportManagement',
+      isActive: false,
+    },
    
 ];
 

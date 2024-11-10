@@ -1,0 +1,75 @@
+.card {
+    background-color: rgba(248, 246, 242, .3);
+    border: 1px dashed #e8e5dd;
+}
+
+.card.card-flush>.card-header {
+    border-bottom: 0 !important;
+    cursor: pointer;
+}
+
+.card.card-flush:hover {
+    background-color: rgba(183, 182, 178, 0.172);
+}
+
+.card .card-header {
+    background-color: rgba(248, 246, 242, .3);
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: wrap;
+    min-height: 70px;
+    padding: 1.25rem;
+    border-bottom: 1px dashed #EAEAEA;
+}
+
+.card-header {
+    border-radius: calc(0.95rem - 1px) calc(0.95rem - 1px) 0 0;
+}
+
+.card .card-header .card-title.flex-column {
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.card .card-header .card-title {
+    display: flex;
+    align-items: center;
+    margin: .5rem;
+    margin-left: 0;
+    color: #2063aa;
+}
+
+.title-text {
+    color: #2063aa !important;
+}
+
+.text-gray-500 {
+    color: #968E7E !important;
+}
+
+.badge-light-success {
+    background-color: #F4FBDB;
+    color: #B8D935;
+}
+
+.text-success {
+    color: #B8D935 !important;
+}
+
+.badge-light-success {
+    background-color: #F4FBDB;
+    color: #B8D935;
+}
+
+.fs-2hx {
+    font-size: 2rem !important;
+}
+
+.ls-n2 {
+    letter-spacing: -.115rem !important;
+}
+
+.lh-1 {
+    line-height: 1 !important;
+}

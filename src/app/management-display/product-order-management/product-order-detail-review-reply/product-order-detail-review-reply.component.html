@@ -1,0 +1,23 @@
+<div class="modal-content address-modal">
+    <div class="modal-header" style="z-index: 1">
+      <div class="modal-title h3" id="exampleModalLabel">
+        Phản hồi đánh giá đơn hàng {{ order.id }}
+      </div>
+      <button
+        type="button"
+        class="btn-close me-3"
+        aria-label="Close"
+        aria-label="Close"
+        (click)="dismissDialog()"
+      ></button>
+    </div>
+  
+    <div class="modal-body" style="z-index: 2">
+      @for (orderDetail of order.orderDetails; track $index) {
+        <app-product-order-detail-review-reply-card 
+            [orderDetail]="orderDetail" 
+            [order]="order"/>
+      }
+    </div>
+  </div>
+  

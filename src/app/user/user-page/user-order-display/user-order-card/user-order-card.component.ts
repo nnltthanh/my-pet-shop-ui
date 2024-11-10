@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { Order } from '../../../../product/order.model';
+import { Order, OrderStatusMeaning } from '../../../../product/order.model';
 import { UserOrderDetailCardComponent } from './user-order-detail-card/user-order-detail-card.component';
 import { CurrencyPipe } from '@angular/common';
 import { OrderService } from '../../../../services/order.service';
@@ -15,6 +15,8 @@ import { UserOrderReviewAddDialogComponent } from '../user-order-review-add-dial
   styleUrl: './user-order-card.component.scss'
 })
 export class UserOrderCardComponent {
+
+  readonly OrderStatusMeaning = OrderStatusMeaning;
 
   order = input<Order>();
   

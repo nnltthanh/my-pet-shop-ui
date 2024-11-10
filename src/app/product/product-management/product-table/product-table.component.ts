@@ -14,7 +14,6 @@ import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { finalize, take } from 'rxjs';
 import { PetProductService } from '../../../services/pet-product.service';
 import { ProductService } from '../../../services/product.service';
 import { PetBreed } from '../../pet-category.model';

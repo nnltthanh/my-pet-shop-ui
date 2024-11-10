@@ -1,0 +1,174 @@
+@if(order) {
+<div class="modal-content address-modal">
+  <div class="modal-header" style="z-index: 1">
+    <div class="modal-title h3" id="exampleModalLabel">
+      Thông tin đơn hàng #{{ order.id }}
+    </div>
+    <button
+      type="button"
+      class="btn-close me-3"
+      aria-label="Close"
+      aria-label="Close"
+      (click)="dismissDialog()"
+    ></button>
+  </div>
+
+  <div class="modal-body" style="z-index: 2">
+   
+    <div class="d-flex flex-column my-3">
+      <div class="fs-4 border-bottom text-blue fw-bolder">Thông tin khách hàng</div>
+    </div>
+
+    <div
+      class="row w-100 mx-5 justify-content-center align-content-center align-items-center"
+    >
+      <div class="width-100px col-3">
+        @if (order.customer.avatar && order.customer.avatar.imageUrls) {
+        <img
+          [src]="order.customer.avatar.imageUrls"
+          [alt]="'Ảnh đại diện'"
+          [title]="'Ảnh đại diện'"
+        />
+        } @else {
+        <span class="fst-italic">Chưa có ảnh đại diện</span>
+        }
+      </div>
+
+      <div class="col">
+        <div class="row w-100">
+          <span class="mx-2 text-secondary col-4 text-end"
+            >Tên khách hàng:</span
+          >
+          <span class="col">{{ order.customer.name }}</span>
+        </div>
+        <div class="row w-100">
+          <span class="mx-2 text-secondary col-4 text-end">Số điện thoại:</span>
+          <span class="col">{{ order.customer.phone }}</span>
+        </div>
+        <div class="row w-100">
+          <span class="mx-2 text-secondary col-4 text-end">Email:</span>
+          <span class="col">{{ order.customer.email }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column my-3 mt-5">
+      <div class="fs-4 border-bottom text-blue fw-bolder">Thông tin đơn hàng</div>
+    </div>
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Hình ảnh</th>
+            <th class="text-center">Tên sản phẩm</th>
+            <th class="text-center">Số lượng</th>
+            <th class="text-center">Tổng tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+        @for (item of order.orderDetails; track $index) {
+          <tr>
+              <td class="text-center"> {{ item.id }}</td>
+              @if (item.productDetail.imageData) {
+                <td class="text-center"> 
+                  <img
+                    [src]="item.productDetail.imageData.imageUrls"
+                    [alt]="item.productDetail.product.name"
+                    width="50"
+                    class="shadow-4"
+                  />
+              </td>
+              } @else {
+                <td class="text-center"> 
+                  <img
+                    [src]="item.productDetail.product.imageData.imageUrls"
+                    [alt]="item.productDetail.product.name"
+                    width="50"
+                    class="shadow-4"
+                  />
+                </td>
+              }
+              <td>{{ item.productDetail.product.name }}</td>
+              <td class="text-center">{{ item.quantity }}</td>
+              <td class="text-center">{{ item.total | currency: "VND" }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="d-flex flex-column mt-4">
+      <span class="fs-5 fw-semibold">Thông tin giao hàng</span> 
+      @if (order.shipment) {
+        <div class="row">
+          <span class="text-end col-3 text-secondary">Địa chỉ nhận hàng:</span> 
+          <span class="col"> {{ order.shipment.address.displayingAddress }} </span>
+        </div>
+
+        <div class="row">
+          <span class="text-end col-3 text-secondary">Người nhận hàng:</span> 
+          <span class="col"> {{ order.shipment.address.belongsTo }} </span>
+        </div>
+
+        <div class="row">
+          <span class="text-end col-3 text-secondary">Ngày giao hàng:</span> 
+          <span class="col"> {{ order.shipment.shipDate | date: "dd/MM/yyyy" }} </span>
+        </div>
+
+        <div class="row">
+          <span class="text-end col-3 text-secondary">Phí giao hàng:</span> 
+          <span class="col"> {{ order.shipment.shipCost | currency: "VND" }} </span>
+        </div>
+
+        <div class="row">
+          <span class="text-end col-3 text-secondary">Trạng thái:</span> 
+          @if (order.status === OrderStatus.SHIPPING) {
+            <span class="col"> Đang giao hàng </span>
+          } @else if (order.status === OrderStatus.DELIVERED || order.status === OrderStatus.FINISHED) {
+            <span class="col"> Giao hàng thành công </span>
+          } @else {
+            <span class="col">Chưa giao hàng</span>
+          }
+        </div>
+      } @else {
+        <span class="text-secondary fst-italic">Chưa có thông tin giao hàng</span>
+      }
+    </div>
+
+    <div class="d-flex flex-column mt-4">
+      <span class="fs-5 fw-semibold">Thông tin thanh toán</span> 
+      @if (order.payment) {
+
+        <div class="row">
+          <span class="text-end col-4 text-secondary">Phương thức thanh toán:</span> 
+          <span class="col"> {{ PaymentSupplierMeaning[order.payment.supplier] }} </span>
+        </div>
+
+        <div class="row">
+          <span class="text-end col-4 text-secondary">Trạng thái:</span> 
+          <span class="col"> {{ order.payment.status }} </span>
+        </div>
+
+      } @else {
+        <span class="text-secondary fst-italic">Chưa có thông tin thanh toán đơn hàng</span>
+      }
+    </div>
+ 
+    <div class="fw-bolder fs-4 my-3 mb-1">
+      <span>Tổng tiền:</span> <span class="text-blue"> {{ order.total | currency: "VND" }} </span>
+    </div>
+
+
+  </div>
+  <div class="modal-footer" style="z-index: 1">
+    <button
+      type="button"
+      class="btn btn-cancel btn-outline-secondary"
+      (click)="dismissDialog()"
+    >
+      Trở lại
+    </button>
+  </div>
+</div>
+
+}

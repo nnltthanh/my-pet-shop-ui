@@ -30,8 +30,8 @@
       [totalRecords]="total"
       #dt
       [value]="orders"
-      sortMode="multiple"
-      [globalFilterFields]="['id', 'name', 'price', 'countSold', 'quantity']"
+      sortMode="single"
+      [globalFilterFields]="['id', 'name', 'total', 'customer.id', 'status' ]"
       [tableStyle]="{ 'min-width': '75rem' }"
       [(selection)]="selectedOrders"
       [rowHover]="true"
@@ -63,49 +63,49 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 2rem">
+          <th style="width: 1rem">
             <p-tableHeaderCheckbox />
           </th>
-          <th pSortableColumn="id" style="min-width: 2rem">
+          <th pSortableColumn="id" style="width: 1rem">
             ID <p-sortIcon field="id" />
           </th>
-          <th pSortableColumn="name" style="min-width: 5rem">
+          <th pSortableColumn="name" style="width: 2rem">
             Ngày đặt <p-sortIcon field="name" />
           </th>
-          <th class="d-flex justify-content-center" style="min-width: 5rem">Khách hàng</th>
-          <th pSortableColumn="price" class="text-center">
-            Chi tiết <p-sortIcon field="price" />
+          <th class="d-flex justify-content-center" style="width: 8rem" pSortableColumn="customer.id">Khách hàng <p-sortIcon field="customer.id" /></th>
+          <th class="text-center">
+            Chi tiết 
           </th>
-          <th class="text-center">Tổng cộng</th>
+          <th class="text-center" pSortableColumn="total">Tổng cộng <p-sortIcon field="total" /></th>
           <th class="text-center">Nhân viên xử lý</th>
           <th
-            pSortableColumn="inventoryStatus"
-            style="min-width: 10rem"
+            pSortableColumn="status"
+            style="width: 6rem"
             class="text-center"
           >
-            Trạng thái <p-sortIcon field="inventoryStatus" />
+            Trạng thái <p-sortIcon field="status" />
           </th>
           
-          <th style="min-width: 5rem"></th>
+          <th style="width: 5rem"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-order>
         <tr>
-          <td>
+          <td style="width: 1rem">
             <p-tableCheckbox [value]="order" />
           </td>
-          <td>
+          <td style="width: 1rem">
             {{ order.id }}
           </td>
-          <td>
+          <td style="width: 2rem">
             {{ order.createDate }}
           </td>
-          <td>
-            #{{ order.customer.id }} - {{ order.customer?.name }}
+          <td style="max-width: 7rem">
+            {{ order.customer?.name }}
           </td>
           <td class="d-flex flex-column">
             @for (item of order.orderDetails; track $index) {
-              <div class="mb-1">
+              <div class="mb-1"  style="max-width: 25rem; white-space: normal;">
                 @if(item.productDetail?.imageData) {
                   <img
                     [src]="item.productDetail?.imageData.imageUrls"
@@ -124,7 +124,7 @@
                 }
 
                 <span> {{ item.productDetail?.product?.name }} 
-                  <span class="text-secondary"> - x{{ item.quantity }} </span>
+                  <span class="text-secondary"> - {{ item.quantity | number: "2.0"  }} </span>
                 </span>
               </div>
 
@@ -141,7 +141,7 @@
                 [(ngModel)]="order.employee" 
                 optionLabel="name"
                 dataKey="id"
-                [style]="{'width':'100%'}"
+                [style]="{'width':'11rem'}"
                 (onChange)="onStatusChange(order)"
                 placeholder="Chọn nhân viên">
                 <!-- <ng-template pTemplate="selectedItem">
@@ -157,7 +157,7 @@
             </p-dropdown>
           </td>
 
-          <td>
+          <td style="width: 6rem">
             <p-dropdown 
                 [options]="statuses" 
                 appendTo="body" 
@@ -166,12 +166,12 @@
                 (onChange)="onStatusChange(order)">
                 <ng-template pTemplate="selectedItem">
                   <p-tag 
-                    [value]="getDisplayingOrderStatus(order.status)" 
+                    [value]="OrderStatusMeaning[order.status]" 
                     [severity]="getSeverityOrderStatus(order.status)" />
                 </ng-template>
                 <ng-template let-option pTemplate="item">
                   <p-tag
-                    [value]="option"
+                    [value]="OrderStatusMeaning[option]"
                     [severity]="getSeverityOrderStatus(option)"
                   />
                 </ng-template>
@@ -180,7 +180,7 @@
           
           <td class="text-center px-0">
             <p-button
-              icon="pi pi-pencil"
+              icon="pi pi-info-circle"
               class="mr-2"
               [rounded]="true"
               [outlined]="true"
@@ -190,8 +190,8 @@
               (onClick)="editOrder(order)"
             />
             <p-button
-              icon="pi pi-trash"
-              severity="danger"
+              icon="pi pi-comment"
+              severity="primary"
               [rounded]="true"
               [outlined]="true"
               (onClick)="cancelOrder(order)"
@@ -200,15 +200,9 @@
         </tr>
       </ng-template>
     </p-table>
-  
-    <!-- @if(productDialog) {
-      <app-product-detail-edit
-        [product]="product"
-        [(productDialog)]="productDialog"
-        (submittedChanged)="onSubmitted($event)"
-      >
-      </app-product-detail-edit>
-    }
+
+
+    <!-- 
   
     @if(addProductDialog) {
       <app-product-add-dialog

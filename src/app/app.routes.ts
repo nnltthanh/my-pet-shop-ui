@@ -116,6 +116,10 @@ export const routes: Routes = [
         path: "orders",
         loadComponent: () => import('./management-display/product-order-management/product-order-management.component').then(m => m.ProductOrderManagementComponent)
       },
+      {
+        path: "reports",
+        loadComponent: () => import('./management-display/reports/report-display/report-display.component').then(m => m.ReportDisplayComponent)
+      },
     ],
   },
   {

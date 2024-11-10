@@ -7,6 +7,11 @@ export enum PaymentSupplier {
     // MOMO 
 }
 
+export const PaymentSupplierMeaning: Record<string, string> = {
+    CASH: "Thanh toán tiền mặt",
+    VN_PAY: "Thanh toán trực tuyến - VNPay",
+}
+
 export class Payment {
     id: number;
     amount: number;

@@ -33,6 +33,7 @@
     "@popperjs/core": "^2.11.8",
     "angular-keycloak": "file:",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.6",
     "jquery": "^3.7.1",
     "keycloak-angular": "^16.0.1",
     "keycloak-js": "^25.0.6",

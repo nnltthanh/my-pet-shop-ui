@@ -12,7 +12,7 @@
         <div class="reviews-body m-3">
           <div class="reviews-wrapper">
             @for (review of firstReviews; track $index) {
-                <div class="card my-3 cursor-pointer">
+                <div class="card my-3 cursor-pointer" (click)="onOpenReviews(review)">
                     <div class="card-header">
                         <div class="text-secondary m-2">Ngày đăng: {{ review.createDate | date: "dd/MM/yyyy" }}</div>
                     </div>

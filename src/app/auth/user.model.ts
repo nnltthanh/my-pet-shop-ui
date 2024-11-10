@@ -1,4 +1,5 @@
 import { Gender } from "../gender.model";
+import { ImageData } from "../product/product-list-display/image-data.model";
 
 export class User {
     id: number;
@@ -13,6 +14,7 @@ export class User {
     blocked: boolean;
     avatarUrl: string;
     gender: Gender;
+    avatar: ImageData
 
     public constructor(user: Partial<User> = {}) {
         Object.assign(this, user);

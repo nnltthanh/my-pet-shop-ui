@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Review } from '../../../product/review.model';
 import { ReviewService } from '../../../services/review.service';
 import { map, Observable } from 'rxjs';
 import { getLoggedInUserId } from '../../../services/user.service';
 import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserReviewProductFeedbackDialogComponent } from './user-review-product-feedback-dialog/user-review-product-feedback-dialog.component';
 
 @Component({
   selector: 'app-user-review-product-display',
@@ -12,13 +14,15 @@ import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
   templateUrl: './user-review-product-display.component.html',
   styleUrl: './user-review-product-display.component.scss'
 })
-export class UserReviewProductDisplayComponent {
+export class UserReviewProductDisplayComponent implements OnInit {
 
   reviewService = inject(ReviewService);
 
   $reviews: Observable<Review[]>;
 
   firstReviews: Review[] = [];
+
+  modalService = inject(NgbModal);
 
   ngOnInit(): void {
     this.$reviews = this.reviewService.findAll(getLoggedInUserId())
@@ -51,6 +55,31 @@ export class UserReviewProductDisplayComponent {
       return review.imageData.imageUrls.split(",").filter(s=>s).map(s=>s.trim());
     }
     return [];
+  }
+
+  onOpenReviews(review: Review) {
+    const modalRef = this.modalService.open(UserReviewProductFeedbackDialogComponent, {
+      backdrop: 'static',
+      centered: true,
+      scrollable: true,
+      size: 'lg'
+    });
+    
+    modalRef.componentInstance.orderDetail = review.orderDetail;
+    modalRef.componentInstance.activeModal = modalRef;
+
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+        }
+      },
+      (reason) => {
+        if (
+          reason == ModalDismissReasons.BACKDROP_CLICK ||
+          reason == ModalDismissReasons.ESC
+        ) {
+        }
+      })
   }
 
 }

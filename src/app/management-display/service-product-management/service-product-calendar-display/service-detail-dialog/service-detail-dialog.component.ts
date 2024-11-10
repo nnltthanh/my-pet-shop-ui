@@ -22,7 +22,7 @@ export class ServiceDetailDialogComponent implements OnInit {
 
   service: PetCustomerServiceProduct;
 
-  activeModal = inject(NgbActiveModal);
+  activeModal: NgbActiveModal;
 
   petServiceRegistration = inject(PetCustomerRegistrationService);
 

@@ -1,0 +1,17 @@
+.width-100px {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    img {
+      flex-shrink: 0;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+    }
+} 

@@ -14,7 +14,7 @@ export class ReviewService {
     productId: number,
     orderDetailId: number,
     review: Review,
-    images: File[]
+    images?: File[]
   ): Observable<Review> {
     let formData: FormData = new FormData();
     let reviewData = new Blob([JSON.stringify(review)], {

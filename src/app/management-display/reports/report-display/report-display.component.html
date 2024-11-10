@@ -1,0 +1,120 @@
+@if (isChecked | async; as statistic) {
+    
+<div class="row gx-5 gx-xl-10 mb-xl-10 px-2 mt-5">
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-10 px-2">
+        <div class="card card-flush h-md-50 mb-5 mb-xl-10">
+            <div class="card-header ps-2 pe-1">
+                <div class="card-title d-flex flex-row w-100">
+                    <div class="col-2">
+                        <i class="fa fa-usd fs-1" aria-hidden="true"></i>
+                    </div>
+                    <div class="col">
+                        <div class="fs-2hx fw-bold me-2 lh-1 ls-n2 title-text">{{ revenueOfMonth | currency: "VND" }}</div>
+                        <div class="text-gray-500 pt-1 fw-semibold fs-6">Thu nhập trong tháng</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-10 px-2">
+        <div class="card card-flush h-md-50 mb-5 mb-xl-10">
+            <div class="card-header">
+                <div class="card-title d-flex flex-row w-100">
+                    <div class="col-3">
+                        <i class="fa fa-shopping-basket fs-1" aria-hidden="true"></i>
+                    </div>
+                    <div class="col">
+                        <div class="fs-2hx fw-bold me-2 lh-1 ls-n2 title-text">{{ numberOfOrdersOfMonth }}</div>
+                        <div class="text-gray-500 pt-1 fw-semibold fs-6 title-text">Đơn hàng trong tháng</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-10 px-2">
+        <div class="card card-flush h-md-50 mb-5 mb-xl-10">
+            <div class="card-header">
+                <div class="card-title d-flex flex-row w-100">
+                    <div class="col-3">
+                        <i class="bi bi-activity fs-1"></i>
+                    </div>
+                    <div class="col">
+                        <div class="fs-2hx fw-bold me-2 lh-1 ls-n2 title-text">{{ numberOfProductsOfMonth }}</div>
+                        <div class="text-gray-500 pt-1 fw-semibold fs-6">Sản phẩm bán được</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-10 px-2">
+        <div class="card card-flush h-md-50 mb-5 mb-xl-10">
+            <div class="card-header">
+                <div class="card-title d-flex flex-row w-100">
+                    <div class="col-3">
+                        <i class="fa fa-paw fs-1" aria-hidden="true"></i>
+                    </div>
+                    <div class="col">
+                        <div class="fs-2hx fw-bold me-2 lh-1 ls-n2 title-text">{{ numberOfServiceProductsOfMonth }}</div>
+                        <div class="text-gray-500 pt-1 fw-semibold fs-6">Lượt sử dụng dịch vụ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row gx-5 gx-xl-10 mb-xl-10 px-2 mt-3">
+    <div class="d-flex flex-row">
+        <div class="ms-2">
+            <p-dropdown
+                [options]="filters"
+                [ngModel]="selectedFilter"
+                (ngModelChange)="onFilter($event)"
+            >
+            <ng-template pTemplate="selectedItem">
+                {{ StatisticFilterPeriodMeaning[selectedFilter] }}
+              </ng-template>
+              <ng-template let-option pTemplate="item">
+                {{ StatisticFilterPeriodMeaning[option] }}
+              </ng-template>
+            </p-dropdown>
+        </div>
+    </div>
+</div>
+
+@if (reportData) {
+    <div class="row gx-5 gx-xl-10 mb-xl-10 px-2 mt-3">
+        <div class="col-md-12 col-lg-12 col-xl-6 col-xxl-6 mb-10 ps-2 pe-1">
+            <div class="card card-flush px-1 mx-2">
+                <app-report-display-revenue [reportData]="reportData"></app-report-display-revenue>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6 col-xxl-6 mb-10 ps-2 pe-1">
+            <div class="card card-flush px-1 mx-2">
+                <app-report-display-number-of-orders [reportData]="reportData"></app-report-display-number-of-orders>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row gx-5 gx-xl-10 mb-xl-10 px-2 mt-5">
+        <div class="col-md-12 col-lg-12 col-xl-6 col-xxl-6 mb-10 ps-2 pe-1">
+            <div class="card card-flush px-1 mx-2">
+                <app-report-display-number-of-products [reportData]="reportData"></app-report-display-number-of-products>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6 col-xxl-6 mb-10 ps-2 pe-1">
+            <div class="card card-flush px-1 mx-2">
+                <app-report-display-number-of-services-usage [reportData]="reportData"></app-report-display-number-of-services-usage>
+            </div>
+        </div>
+    </div>
+} @else {
+    <span class="text-secondary fst-italic">Không thể tạo biểu đồ thống kê</span>
+}
+
+}
