@@ -20,7 +20,8 @@ import { User } from './auth/user.model';
     AsyncPipe,
     NgClass,
     KeycloakAngularModule,
-    SpinnerComponent
+    SpinnerComponent,
+    FooterComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

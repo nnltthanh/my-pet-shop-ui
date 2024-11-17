@@ -1,4 +1,4 @@
-<ngx-slick-carousel
+<!-- <ngx-slick-carousel
   class="carousel mx-4 my-3 py-3"
   #slickModal="slick-carousel"
   [config]="slideConfig"
@@ -7,11 +7,7 @@
   (afterChange)="afterChange($event)"
   (beforeChange)="beforeChange($event)"
 >
-  <!-- @for (slide of slides; track slide.img) {
-    <div ngxSlickItem class="slide">
-        <img src="{{ slide.img }}" alt="" width="100%">
-    </div>
-    } -->
+
   <div ngxSlickItem class="slide">
     <app-product-card [product]="product"/>
   </div>
@@ -30,4 +26,17 @@
   <div ngxSlickItem class="slide">
     <app-product-card [product]="product"/>
   </div>
-</ngx-slick-carousel>
+</ngx-slick-carousel> -->
+
+
+<p-carousel 
+    [value]="slides" 
+    [numVisible]="3" 
+    [numScroll]="3" 
+    [circular]="true" 
+    [responsiveOptions]="responsiveOptions" 
+    autoplayInterval="3000">
+        <ng-template let-product pTemplate="item">
+                
+        </ng-template>
+</p-carousel>

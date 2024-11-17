@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ProductFilteringComponent } from '../product-filtering/product-filtering.component';
 import { ProductListDisplayComponent } from '../product-list-display/product-list-display.component';
+import { HeaderSearchChangeService } from '../../services/header-search-change-service.service';
 
 @Component({
   selector: 'app-product-display',
@@ -9,7 +10,7 @@ import { ProductListDisplayComponent } from '../product-list-display/product-lis
   templateUrl: './product-display.component.html',
   styleUrl: './product-display.component.scss',
 })
-export class ProductDisplayComponent {
+export class ProductDisplayComponent implements OnInit {
 
   readonly panelOpenState = signal(false);
   
@@ -35,6 +36,18 @@ export class ProductDisplayComponent {
     cat: true,
     hamster: true
   };
+
+  keyword: string = '';
+
+  headerSearchChangeService = inject(HeaderSearchChangeService);
+
+  ngOnInit(): void {
+    this.headerSearchChangeService.keyword$.subscribe(keyword => {
+      if (keyword !== this.keyword) {
+        this.keyword = keyword;
+      }
+    });
+  }
 
   onPriceRangeChanged($event: any): void {
     this.priceRange = {

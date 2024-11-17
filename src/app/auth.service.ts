@@ -20,7 +20,7 @@ export class AuthService {
   onLogout() {
     this.sessionStorageService.removeAll();
     localStorage.clear();
-    this.keycloakService.logout(environment.keycloak.redirectUrl).then(value =>  {
+    this.keycloakService.logout().then(value =>  {
       this.keycloakService.clearToken();
       this.userService.logout();
     });

@@ -58,6 +58,8 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
     hamster: boolean
   }>();
 
+  keyword = input<string>();
+
   products: ProductOverview[] = [];
 
   pagingConfig!: PagingConfig;
@@ -95,6 +97,11 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
 
       this.onSortingOrPagingChange();
     }
+
+    if (changes['keyword']) {
+      console.log("on searching...");
+      this.onSortingOrPagingChange();
+    }
   }
 
   ngOnInit(): void {
@@ -110,6 +117,7 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
     params = params.append('desc', 'updatedAt');
     params = params.append('page', this.pagingConfig.page);
     params = params.append('pageSize', this.pagingConfig.rows);
+    params = params.append('keyword', this.keyword()!);
 
     this.productService
       .findAllBy(params)
@@ -193,10 +201,16 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
       params = params.append('pageSize', this.pagingConfig.rows);
     }
 
+    if (this.keyword()) {
+      params = params.append('keyword', this.keyword()!.trim());
+    } else {
+      params = params.append('keyword', '');
+    }
+
     this.isLoading = true;
     this.productService
       .findAllBy(params)
-      .pipe(take(1))
+      // .pipe(take(1))
       .subscribe((response) => {
         this.products = response.data;
         this.pagingConfig.totalRecords = response.total;

@@ -1,3 +1,41 @@
 .product-slider {
-    width: 90%;
+  width: 90%;
+}
+
+.home-banner {
+  width: 100vw;
+}
+
+.product-card {
+  max-width: 500px;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-title {
+  color: #3498db;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background-color: #3498db;
+
+  .product-title {
+    color: white !important;
+  }
+}
+
+.bg-gray-light-custom {
+  background-color: #f6f3f3;
+}
+
+.mt-50 {
+    margin-top: 100px;
+    margin-bottom: 100px;
 }

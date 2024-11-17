@@ -3,15 +3,34 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { ProductOverview } from '../product-overview.model';
 import { ImageData } from '../product-list-display/image-data.model';
+import { CarouselModule } from 'primeng/carousel';
 
 @Component({
   selector: 'app-product-carousel-list',
   standalone: true,
-  imports: [ProductCardComponent, SlickCarouselModule],
+  imports: [ProductCardComponent, SlickCarouselModule, CarouselModule],
   templateUrl: './product-carousel-list.component.html',
   styleUrl: './product-carousel-list.component.scss',
 })
 export class ProductCarouselListComponent {
+
+  responsiveOptions = [
+    {
+        breakpoint: '1199px',
+        numVisible: 1,
+        numScroll: 1
+    },
+    {
+        breakpoint: '991px',
+        numVisible: 2,
+        numScroll: 1
+    },
+    {
+        breakpoint: '767px',
+        numVisible: 1,
+        numScroll: 1
+    }
+];
 
   product = new ProductOverview(
       1,

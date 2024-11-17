@@ -1,39 +1,20 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary header-height px-3 py-0"
-[class.expanded]="isExpanded">
+<nav class="navbar navbar-expand-lg bg-body-tertiary header-height px-3 py-0" [class.expanded]="isExpanded">
   <div class="container-fluid navbar-container py-0 h-100">
     <a class="navbar-brand" href="#">
       <img src="/assets/images.png" alt="Bootstrap" width="30" height="30" />
     </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse h-100" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 h-100">
         <li class="nav-item mx-auto">
-          <a
-            class="nav-link active"
-            type="button"
-            aria-current="page"
-            routerLink="home"
-            >Trang chủ</a
-          >
+          <a class="nav-link active" type="button" aria-current="page" routerLink="home">Trang chủ</a>
         </li>
         <li class="nav-item dropdown-product">
-          <a
-            class="nav-link dropdown-toggle"
-            role="button"
-            data-bs-toggle="dropdown-product"
-            aria-expanded="true"
-            routerLink="products"
-          >
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown-product" aria-expanded="true"
+            routerLink="products">
             Sản phẩm
           </a>
           <ul class="dropdown-menu">
@@ -46,13 +27,8 @@
           </ul>
         </li>
         <li class="nav-item dropdown-service">
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="services"
-            role="button"
-            data-bs-toggle="dropdown-service"
-            aria-expanded="true"
-          >
+          <a class="nav-link dropdown-toggle" routerLink="services" role="button" data-bs-toggle="dropdown-service"
+            aria-expanded="true">
             Dịch vụ
           </a>
           <ul class="dropdown-menu">
@@ -71,31 +47,28 @@
           <a class="nav-link active" aria-current="page" href="#">Giới thiệu</a>
         </li>
       </ul>
-      <div class="search-box">
-        <button class="btn-search"><i class="bi bi-search fs-5"></i></button>
-        <input
-          type="text"
-          class="input-search"
-          placeholder="Nhập tên sản phẩm..."
-        />
+
+      <div class="form form-search">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control form-input" placeholder="Tìm kiếm sản phẩm..." (keydown.enter)="onSearchKeyword($any($event.target).value)">
+        <span class="left-pan" (click)="imageSearch.click()" title="Tìm kiếm bằng hình ảnh"><i class="fa fa-camera" aria-hidden="true"></i></span>
+        <input type="file" #imageSearch class="d-none" (input)="onSearch($event.target)"/>
       </div>
+
       <div routerLink="cart">
         <i class="bi bi-cart2 fs-4 ms-3"></i>
       </div>
-      <div
-      class="user-control dropdown-user dropdown-toggle"
-            role="button"
-            data-bs-toggle="dropdown-user"
-            aria-expanded="true">
+      <div class="user-control dropdown-user dropdown-toggle" role="button" data-bs-toggle="dropdown-user"
+        aria-expanded="true">
         <i class="bi bi-person-circle fs-4 ms-3"></i>
         <ul class="dropdown-menu user-control-menu">
-            <li><span class="dropdown-item" routerLink="customer/me/info">Trang cá nhân</span></li>
-            @if(isLoggedIn()) {
-              <li><span class="dropdown-item" (click)="logout()">Đăng xuất</span></li>
-            } @else {
-              <li><span class="dropdown-item" (click)="login()">Đăng nhập</span></li>
-            }
-          </ul>
+          <li><span class="dropdown-item" routerLink="customer/me/info">Trang cá nhân</span></li>
+          @if(isLoggedIn()) {
+          <li><span class="dropdown-item" (click)="logout()">Đăng xuất</span></li>
+          } @else {
+          <li><span class="dropdown-item" (click)="login()">Đăng nhập</span></li>
+          }
+        </ul>
       </div>
     </div>
   </div>
