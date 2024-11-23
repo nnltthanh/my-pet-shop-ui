@@ -120,6 +120,10 @@ export const routes: Routes = [
         path: "reports",
         loadComponent: () => import('./management-display/reports/report-display/report-display.component').then(m => m.ReportDisplayComponent)
       },
+      {
+        path: "chat",
+        loadComponent: () => import('./management-display/conversation-management/conversation-management-display/conversation-management-display.component').then(m => m.ConversationManagementDisplayComponent)
+      },
     ],
   },
   {

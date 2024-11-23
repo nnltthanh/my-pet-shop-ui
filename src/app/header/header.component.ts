@@ -1,14 +1,14 @@
 import { Component, HostListener, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { HeaderSearchChangeService } from '../services/header-search-change-service.service';
 import { ProductImageSearcher } from '../services/product-image-searcher.service';
 import { ProductService } from '../services/product.service';
-import { HttpParams } from '@angular/common/http';
-import { HeaderSearchChangeService } from '../services/header-search-change-service.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -19,6 +19,8 @@ export class HeaderComponent {
   isExpanded: boolean = false;
 
   navWidth: string = "80%";
+
+  keyword: string;
 
   productImageSearcher = inject(ProductImageSearcher);
 
@@ -54,6 +56,7 @@ export class HeaderComponent {
         let keyword: string = '';
         if (data && data.prediction) {
           keyword = data.prediction;
+          this.keyword = keyword;
         }
         this.onSearchKeyword(keyword);
       });

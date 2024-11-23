@@ -26,6 +26,7 @@
   min-width: fit-content;
   max-width: 20%;
   border-radius: 20px;
+  border: #2671c2 1px solid;
 }
 
 .add-to-cart-btn {
@@ -81,4 +82,9 @@
 
 .bg-gray-light-custom {
   background-color: #f6f3f3;
+}
+
+.description {
+  text-align: justify;
+  text-justify: inter-word;
 }

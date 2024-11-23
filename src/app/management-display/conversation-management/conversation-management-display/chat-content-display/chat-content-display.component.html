@@ -1,0 +1,44 @@
+<div class="d-flex flex-column">
+  <div class="h-content" #messageContainer>
+    @for (item of messageLists; track $index) {
+
+        <div
+          class="p-3"
+          [class.customer-feedback-align]="item.sender.id === loggedUserId"
+          [class.employee-feedback-align]="item.sender.id !== loggedUserId"
+        >
+          @if (item.sender.id !== loggedUserId) {
+          <div>
+            {{ item.sender.name }} - {{ item.timeStamp | date : "dd/MM/yyy H:mm:ss" }}
+          </div>
+          } @else {
+          <div>Bạn - {{ item.timeStamp | date : "dd/MM/yyy H:mm:ss" }}</div>
+          }
+          <div
+            class="align-middle"
+            [class.customer-feedback]="item.sender.id === loggedUserId"
+            [class.employee-feedback]="item.sender.id !== loggedUserId"
+          >
+            {{ item.content }}
+          </div>
+        </div>
+      
+        }
+  </div>
+
+  <div class="w-100 d-flex justify-content-center">
+    <div class="w-85">
+        <form #messageForm="ngForm" name="messageForm">
+            <input
+              type="text"
+              class="form-control form-input"
+              placeholder="Nhập tin nhắn..."
+              (keydown.enter)="addMessage($any($event.target).value)"
+              #inputMessage="ngModel"
+              name="inputMessage"
+              ngModel
+            />
+        </form>
+    </div>
+  </div>
+</div>

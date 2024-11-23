@@ -42,7 +42,12 @@ export class ManagementDisplayComponent {
       name: 'reportManagement',
       isActive: false,
     },
-   
+    {
+      path: 'chat',
+      label: 'Tư vấn khách hàng',
+      name: 'conversationManagement',
+      isActive: false,
+    },
 ];
 
   constructor(private router: Router, private route: ActivatedRoute) { }

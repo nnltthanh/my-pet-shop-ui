@@ -98,9 +98,9 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
       this.onSortingOrPagingChange();
     }
 
-    if (changes['keyword']) {
+    if (changes['keyword'] && !changes['keyword'].isFirstChange()) {
       console.log("on searching...");
-      this.onSortingOrPagingChange();
+      this.onSortingOrPagingChange(); 
     }
   }
 

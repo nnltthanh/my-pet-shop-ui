@@ -1,0 +1,47 @@
+.employee-feedback {
+  background-color: rgb(222, 221, 221);
+  max-width: 70%;
+  width: fit-content;
+  min-width: 150px;
+  min-height: 40px;
+  white-space: normal;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+.customer-feedback {
+  background-color: #2063aa;
+  max-width: 70%;
+  width: fit-content;
+  min-width: 150px;
+  min-height: 40px;
+  white-space: normal;
+  padding: 5px 15px;
+  border-radius: 20px;
+  color: rgb(251, 248, 248);
+}
+
+.employee-feedback-align {
+  display: flex;
+  flex-direction: column !important;
+}
+
+.customer-feedback-align {
+  display: flex;
+  align-items: flex-end !important;
+  flex-direction: column !important;
+}
+
+.form-input {
+  text-indent: 20px;
+  border-radius: 50px;
+}
+
+.form-input:focus {
+  box-shadow: none;
+}
+
+.h-content {
+  height: 90vh;
+  overflow: auto;
+}

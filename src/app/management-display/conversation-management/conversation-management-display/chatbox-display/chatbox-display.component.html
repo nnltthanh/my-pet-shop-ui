@@ -1,0 +1,20 @@
+<div class="fs-3 fw-bold mb-4 ps-3">Đoạn chat</div>
+
+@if ($conversations | async; as conversations) {
+<div class="list-group rounded-0 cursor-pointer">
+  @for (item of conversations; track $index) {
+  <!-- <div class="border border-light-subtle fw-semibold" (click)="selectedConversation.emit(item); selectedConversationId = item.id">
+            Khách hàng {{ item?.sender?.name }}
+        </div> -->
+
+  <div
+    type="button"
+    class="list-group-item list-group-item-action cursor-pointer h-chat-item align-middle"
+    (click)="selectedConversation.emit(item); selectedConversationId = item.id"
+    [class.active]="selectedConversationId === item.id"
+  >
+    Khách hàng {{ item?.sender?.name }}
+  </div>
+  }
+</div>
+}

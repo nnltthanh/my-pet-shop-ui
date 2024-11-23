@@ -35,4 +35,8 @@ export class PetCustomerRegistrationService {
     return this.http.get<PetCustomerServiceProduct[]>(`${this.getBaseUri()}/${id}`);
   }
 
+  findAll(): Observable<PetCustomerServiceProduct[]> {
+    return this.http.get<PetCustomerServiceProduct[]>(`${this.getBaseUri()}`);
+  }
+
 }

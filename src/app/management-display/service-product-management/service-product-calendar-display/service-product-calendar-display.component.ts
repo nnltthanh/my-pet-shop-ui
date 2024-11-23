@@ -101,7 +101,7 @@ export class ServiceProductCalendarDisplayComponent implements OnInit {
       //     resolve(events);
       //   }
       // })
-      this.petRegistrationService.findAllByCustomer(getLoggedInUserId()).subscribe({
+      this.petRegistrationService.findAll().subscribe({
         next: (result) => {
           console.log(result);
           

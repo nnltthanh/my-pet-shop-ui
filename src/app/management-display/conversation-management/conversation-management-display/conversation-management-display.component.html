@@ -1,0 +1,10 @@
+<div class="d-flex flex-row">
+    <div class="col-4 border border-light-subtle full-height overflow-auto">
+        <app-chatbox-display (selectedConversation)="onSelectedConversation($event)"></app-chatbox-display>
+    </div>
+    <div class="col-8 border border-light-subtle full-height overflow-auto">
+        @if ($messages | async; as messages) {
+            <app-chat-content-display [messages]="messages" [selectedConversationId]="selectedConversationId"></app-chat-content-display>
+        }
+    </div>
+</div>

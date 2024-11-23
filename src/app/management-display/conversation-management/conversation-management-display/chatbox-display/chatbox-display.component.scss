@@ -1,0 +1,9 @@
+.h-chat-item {
+    min-height: 50px;
+    border-left: none;
+    border-right: none;
+}
+
+.h-chat-item.active {
+    background-color: #2b70ba !important;
+}

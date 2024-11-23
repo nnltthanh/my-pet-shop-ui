@@ -1,7 +1,7 @@
 <div class="col-md-4 col-sm-6" role="button" (click)="navigateToDetail()">
   <div class="product-card">
       <div class="product-image">
-          <img [src]="product()?.imageData?.imageUrls"
+          <img referrerPolicy="no-referrer" [src]="product()?.imageData?.imageUrls"
           [alt]="product()?.name" class="img-fluid">
       </div>
       <div class="product-details p-3">
