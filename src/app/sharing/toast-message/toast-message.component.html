@@ -1,18 +1,25 @@
-<div class="toast-container text-break position-fixed top-0 start-50 translate-middle-x mt-5">
+<div class="toast-container text-break position-fixed top-15 end-0 translate-middle-x mt-5">
   <ngb-toast
       *ngFor="let message of messageService.messages"
       [class]="getCssClass(message.severity)"
       [autohide]="isAutoHide(message.severity)"
       [delay]="getDelayTime(message.severity)"
-      (hidden)="messageService.clear(message)">
-    <ng-template ngbToastHeader>
+      (hidden)="messageService.clear(message)"
+      #toast>
+    <!-- <ng-template ngbToastHeader>
         <span class="me-auto fw-semibold"><i [class]="getIconClass(message.severity)"></i>
           {{getHeader(message.severity) }}
         </span>
-    </ng-template>
-    <p class="text-wrap mb-2">
+    </ng-template> -->
+    <div class="d-flex">
+      <div class="w-100 text-wrap mb-2">
         {{message.message}}
-    </p>
+      </div>
+      <div type="button" class="flex-shrink-1" (click)="toast.hide()">
+        <i class="fa fa-times fs-5" aria-hidden="true"></i>
+      </div>
+    </div>
+
 
   </ngb-toast>
 </div>

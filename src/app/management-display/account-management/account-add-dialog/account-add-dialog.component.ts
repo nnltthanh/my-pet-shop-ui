@@ -21,6 +21,7 @@ import { User } from '../../../auth/user.model';
 import { Gender } from '../../../gender.model';
 import { UserService } from '../../../services/user.service';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ToastMessageService } from '../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-account-add-dialog',
@@ -83,7 +84,7 @@ export class AccountAddDialogComponent {
   ]
 
   selectedGroups: string[] = [];
-
+  toastMessageService = inject(ToastMessageService);
   closeDialog() {
     this.activeModal.close(true);
   }
@@ -109,6 +110,7 @@ export class AccountAddDialogComponent {
       user.groups = this.selectedGroups;
       this.userService.add(user, this.uploadFile).subscribe({
         next: (data) => {
+          this.toastMessageService.addSuccessfulMessage("Thêm người dùng thành công");
           this.activeModal.close(data);
         },
       });

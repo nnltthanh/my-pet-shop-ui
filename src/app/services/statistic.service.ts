@@ -53,7 +53,9 @@ export class StatisticService {
     }
 
     export(period: StatisticFilterPeriod) {
-        return this.http.get(`${this.getBaseUri()}/period/${period}/report`);
+        return this.http.get(`${environment.BACKEND_URL}/export/${period}`,
+            { responseType: 'blob' }
+        );
     }
     
     private getBaseUri(): string {

@@ -72,10 +72,6 @@
           Chưa cập nhật!
         </div>
       </div>
-      <div class="account-info-field">
-        <div class="account-info-label">Mật khẩu</div>
-        <div class="account-info-value">**********************</div>
-      </div>
 
       <div class="account-info-field">
         <button (click)="clickUpdate()" class="btn account-info-btn">
@@ -99,7 +95,26 @@
             />
           </div>
         </div>
+
         <div class="account-info-field">
+          <div class="account-info-label">Email</div>
+          <div class="account-info-value">
+            <span
+              style="opacity: 0.6; font-size: 0.85em"
+              *ngIf="userInfo.email"
+            >
+              <i>{{ userInfo.email }}</i>
+            </span>
+            <span
+              style="opacity: 0.6; font-size: 0.85em"
+              *ngIf="!userInfo.email"
+            >
+              <i>Chưa cập nhật!</i>
+            </span>
+          </div>
+        </div>
+        <!-- Edit -->
+        <!-- <div class="account-info-field">
           <div class="account-info-label">Email</div>
           <div class="account-info-value edit-field">
             <input
@@ -112,7 +127,7 @@
               class="form-control"
             />
           </div>
-        </div>
+        </div> -->
         <div class="account-info-field">
           <div class="account-info-label">Số điện thoại</div>
           <div class="account-info-value edit-field">
@@ -151,10 +166,6 @@
         <div class="account-info-value" *ngIf="!userInfo.account">
           Chưa cập nhật!
         </div>
-      </div>
-      <div class="account-info-field">
-        <div class="account-info-label">Mật khẩu</div>
-        <div class="account-info-value">**********************</div>
       </div>
 
       <div class="account-info-field">

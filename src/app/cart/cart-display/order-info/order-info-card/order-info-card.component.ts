@@ -1,9 +1,10 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, input, output, SimpleChanges } from '@angular/core';
+import { Component, inject, input, output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CartDetail } from '../../../cart-detail.model';
 import { CartService } from '../../../../services/cart.service';
 import { getLoggedInUserId } from '../../../../services/user.service';
+import { ToastMessageService } from '../../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-order-info-card',
@@ -20,6 +21,7 @@ export class OrderInfoCardComponent {
 
   onCartDetailChanged = output<CartDetail>();
 
+  toastMessageService = inject(ToastMessageService);
   options = [
     { key: '1', value: 'One' },
     { key: '2', value: 'Two' },

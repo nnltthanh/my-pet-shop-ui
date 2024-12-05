@@ -48,7 +48,7 @@
   
 
   @for (item of reviews; track $index) {
-
+    @if (item.content) {
     <div class="mb-2"
         [class.customer-feedback-align]="item.employee === null"
         [class.employee-feedback-align]="item.employee !== null">
@@ -62,7 +62,7 @@
         [class.employee-feedback]="item.employee !== null"
         >{{ item.content }}</div>
     </div>
-
+  }
   }
 
   <div class="d-flex flex-row">

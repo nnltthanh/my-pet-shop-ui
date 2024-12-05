@@ -23,6 +23,7 @@ import { PetCustomerService } from '../../../../../services/pet-customer.service
 import { PetBreed } from '../../../../../product/pet-category.model';
 import { Gender } from '../../../../../gender.model';
 import { HealthRecord } from '../../../../../product/health-record.model';
+import { ToastMessageService } from '../../../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-customer-pet-detail-dialog',
@@ -80,6 +81,8 @@ export class CustomerPetDetailDialogComponent implements OnInit {
 
   defaultDob: Date;
 
+  toastMessageService = inject(ToastMessageService);
+
   ngOnInit(): void {
     this.isLoading = this.petCustomerService.findById(this.petCustomerId).pipe(
       map((petCustomer) => {
@@ -130,6 +133,7 @@ export class CustomerPetDetailDialogComponent implements OnInit {
     }
     this.petCustomerService.update(this.petCustomerId, this.petCustomer, this.updatedFile).subscribe({
       next: (data) => {
+        this.toastMessageService.addSuccessfulMessage("Cập nhật thông tin thú cưng thành công");
         this.activeModal.close(data);
       }
     })

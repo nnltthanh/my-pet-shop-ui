@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Address } from '../../../auth/address.model';
 import { AddressService } from '../../../services/address.service';
 import { AddressBookAddDialogComponent } from './address-book-add-dialog/address-book-add-dialog.component';
 import { AddressSelectionComponent } from './address-selection/address-selection.component';
 import { getLoggedInUserId } from '../../../services/user.service';
+import { ToastMessageService } from '../../../sharing/toast-message/toast-message.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class AddressBookDisplayComponent {
 
   isLoading: boolean = false;
 
+  toastMessageService = inject(ToastMessageService);
 
   constructor(private addressService: AddressService,
     private modalService: NgbModal
@@ -38,6 +40,7 @@ export class AddressBookDisplayComponent {
 
     this.addressService.deleteAddress(address.id).subscribe({
       complete: () => {
+        this.toastMessageService.addSuccessfulMessage("Cập nhật thông tin sổ địa chỉ thành công");
         this.getAddressesByCustomerId();
       }
     }
@@ -96,6 +99,7 @@ export class AddressBookDisplayComponent {
     address.isDefault = true;
     this.addressService.updateAddress(getLoggedInUserId(), address).subscribe(data => {
       this.getAddressesByCustomerId();
+      this.toastMessageService.addSuccessfulMessage("Cập nhật thông tin sổ địa chỉ thành công");
     })
   }
 

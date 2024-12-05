@@ -64,7 +64,8 @@
             
               @for (item of reviews; track $index) {
             
-                <div class="mb-2"
+                @if (item.content) {
+                  <div class="mb-2"
                     [class.customer-feedback-align]="item.employee === null"
                     [class.employee-feedback-align]="item.employee !== null">
                     @if (item.customer) {
@@ -77,6 +78,7 @@
                     [class.employee-feedback]="item.employee !== null"
                     >{{ item.content }}</div>
                 </div>
+                }
             
               }
             
@@ -85,7 +87,7 @@
                   <label
                     for="review-product-{{ orderDetail.id }}"
                     class="form-label text-secondary mb-1"
-                    >Phản hồi:
+                    >Viết đánh giá:
                   </label>
                   <textarea
                     type="text"
@@ -101,7 +103,7 @@
             
               <div class="w-100 text-end">
                 <div type="button" class="btn btn-primary" (click)="onReview()">
-                  Gửi phản hồi
+                  Gửi đánh giá
                 </div>
               </div>
               

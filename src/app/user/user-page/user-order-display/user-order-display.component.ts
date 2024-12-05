@@ -23,4 +23,8 @@ export class UserOrderDisplayComponent implements OnInit {
     this.$orders = this.orderService.findAll(getLoggedInUserId());
   }
 
+  getOrders() {
+    this.$orders = this.orderService.findAll(getLoggedInUserId());
+  }
+
 }

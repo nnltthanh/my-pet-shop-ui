@@ -24,6 +24,7 @@ import { UserService } from '../../../services/user.service';
 import { EnumValuePipe } from '../../../sharing/enum-value.pipe';
 import { ServiceProductAddDialogComponent } from './service-product-add-dialog/service-product-add-dialog.component';
 import { ServiceProductEditDialogComponent } from './service-product-edit-dialog/service-product-edit-dialog.component';
+import { ToastMessageService } from '../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-service-product-list-display',
@@ -69,6 +70,8 @@ export class ServiceProductListDisplayComponent implements AfterViewChecked {
   serviceProductService = inject(ServiceProductService);
 
   modalService = inject(NgbModal);
+
+  toastMessageService = inject(ToastMessageService);
 
   constructor(
     private cdr: ChangeDetectorRef
@@ -162,6 +165,7 @@ export class ServiceProductListDisplayComponent implements AfterViewChecked {
     this.serviceProductService
     .delete(product.id)
     .subscribe((data) => {
+      this.toastMessageService.addSuccessfulMessage("Xoá dịch vụ thành công");
      this.loadProducts(this.currentTableLazyLoadEvent);
     });
   }

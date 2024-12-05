@@ -14,7 +14,8 @@
     <div class="orders-body mt-3">
       <div class="orders-wrapper">
         @for (order of orders; track $index) {
-            <app-user-order-card [order]="order" ></app-user-order-card>
+            <app-user-order-card [order]="order" 
+            (orderChange)="getOrders()"></app-user-order-card>
         }
       </div>
     </div>

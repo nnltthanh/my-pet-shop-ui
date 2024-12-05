@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
 import {
   Component,
+  inject,
   input,
   model,
   ModelSignal,
@@ -31,6 +32,7 @@ import { PetProductService } from '../../../../services/pet-product.service';
 import { HealthRecord } from '../../../health-record.model';
 import { PetBreed } from '../../../pet-category.model';
 import { PetProduct } from '../../../pet-product.model';
+import { ToastMessageService } from '../../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-product-detail-edit',
@@ -89,6 +91,8 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
   updatedFile: File;
 
   defaultDob: Date;
+
+  toastMessageService = inject(ToastMessageService);
 
   constructor(
     private messageService: MessageService,
@@ -168,7 +172,11 @@ export class ProductDetailEditComponent implements OnInit, OnChanges {
         this.petProductService
           .update(this.petProduct.id, this.petProduct, this.updatedFile)
           .subscribe({
+            error: () => {
+              this.toastMessageService.addSimpleErrorMessage("Có lỗi xảy ra khi cập nhật thông tin thú cưng");
+            },
             complete: () => {
+              this.toastMessageService.addSuccessfulMessage("Cập nhật thông tin thú cưng thành công");
               this.submittedChanged.emit(true);
               this.productDialog.set(false);
               this.messageService.add({

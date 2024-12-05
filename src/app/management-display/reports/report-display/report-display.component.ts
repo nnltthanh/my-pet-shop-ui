@@ -93,11 +93,26 @@ export class ReportDisplayComponent {
   }
 
   export() {
-    this.statisticService.export(this.selectedFilter).subscribe({
-      next: () => {
+    this.statisticService.export(this.selectedFilter).subscribe(data => {
+      const currentDate = new Date();
 
-      }
-    })
+      // Get the date part in dd-MM-yyyy format
+      const formattedDate = currentDate.toLocaleDateString('en-GB');
+
+      // Get the time part in HH:mm:ss format (24-hour format)
+      const formattedTime = currentDate.toLocaleTimeString('en-US', { hour12: false });
+
+      // Combine the date and time
+      const dateTimeString = `${formattedDate}-${formattedTime}`;
+
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = 'reports_' + this.selectedFilter + '_' + dateTimeString;
+      link.href = blobUrl;
+      link.click();
+      URL.revokeObjectURL(blobUrl);
+  })
   }
 
 }

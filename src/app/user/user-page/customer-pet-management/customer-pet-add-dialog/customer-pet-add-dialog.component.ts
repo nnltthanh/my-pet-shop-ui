@@ -24,6 +24,7 @@ import { PetCustomer } from '../../../../product/pet-customer.model';
 import { PetCustomerService } from '../../../../services/pet-customer.service';
 import { User } from '../../../../auth/user.model';
 import { getLoggedInUserId } from '../../../../services/user.service';
+import { ToastMessageService } from '../../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-customer-pet-add-dialog',
@@ -97,6 +98,8 @@ export class CustomerPetAddDialogComponent {
 
   latestHealthRecord: HealthRecord | null = new HealthRecord();
 
+  toastMessageService = inject(ToastMessageService);
+
   closeDialog() {
     this.activeModal.close(true);
   }
@@ -150,6 +153,7 @@ export class CustomerPetAddDialogComponent {
 
       this.petCustomerService.add(petCustomer, this.uploadFile).subscribe({
         next: (data) => {
+          this.toastMessageService.addSuccessfulMessage("Thêm thông tin thú cưng thành công");
           this.activeModal.close(data);
         },
       });

@@ -16,6 +16,7 @@ import { PetCustomerServiceProduct } from '../../product/pet-customer-service-pr
 import { formatToLocalDateTime } from '../../sharing/format-datetime.const';
 import { PetCustomerRegistrationService } from '../../services/pet-customer-registration.service';
 import { Router } from '@angular/router';
+import { ToastMessageService } from '../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-pet-hotel-display',
@@ -68,6 +69,8 @@ export class PetHotelDisplayComponent {
   customerNote: string;
 
   router = inject(Router);
+
+  toastMessageService = inject(ToastMessageService);
 
 	constructor(config: NgbTimepickerConfig) {
 		// customize default values of ratings used by this component tree
@@ -122,7 +125,7 @@ export class PetHotelDisplayComponent {
 
     this.petRegistration.reserve(registration, this.selectedProductDetails).subscribe({
       next: (data) => {
-        console.log(data);
+        this.toastMessageService.addSuccessfulMessage("Đăng ký dịch vụ cho thú cưng thành công");
         this.router.navigate(["customer/me/my-services"]);
       }
     })

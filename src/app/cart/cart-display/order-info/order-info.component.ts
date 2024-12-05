@@ -23,6 +23,7 @@ import { getLoggedInUserId, UserService } from '../../../services/user.service';
 import { CartDetail } from '../../cart-detail.model';
 import { AddressBookSelectionDialogComponent } from './address-book-selection-dialog/address-book-selection-dialog.component';
 import { OrderInfoCardComponent } from './order-info-card/order-info-card.component';
+import { ToastMessageService } from '../../../sharing/toast-message/toast-message.service';
 
 interface EventItem {
   status?: string;
@@ -90,6 +91,8 @@ export class OrderInfoComponent implements OnChanges {
   paymentOption: string = 'vnpay';
 
   @ViewChild('customerInfoForm') customerInfoForm: NgForm;
+
+  toastMessageService = inject(ToastMessageService);
 
   constructor(
     private cartService: CartService,

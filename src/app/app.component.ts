@@ -9,6 +9,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { UserService } from './services/user.service';
 import { User } from './auth/user.model';
 import { ToastMessageComponent } from './sharing/toast-message/toast-message.component';
+import { ToastMessageService } from './sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,8 @@ export class AppComponent {
   $customerHeader = new BehaviorSubject<boolean>(false);
 
   authService = inject(UserService);
+
+  toastMessageService = inject(ToastMessageService);
 
   constructor(private router: Router) {}
 

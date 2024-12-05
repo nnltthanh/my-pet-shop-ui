@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressSelectionComponent } from '../address-selection/address-selection.component';
 import { AddressService } from '../../../../services/address.service';
 import { Address } from '../../../../auth/address.model';
 import { User } from '../../../../auth/user.model';
+import { ToastMessageService } from '../../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-address-book-add-dialog',
@@ -22,6 +23,8 @@ export class AddressBookAddDialogComponent {
   customerPhone: string;
 
   address: Address | null = null;
+
+  toastMessageService = inject(ToastMessageService);
 
   constructor(private addressService: AddressService) {}
 
@@ -45,6 +48,7 @@ export class AddressBookAddDialogComponent {
   saveAddress() {
     if (this.address) {
       this.addressService.postAddress(this.address).subscribe(data => {
+        this.toastMessageService.addSuccessfulMessage("Thêm địa chỉ mới thành công");
         this.closeDialog();
       })
     }

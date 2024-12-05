@@ -7,6 +7,7 @@ import { OrderDetail } from '../../../../../product/order-detail.model';
 import { Review } from '../../../../../product/review.model';
 import { ReviewService } from '../../../../../services/review.service';
 import { getLoggedInUserId } from '../../../../../services/user.service';
+import { ToastMessageService } from '../../../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-user-order-review-add-card',
@@ -32,6 +33,8 @@ export class UserOrderReviewAddCardComponent implements OnInit {
   existingReview = new BehaviorSubject<Review[]>([]);
 
   isChecked: Observable<Review[]>;
+
+  toastMessageService = inject(ToastMessageService);
 
   ngOnInit(): void {
     this.isChecked = this.reviewService.findByOrderDetailId(0, this.orderDetail().id)
@@ -60,6 +63,7 @@ export class UserOrderReviewAddCardComponent implements OnInit {
     this.reviewService.create(0, this.orderDetail().id, review, this.files).subscribe({
       next: review => {
         console.log(review);
+        this.toastMessageService.addSuccessfulMessage("Gửi đánh giá đơn hàng thành công");
         let reviews = this.existingReview.getValue();
         reviews.push(review);
         this.existingReview.next(reviews);

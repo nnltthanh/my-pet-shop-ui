@@ -1,6 +1,6 @@
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -23,6 +23,7 @@ import { ProductDetailEditComponent } from './product-detail-edit/product-detail
 import { ProductAddDialogComponent } from './product-add-dialog/product-add-dialog.component';
 import { ImporterService } from '../../../services/importer.service';
 import { InventoryStatus } from '../../inventory-status.model';
+import { ToastMessageService } from '../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-product-table',
@@ -76,6 +77,8 @@ export class ProductTableComponent implements OnInit {
   imagePath: any;
 
   currentTableLazyLoadEvent: TableLazyLoadEvent;
+
+  toastMessageService = inject(ToastMessageService);
 
   constructor(
     private productService: ProductService,
@@ -226,9 +229,10 @@ export class ProductTableComponent implements OnInit {
       let file: File = event.target.files[0];
       this.importerService.importProducts('PET', file).subscribe({
         error: (error) => {
-          console.log(error);
+          this.toastMessageService.addSimpleErrorMessage("Có lỗi xảy ra khi nhập danh sách thú cưng");
         },
         complete: () => {
+          this.toastMessageService.addSuccessfulMessage("Nhập danh sách thú cưng mới thành công");
           this.loadPetProducts(this.currentTableLazyLoadEvent);
         }
       });

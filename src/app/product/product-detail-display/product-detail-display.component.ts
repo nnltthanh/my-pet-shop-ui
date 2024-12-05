@@ -192,8 +192,7 @@ export class ProductDetailDisplayComponent implements OnInit {
     });
     this.cartService.addToCart(getLoggedInUserId(), cartDetail).subscribe({
       complete: () => {
-        this.toastMessageService.addSuccessfulMessage("Add to cart successfully");
-        console.log('Add to cart successfully');
+        this.toastMessageService.addSuccessfulMessage("Thêm sản phẩm vào giỏ hàng thành công");
       },
     });
   }

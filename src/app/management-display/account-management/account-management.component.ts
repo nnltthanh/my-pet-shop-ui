@@ -22,6 +22,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountAddDialogComponent } from './account-add-dialog/account-add-dialog.component';
+import { ToastMessageService } from '../../sharing/toast-message/toast-message.service';
 
 
 @Component({
@@ -76,6 +77,8 @@ export class AccountManagementComponent implements AfterViewChecked {
   userService = inject(UserService);
 
   modalService = inject(NgbModal);
+
+  toastMessageService = inject(ToastMessageService);
 
   constructor(
     private cdr: ChangeDetectorRef
@@ -231,6 +234,7 @@ export class AccountManagementComponent implements AfterViewChecked {
   onBlock(user: User) {
     this.userService.updatePartially(user.id, "validTo", "block").subscribe({
       next: (data) => {
+        this.toastMessageService.addSuccessfulMessage("Cập nhật thông tin người dùng thành công");
         this.loadUsers(this.currentTableLazyLoadEvent);
       }
     })
@@ -239,6 +243,7 @@ export class AccountManagementComponent implements AfterViewChecked {
   onUnblock(user: User) {
     this.userService.updatePartially(user.id, "validTo", "").subscribe({
       next: (data) => {
+        this.toastMessageService.addSuccessfulMessage("Cập nhật thông tin người dùng thành công");
         this.loadUsers(this.currentTableLazyLoadEvent);
       }
     })

@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
 import {
   Component,
+  inject,
   input,
   model,
   ModelSignal,
@@ -28,6 +29,7 @@ import { PetProductService } from '../../../../services/pet-product.service';
 import { PetBreed, PetCategory } from '../../../pet-category.model';
 import { PetProduct } from '../../../pet-product.model';
 import { HealthRecord } from '../../../health-record.model';
+import { ToastMessageService } from '../../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-product-add-dialog',
@@ -101,6 +103,8 @@ export class ProductAddDialogComponent {
   petDescription: string = '';
 
   latestHealthRecord: HealthRecord | null = new HealthRecord();
+
+  toastMessageService = inject(ToastMessageService);
 
   constructor(
     private messageService: MessageService,
@@ -187,17 +191,13 @@ export class ProductAddDialogComponent {
 
       this.petProductService.add(petProduct, this.uploadFile).subscribe({
         error: (error) => {
-          console.log(error);
+          this.toastMessageService.addSimpleErrorMessage("Đã có lỗi xảy ra khi thêm thú cưng");
         },
         complete: () => {
+          this.toastMessageService.addSuccessfulMessage("Thêm thú cưng mới thành công");
           this.submittedChanged.emit(true);
           this.addProductDialog.set(false);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Product Updated',
-            life: 3000,
-          });
+          
         },
       });
     }

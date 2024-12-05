@@ -8,6 +8,7 @@ import { OrderDetail } from '../../../../product/order-detail.model';
 import { Review } from '../../../../product/review.model';
 import { ReviewService } from '../../../../services/review.service';
 import { getLoggedInUserId } from '../../../../services/user.service';
+import { ToastMessageService } from '../../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-user-review-product-feedback-dialog',
@@ -37,6 +38,8 @@ export class UserReviewProductFeedbackDialogComponent implements OnInit {
   isChecked: Observable<Review[]>;
 
   reviews: Review[] = [];
+
+  toastMessageService = inject(ToastMessageService);
 
   ngOnInit(): void {
     this.isChecked = this.reviewService.findByOrderDetailId(0, this.orderDetail.id)
@@ -77,6 +80,7 @@ export class UserReviewProductFeedbackDialogComponent implements OnInit {
 
     this.reviewService.create(0, this.orderDetail.id, review).subscribe({
       next: review => {
+        this.toastMessageService.addSuccessfulMessage("Gửi đánh giá đơn hàng thành công");
         this.reviews.push(review);
         this.reviews = [... this.reviews];
         this.reviewContent = "";

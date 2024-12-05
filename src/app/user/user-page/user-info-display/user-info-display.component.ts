@@ -5,6 +5,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { User } from '../../../auth/user.model';
 import { UserService } from '../../../services/user.service';
 import { AvatarFrameComponent } from '../avatar-frame/avatar-frame.component';
+import { ToastMessageService } from '../../../sharing/toast-message/toast-message.service';
 
 @Component({
   selector: 'app-user-info-display',
@@ -23,6 +24,8 @@ export class UserInfoDisplayComponent implements OnInit {
 
   userService = inject(UserService);
 
+  toastMessageService = inject(ToastMessageService);
+
   ngOnInit(): void {
     if (this.userService.getLoggedInUser()) {
       this.userInfo = this.userService.getLoggedInUser();
@@ -40,6 +43,7 @@ export class UserInfoDisplayComponent implements OnInit {
     this.userService.update(this.userInfo.id, this.userInfo, null).subscribe({
       next: (data: User) => {
         this.isEditMode = false;
+        this.toastMessageService.addSuccessfulMessage("Cập nhật thông tin cá nhân thành công");
         if (this.avatarFrameComponent()) {
           this.avatarFrameComponent()!.loggedInUser = data;
         }
