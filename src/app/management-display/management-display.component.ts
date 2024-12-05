@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { AvatarFrameComponent } from '../user/user-page/avatar-frame/avatar-frame.component';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-management-display',
@@ -50,6 +51,8 @@ export class ManagementDisplayComponent {
     },
 ];
 
+authService = inject(AuthService);
+
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   toggleActive(name: string) {
@@ -67,6 +70,11 @@ export class ManagementDisplayComponent {
   
   private getRoute() {
     return "management";
+  }
+
+  logout(): void {
+    console.log("logout", this.authService.isLoggedIn());
+    this.authService.onLogout();
   }
 
 }

@@ -127,7 +127,8 @@
         </td>
         <td class="d-flex justify-content-center">
           @if(product.imageData?.imageUrls) {
-            <img
+            <img 
+              referrerPolicy="no-referrer"
               [src]="product.imageData?.imageUrls"
               [alt]="product.name"
               width="50"

@@ -40,12 +40,12 @@
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Tin tức</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Giới thiệu</a>
-        </li>
+        </li> -->
       </ul>
 
       <div class="form form-search">
@@ -55,8 +55,19 @@
         <input type="file" #imageSearch class="d-none" (input)="onSearch($event.target)"/>
       </div>
 
-      <div routerLink="cart">
-        <i class="bi bi-cart2 fs-4 ms-3"></i>
+      <div routerLink="cart" class="position-relative">
+        <span>
+          <i class="bi bi-cart2 fs-4 ms-3">
+          </i>
+        </span>
+
+        @let cartNumber = cartNumber$ | async;
+
+        @if (cartNumber !== null && cartNumber !== undefined && cartNumber > -1) {
+          <span class="position-absolute translate-middle badge rounded-pill bg-danger custom-text-sm">
+            {{ cartNumber }}
+          </span>
+        }
       </div>
       <div class="user-control dropdown-user dropdown-toggle" role="button" data-bs-toggle="dropdown-user"
         aria-expanded="true">

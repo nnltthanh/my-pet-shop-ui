@@ -92,4 +92,12 @@ export class ReportDisplayComponent {
     })
   }
 
+  export() {
+    this.statisticService.export(this.selectedFilter).subscribe({
+      next: () => {
+
+      }
+    })
+  }
+
 }

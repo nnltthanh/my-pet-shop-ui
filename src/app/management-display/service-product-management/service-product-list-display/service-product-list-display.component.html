@@ -84,7 +84,7 @@
         </td>
         <td class="d-flex justify-content-center">
           @if(user.imageData) {
-          <img
+          <img  referrerPolicy="no-referrer"
             [src]="user.imageData?.imageUrls"
             [alt]="user.name"
             width="50"

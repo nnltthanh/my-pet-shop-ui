@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, effect, inject, input, OnInit } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 import { Review } from '../../review.model';
 import { ReviewService } from '../../../services/review.service';

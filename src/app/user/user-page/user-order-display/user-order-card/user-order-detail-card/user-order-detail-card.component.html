@@ -2,13 +2,15 @@
     <div>
       <div class="card width-100px user-select-none">
         <img referrerPolicy="no-referrer" 
+          [routerLink]="['/products', orderDetail()?.productDetail?.product?.id]" 
           [src]="getImage()" 
           [alt]="orderDetail()?.productDetail?.product?.name"/>
       </div>
     </div>
     <div class="col flex-column py-0 px-2">
       <div class="d-flex flex-row text-blue">
-        <div class="col fw-bold fs-6">{{ orderDetail()!.productDetail!.product!.name }} </div>
+        <div class="col fw-bold fs-6" 
+        [routerLink]="['/products', orderDetail()?.productDetail?.product?.id]" >{{ orderDetail()!.productDetail!.product!.name }} </div>
         <div class="col-3 text-end fw-bolder">{{ orderDetail()!.total | currency : "VND"}}</div>
       </div>
       <div class="d-flex flex-row select-none px-0">

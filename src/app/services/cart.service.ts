@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject, tap } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { CartDetail } from '../cart/cart-detail.model';
 import { Order } from '../product/order.model';
@@ -9,6 +9,11 @@ import { Order } from '../product/order.model';
   providedIn: 'root',
 })
 export class CartService {
+
+  customerCartNumber = new BehaviorSubject<number>(-1);
+
+  customerCartNumber$ = this.customerCartNumber.asObservable();
+
   constructor(private http: HttpClient) {}
 
   private getBaseUri(customerId: number): string {
@@ -22,11 +27,26 @@ export class CartService {
     return this.http.post<CartDetail>(
       `${this.getBaseUri(customerId)}`,
       cartDetail
-    );
+    ).pipe(tap((data) => {
+      this.getCart(customerId).subscribe({
+        complete: () => {}
+      });
+    }));
   }
 
   getCart(customerId: number): Observable<CartDetail[]> {
-    return this.http.get<CartDetail[]>(`${this.getBaseUri(customerId)}`);
+    return this.http.get<CartDetail[]>(`${this.getBaseUri(customerId)}`)
+      .pipe(tap((data) => {
+        this.setCartNumber(data?.length);
+      }));
+  }
+
+  setCartNumber(value: number) {
+    this.customerCartNumber.next(value);
+  }
+
+  getCartNumber(): Observable<number> {
+    return this.customerCartNumber$;
   }
 
   update(customerId: number, cartDetail: CartDetail): Observable<CartDetail> {
@@ -72,14 +92,6 @@ export class CartService {
       status: 'COD',
     };
 
-    // localStorage.setItem('amount', this.subTotal.value);
-
-    // localStorage.setItem('cartDetails', this.cartDetailsToOrder.value.toString());
-
-    // const regularArray = localStorage.getItem('cartDetails')!.split(',');
-
-    // await axios.post(`${baseUri}/customers/${this.customerId}/orders/${this.orderId.value}`, regularArray);
-
     return this.http.post(`${baseUri}/payment/${orderId}/cod`, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -87,46 +99,6 @@ export class CartService {
       },
     });
   }
-
-  // addOrderToSuccessful(orderId: number) {
-  //     const baseUri = this.getBaseUri();
-
-  //     this.orderId.value = orderId;
-
-  //     const order = await this.getOrderById(this.orderId.value);
-
-  //     let data = {
-  //         ...order,
-  //         status: 'PROCESSING',
-  //         total: localStorage.getItem('amount')
-  //     }
-
-  //     localStorage.removeItem('amount');
-
-  //     // update payment
-  //     await axios.put(`${baseUri}/customers/${this.customerId}/orders/${this.orderId.value}`, data);
-
-  // }
-
-  // async addOrderToFailure(orderId: number) {
-  //     const baseUri = this.getBaseUri();
-
-  //     this.orderId.value = orderId;
-
-  //     const order = await this.getOrderById(this.orderId.value);
-
-  //     let data = {
-  //         ...order,
-  //         status: 'CANCELLED',
-  //         total: localStorage.getItem('amount')
-  //     }
-
-  //     localStorage.removeItem('amount');
-
-  //     // update payment
-  //     await axios.put(`${baseUri}/customers/${this.customerId}/orders/${this.orderId.value}`, data);
-
-  // }
 
   getShipCost(
     fromDistrictId: number,
@@ -166,7 +138,8 @@ export class CartService {
   }
 
   delete(customerId: number, cartDetailId: number) {
-    return this.http.delete(`${this.getBaseUri(customerId)}/${cartDetailId}`);
+    return this.http.delete(`${this.getBaseUri(customerId)}/${cartDetailId}`)
+    .pipe((tap(() => this.setCartNumber(this.customerCartNumber.getValue() + 1))));
   }
 
   getGHNUri() {

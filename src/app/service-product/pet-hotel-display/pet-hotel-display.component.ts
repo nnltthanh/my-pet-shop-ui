@@ -80,7 +80,7 @@ export class PetHotelDisplayComponent {
       next: data => {
         this.myPets = [...data];
       }
-    })
+    });
     this.$isLoaded = this.serviceProductService.findAllByType(ServiceProductType.PET_HOTEL).pipe(
       map((data) => {
         this.products = [... data];

@@ -8,13 +8,14 @@
   </div>
   <div>
     <div class="card width-100px user-select-none">
-      <img referrerPolicy="no-referrer" 
+      <img referrerPolicy="no-referrer"
+        [routerLink]="['/products', cartDetail().productDetail.product.id]" 
         [src]="getImage()" 
         [alt]="cartDetail().productDetail.product.name"/>
     </div>
   </div>
   <div class="col flex-column py-0 px-2">
-    <div class="d-flex flex-row text-blue" (click)="selected = !selected">
+    <div class="d-flex flex-row text-blue" (click)="onSelectedChange(!selected)">
       <div class="col fw-bold fs-6">{{ cartDetail().productDetail.product.name }} </div>
       <div class="col-3 text-end fw-bolder">{{ cartDetail().total | currency : "VND"}}</div>
     </div>

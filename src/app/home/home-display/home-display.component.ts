@@ -7,11 +7,17 @@ import { ProductOverview } from '../../product/product-overview.model';
 import { ProductDetailService } from '../../services/product-detail.service';
 import { ProductService } from '../../services/product.service';
 import { ProductCardComponent } from '../../product/product-card/product-card.component';
+import { ProductOverviewResponse } from '../../product/product-overview-response.model';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { PetProductService } from '../../services/pet-product.service';
+import { HttpParams } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home-display',
   standalone: true,
-  imports: [HomeBannerDisplayComponent, ProductCarouselListComponent, HomeCategoryListComponent, ProductCardComponent],
+  imports: [HomeBannerDisplayComponent, ProductCarouselListComponent, HomeCategoryListComponent, ProductCardComponent, AsyncPipe, RouterModule],
   templateUrl: './home-display.component.html',
   styleUrl: './home-display.component.scss'
 })
@@ -27,18 +33,24 @@ export class HomeDisplayComponent {
 
   productOverview: ProductOverview;
 
+  latestPetProducts$: Observable<ProductOverviewResponse>;
+
   constructor(
     private productDetailService: ProductDetailService,
     private productService: ProductService,
+    private petProductService: PetProductService
   ) {}
 
   ngOnInit(): void {
-    this.productService
-      .findById(10)
-      .subscribe((product) => {
-        this.product = product;
-        this.productOverview = overviewFromDetail(this.product);
-      });
+    this.get5LatestPetProduct();
+  }
+
+  private get5LatestPetProduct() {
+    let params = new HttpParams();
+    params = params.append('pageSize', 5);
+    params = params.append('page', 0);
+    params = params.append('desc', 'createdAt');
+    this.latestPetProducts$ = this.petProductService.findAllBy(params);
   }
 
 }

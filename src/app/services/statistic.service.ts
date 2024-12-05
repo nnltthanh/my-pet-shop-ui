@@ -51,6 +51,10 @@ export class StatisticService {
     findStatisticOverviewByFilter(period: StatisticFilterPeriod): Observable<StatisticTimeData> {
         return this.http.get<StatisticTimeData>(`${this.getBaseUri()}/period/${period}`);
     }
+
+    export(period: StatisticFilterPeriod) {
+        return this.http.get(`${this.getBaseUri()}/period/${period}/report`);
+    }
     
     private getBaseUri(): string {
         return `${environment.BACKEND_URL}/statistic`;

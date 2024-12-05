@@ -170,7 +170,7 @@ export class ProductListDisplayComponent implements OnInit, OnChanges {
           params = params.append("desc", "engName");
           break;
         case 4:
-          // params = params.append("rating", "DESC");
+          params = params.append("desc", "rating");
           break;
         case 5:
           params = params.append('asc', 'price');

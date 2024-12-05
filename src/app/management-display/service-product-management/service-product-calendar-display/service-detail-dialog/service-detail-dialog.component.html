@@ -20,7 +20,7 @@
       >
         <div class="width-100px col-3">
           @if (service.serveFor.imageData) {
-          <img
+          <img referrerPolicy="no-referrer"
             [src]="service.serveFor.imageData.imageUrls"
             [alt]="'Hình ảnh thú cưng'"
             [title]="'Hình ảnh thú cưng'"

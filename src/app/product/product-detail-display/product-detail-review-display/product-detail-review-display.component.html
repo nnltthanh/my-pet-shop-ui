@@ -48,7 +48,8 @@
           <div class="grid">
             <div class="grid__column">
               @for (review of reviews; track $index) {
-              <div class="reviews-listing__item border-bottom">
+              <div class="reviews-listing__item"
+              [class.border-bottom]="$index < reviews.length - 1">
                 <div class="reviews-listing__content">
                   <div class="reviews-author__name">
                     {{ review.customer.name }}

@@ -108,6 +108,7 @@
               <div class="mb-1"  style="max-width: 25rem; white-space: normal;">
                 @if(item.productDetail?.imageData) {
                   <img
+                    referrerPolicy="no-referrer"
                     [src]="item.productDetail?.imageData.imageUrls"
                     [alt]="item.productDetail?.product?.name"
                     width="25"
@@ -116,6 +117,7 @@
                 }
                 @else if (item.productDetail?.product?.imageData) {
                   <img
+                    referrerPolicy="no-referrer"
                     [src]="item.productDetail?.product?.imageData.imageUrls"
                     [alt]="item.productDetail?.product?.name"
                     width="25"

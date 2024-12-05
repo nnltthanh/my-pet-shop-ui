@@ -1,123 +1,174 @@
 @if(product) {
-  <div class="row mx-3">
-    <div class="col-5 d-flex flex-row justify-content-center">
-      <div
-        class="col-12 mt-0 ms-3 p-0 px-5 d-flex align-items-center justify-content-center img-thumbnail-container"
-      >
-      <img referrerPolicy="no-referrer" class="shadow-sm rounded image-card w-90" [src]="product.imageData.imageUrls" alt="{{ product.name }}">
+<div class="row mx-3">
+  <div class="col-5 d-flex flex-row justify-content-center">
+    <div
+      class="col-12 mt-0 ms-3 p-0 px-5 d-flex align-items-center justify-content-center img-thumbnail-container"
+    >
+      <img
+        referrerPolicy="no-referrer"
+        class="shadow-sm rounded image-card w-90"
+        [src]="product.imageData.imageUrls"
+        alt="{{ product.name }}"
+      />
     </div>
+  </div>
+  <div class="col">
+    <div class="fs-2 fw-bolder text-blue mt-3">
+      {{ product.name | uppercase }}
     </div>
-    <div class="col">
-      <div class="fs-2 fw-bolder text-blue mt-3">{{ product.name | uppercase }}</div>
-      <div class="d-flex mb-4">
-          <app-product-rating-display
-          class="flex-shrink-1 me-3 fs-4"
-          [rating]="product.rating"
-              [countRating]="product.countRating" />
-            </div>
-        <div>Còn lại: {{ product.quantity }} | Đã bán: {{ product.countSold }}</div>
-      <!-- <div class="fs-6 old-price text-secondary text-decoration-line-through">
+    <div class="d-flex mb-2">
+      <app-product-rating-display
+        class="flex-shrink-1 me-3 fs-4"
+        [rating]="product.rating"
+        [countRating]="product.countRating"
+      />
+    </div>
+
+    @if (product.countSold >= product.quantity) {
+    <div class="text-secondary fs-5 fw-bold mb-3">HẾT HÀNG</div>
+    }
+
+    <div>Còn lại: {{ product.quantity }} | Đã bán: {{ product.countSold }}</div>
+
+    <!-- <div class="fs-6 old-price text-secondary text-decoration-line-through">
         {{ product.price | currency : "VND" }}
       </div> -->
-      <div class="fs-4 current-price fw-bold text-blue">
-        {{ product.price | currency : "VND" }}
+    <div class="fs-4 current-price fw-bold text-blue">
+      {{ product.price | currency : "VND" }}
+    </div>
+
+    <div class="my-3 w-75 description">
+      {{ product.description }}
+    </div>
+
+    <div class="py-3 d-flex flex-rows">
+      <div class="col-5">
+        @if (isPet()) {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-7 text-end">Loại thú nuôi:</span>
+          @switch (product.category.breed.toString()) { @case ('HAMSTER') {
+          Hamster } @case ('CAT') { Mèo } @case ('DOG') { Chó } }
+        </div>
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-7 text-end">Giống thú nuôi:</span>
+          {{ product.category.name }}
+        </div>
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-7 text-end">Giới tính: </span
+          ><span>
+            @switch (product.gender.toString()) { @case ('MALE') { Đực } @case
+            ('FEMALE') { Cái } @default { Chưa biết } }
+          </span>
+        </div>
+        }
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-7 text-end">Màu lông:</span>
+          {{ product.color }}
+        </div>
       </div>
 
-      <div class="my-3 w-75 description">
-        Husky sở hữu một thân hình thuôn dài, to khỏe và rất săn chắc. Chiều cao trung bình từ 53 đến 58 cm và cân nặng từ 16 đến 30 kg (thường những chú “Ngáo” giống đực sẽ có thân hình nhỉnh hơn những con cái). Loài chó này có một bộ lông dày và có 2 lớp giữ ấm (thường rụng lông 2 lần một năm).
-      </div>
-      
-      <div class="py-3 d-flex flex-rows">
-        <div class="col-5">
-          @if (isPet()) {
-            <div class="d-flex align-items-center"><span class="fw-bold col-7 text-end">Loại thú nuôi:</span> 
-              @switch (product.category.breed.toString()) {
-                @case ('HAMSTER') {
-                  Hamster
-                }
-                @case ('CAT') {
-                  Mèo
-                }
-                @case ('DOG') {
-                  Chó
-                }
-              }
-              </div>
-            <div class="d-flex align-items-center"><span class="fw-bold col-7 text-end">Giống thú nuôi:</span> {{ product.category.name }}</div>
-            <div class="d-flex align-items-center"><span class="fw-bold col-7 text-end">Giới tính: </span><span>
-              @switch (product.gender.toString()) {
-                @case ('MALE') {
-                  Đực
-                }
-                @case ('FEMALE') {
-                  Cái
-                }
-                @default {
-                  Chưa biết
-                }
-              }
-            </span>
-            </div>
-          }
-          <div class="d-flex align-items-center"><span class="fw-bold col-7 text-end">Màu lông:</span> {{ product.color }}</div>
+      <div class="col">
+        @if (product.latestHealthRecord && product.latestHealthRecord.age) {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-6 text-end">Tuổi:</span>
+          {{ product.latestHealthRecord.age }} tháng
         </div>
-        
-        <div class="col">
-          @if (product.latestHealthRecord && product.latestHealthRecord.age) {
-            <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Tuổi:</span> {{ product.latestHealthRecord.age }} tháng</div>
-          } @else if (product.category && product.category.breed.toString() !== 'HAMSTER') {
-            <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Tuổi:</span> Chưa cập nhật</div>
-          }
-          @if (product.latestHealthRecord && product.latestHealthRecord.weight) {
-            <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Cân nặng:</span> {{ product.latestHealthRecord.weight }} kg</div>
-          } @else if (product.category && product.category.breed.toString() !== 'HAMSTER') {
-            <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Cân nặng:</span> Chưa cập nhật</div>
-          }
-          @if (product.latestHealthRecord?.petLength) {
-            <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Chiều dài:</span> {{ product.latestHealthRecord?.petLength }} cm</div>
-          } @else if (product.category && product.category.breed.toString() !== 'HAMSTER') {
-            <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Chiều dài:</span> Chưa cập nhật</div>
-          }
-          @if (product.latestHealthRecord && product.latestHealthRecord.vaccination) {
-            <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Tình trạng tiêm chủng:</span> {{ product.latestHealthRecord.vaccination }}</div>
-          } @else if (product.category && product.category.breed.toString() !== 'HAMSTER') {
-            <div class="d-flex align-items-center"><span class="fw-bold col-6 text-end">Tình trạng tiêm chủng:</span> Chưa cập nhật</div>
-          }
+        } @else if (product.category && product.category.breed.toString() !==
+        'HAMSTER') {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-6 text-end">Tuổi:</span> Chưa cập nhật
         </div>
+        } @if (product.latestHealthRecord && product.latestHealthRecord.weight)
+        {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-6 text-end">Cân nặng:</span>
+          {{ product.latestHealthRecord.weight }} kg
+        </div>
+        } @else if (product.category && product.category.breed.toString() !==
+        'HAMSTER') {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-6 text-end">Cân nặng:</span> Chưa cập nhật
+        </div>
+        } @if (product.latestHealthRecord?.petLength) {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-6 text-end">Chiều dài:</span>
+          {{ product.latestHealthRecord?.petLength }} cm
+        </div>
+        } @else if (product.category && product.category.breed.toString() !==
+        'HAMSTER') {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-6 text-end">Chiều dài:</span> Chưa cập nhật
+        </div>
+        } @if (product.latestHealthRecord &&
+        product.latestHealthRecord.vaccination) {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-6 text-end">Tình trạng tiêm chủng:</span>
+          {{ product.latestHealthRecord.vaccination }}
+        </div>
+        } @else if (product.category && product.category.breed.toString() !==
+        'HAMSTER') {
+        <div class="d-flex align-items-center">
+          <span class="fw-bold col-6 text-end">Tình trạng tiêm chủng:</span>
+          Chưa cập nhật
+        </div>
+        }
       </div>
-  
-      <div class="row">
-        <div class="d-flex">
-          <div class="border-1 col-1 count-group ms-0 p-0 overflow-hidden">
-            <div class="decrease-btn hover-blue px-3 prevent-select" type="button" (click)="decrease()">-</div>
-            <input class="input-count" type="number" name="product-quantity" id="product-quantity" [(ngModel)]="selectedQuantity" />
-            <div class="increase-btn hover-blue px-3 prevent-select" type="button" (click)="increase()">+</div>
-          </div>
-          <!-- class="border-1 col-9 add-to-cart-btn  hover-blue user-select-none" -->
+    </div>
+
+    <div class="row">
+      <div class="d-flex">
+        @if (product.countSold < product.quantity) {
+        <div class="border-1 col-1 count-group ms-0 p-0 overflow-hidden">
           <div
-          class="btn btn-primary btn-lg w-75 mx-3 add-to-cart-btn hover-blue user-select-none"
+            class="decrease-btn hover-blue px-3 prevent-select"
             type="button"
-            (click)="addToCart()"
+            (click)="decrease()"
           >
-            Thêm vào giỏ hàng
+            -
+          </div>
+          <input
+            class="input-count"
+            type="number"
+            name="product-quantity"
+            id="product-quantity"
+            [(ngModel)]="selectedQuantity"
+          />
+          <div
+            class="increase-btn hover-blue px-3 prevent-select"
+            type="button"
+            (click)="increase()"
+          >
+            +
           </div>
         </div>
+        <!-- class="border-1 col-9 add-to-cart-btn  hover-blue user-select-none" -->
+        <div
+          class="btn btn-primary btn-lg w-75 mx-3 add-to-cart-btn hover-blue user-select-none"
+          type="button"
+          (click)="addToCart()"
+        >
+          Thêm vào giỏ hàng
+        </div>
+        }
       </div>
     </div>
   </div>
-  
-  <div class="bg-gray-light-custom py-4 my-5 px-3">
-    <div class="w-100 text-center fw-bolder text-blue fs-4 mb-3">GỢI Ý SẢN PHẨM</div>
-    <div class="d-flex flex-wrap justify-content-between w-100 px-5 gap-2">
-      <app-product-card [product]="productOverview"></app-product-card>
-      <app-product-card [product]="productOverview"></app-product-card>
-      <app-product-card [product]="productOverview"></app-product-card>
-      <app-product-card [product]="productOverview"></app-product-card>
-    </div>
+</div>
+
+@if (suggestedProducts$ | async; as suggestedProducts) {
+<div class="bg-gray-light-custom py-4 my-5 px-3">
+  <div class="w-100 text-center fw-bolder text-blue fs-4 mb-3">
+    GỢI Ý SẢN PHẨM
   </div>
-  
-  <app-product-detail-review-display>
-  [product]="product">
-  
-  </app-product-detail-review-display>
+  <div class="d-flex flex-wrap justify-content-between w-100 px-5 gap-2">
+    @for (productOverview of suggestedProducts; track $index) {
+    <app-product-card [product]="productOverview"></app-product-card>
+    }
+  </div>
+</div>
+
+}
+
+<app-product-detail-review-display [product]="product">
+</app-product-detail-review-display>
 }

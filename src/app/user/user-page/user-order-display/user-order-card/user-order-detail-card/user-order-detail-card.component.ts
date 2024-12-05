@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
 import { OrderDetail } from '../../../../../product/order-detail.model';
 import { CurrencyPipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-order-detail-card',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterModule],
   templateUrl: './user-order-detail-card.component.html',
   styleUrl: './user-order-detail-card.component.scss'
 })

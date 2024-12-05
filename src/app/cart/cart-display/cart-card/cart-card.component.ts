@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { CartDetail } from '../../cart-detail.model';
 import { CartService } from '../../../services/cart.service';
 import { getLoggedInUserId } from '../../../services/user.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-cart-card',
   standalone: true,
-  imports: [FormsModule, CurrencyPipe],
+  imports: [FormsModule, CurrencyPipe, RouterModule],
   templateUrl: './cart-card.component.html',
   styleUrl: './cart-card.component.scss'
 })

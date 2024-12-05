@@ -1,18 +1,22 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Observable, ReplaySubject } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { CartService } from '../services/cart.service';
 import { HeaderSearchChangeService } from '../services/header-search-change-service.service';
 import { ProductImageSearcher } from '../services/product-image-searcher.service';
 import { ProductService } from '../services/product.service';
+import { getLoggedInUserId } from '../services/user.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, AsyncPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   authService = inject(AuthService);
 
@@ -32,13 +36,29 @@ export class HeaderComponent {
 
   router = inject(Router);
 
+  cartService = inject(CartService);
+
+  cartNumber$: Observable<number>;
+
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
+
+  ngOnInit(): void {
+    if (this.isLoggedIn()) {
+      this.cartNumber$ = this.cartService.getCartNumber();
+      
+      this.cartService.getCart(getLoggedInUserId()).subscribe({
+        complete: () => {}
+      })
+    }
+  }
+
   logout(): void {
     console.log("logout", this.authService.isLoggedIn());
     this.authService.onLogout();
   }
+
   login(): void {
     console.log("login", this.authService.isLoggedIn());
     this.authService.onLogin();
