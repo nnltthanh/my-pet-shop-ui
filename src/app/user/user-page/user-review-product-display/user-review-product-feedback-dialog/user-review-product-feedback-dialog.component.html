@@ -68,11 +68,12 @@
                   <div class="mb-2"
                     [class.customer-feedback-align]="item.employee === null"
                     [class.employee-feedback-align]="item.employee !== null">
-                    @if (item.customer) {
-                        <div> {{ item.customer.name }} - {{ item.createDate | date: "dd/MM/yyy H:mm:ss" }} </div>
-                    } @else if (item.employee) {
-                        <div> {{ item.employee.name }} - {{ item.createDate | date: "dd/MM/yyy H:mm:ss" }} </div>
-                    }
+                    @if (item.employee) {
+                      <div> {{ item.employee.name }} - {{ item.createDate | date: "dd/MM/yyy H:mm:ss" }} </div>
+                    } @else if (item.customer) {
+                      <div> {{ item.customer.name }} - {{ item.createDate | date: "dd/MM/yyy H:mm:ss" }} </div>
+                    } 
+                    
                     <div
                     [class.customer-feedback]="item.employee === null"
                     [class.employee-feedback]="item.employee !== null"

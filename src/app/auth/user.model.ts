@@ -14,7 +14,8 @@ export class User {
     blocked: boolean;
     avatarUrl: string;
     gender: Gender;
-    avatar: ImageData
+    avatar: ImageData;
+    emplCode: string;
 
     public constructor(user: Partial<User> = {}) {
         Object.assign(this, user);

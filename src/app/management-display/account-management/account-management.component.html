@@ -73,13 +73,13 @@
           Trạng thái <p-sortIcon field="inventoryStatus" />
         </th>
 
-        <th
+        <!-- <th
           pSortableColumn="category.breed"
           style="min-width: 5rem"
           class="text-center"
         >
           Vai trò <p-sortIcon field="category.breed" />
-        </th>
+        </th> -->
 
         <th style="min-width: 5rem"></th>
       </tr>
@@ -118,9 +118,9 @@
           }
         </td>
 
-        <td class="text-center">
-          <!-- Type -->
-        </td>
+        <!-- <td class="text-center">
+          
+        </td> -->
 
         <td class="text-center px-0">
           <p-button
@@ -132,6 +132,7 @@
             [style.width]="30"
             [style.height]="30"
             (onClick)="onSearch(user)"
+            [style.display]="'none'"
           />
           @if (user.validTo || user.blocked) {
             <p-button

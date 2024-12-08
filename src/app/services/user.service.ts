@@ -6,7 +6,7 @@ import { User } from '../auth/user.model';
 
 
 export const getLoggedInUserId = (): number => {
-  return JSON.parse(localStorage.getItem("user")!).id;
+  return JSON.parse(localStorage.getItem("user")!)?.id;
 }
 
 @Injectable({
@@ -60,6 +60,8 @@ export class UserService {
 
   add(user: User, avatar: File | null): Observable<User> { // for admin -> not save to local storage
     let formData: FormData = new FormData();
+    console.log(user);
+    
     let userData = new Blob([JSON.stringify(user)], {
       type: 'application/json',
     });

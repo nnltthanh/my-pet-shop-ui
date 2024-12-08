@@ -18,7 +18,7 @@ export enum PetServiceVariantName {
 
 export class PetServiceVariant {
     id: number;
-    suitableFor: PetBreed | string;
+    // suitableFor: PetBreed | string;
     variantName: PetServiceVariantName | string;
     variantValue: string;
     variantUnit: string;

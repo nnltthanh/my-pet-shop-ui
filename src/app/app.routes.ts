@@ -84,8 +84,16 @@ export const routes: Routes = [
     ],
   },
   {
+    path: "news",
+    loadComponent: () => import('./news-page/news-page.component').then(m => m.NewsPageComponent),
+  },
+  {
+    path: "about-us",
+    loadComponent: () => import('./about-us-page/about-us-page.component').then(m => m.AboutUsPageComponent),
+  },
+  {
     path: 'management',
-    data: { "roles": [ RoleName.CUSTOMER, RoleName.ADMIN ] },
+    data: { "roles": [ RoleName.ADMIN, RoleName.RECEPTIONIST, RoleName.SERVICE_STAFF ] },
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     loadComponent: () => import('./management-display/management-display.component').then(m => m.ManagementDisplayComponent),

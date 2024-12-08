@@ -1,23 +1,313 @@
-@if ($isLoaded | async) {
-    @for (product of products; track $index) {
-        <div class="card float-right max-width-card mx-2">
-            <div class="row">
-              <div class="col-sm-5">
-                <img referrerPolicy="no-referrer" class="d-block w-100" [src]="product.imageData.imageUrls">
-              </div>
-              <div class="col-sm-7">
-                <div class="card-block">
-                  <div class="text-blue fw-bold">{{ product.name }}</div>
-                  <div [innerHTML]="product.description"></div>
-                  <br>
-                  <div role="button" class="btn btn-primary btn-sm float-right">Đăng ký</div>
-                </div>
-              </div>
+@if ($isLoaded | async; as serviceProducts) { @if (serviceProducts &&
+  serviceProducts.length > 0) {
+  <div class="d-flex flex-row">
+    <form
+      #customerInfoForm="ngForm"
+      class="needs-validation m-3 col-6"
+      novalidate
+    >
+      <div class="mb-3">
+        <label class="form-label text-secondary mb-1">Loại dịch vụ</label>
+        <ng-select
+          class="custom"
+          bindLabel="name"
+          [items]="serviceProducts"
+          [multiple]="false"
+          [(ngModel)]="selectedProduct"
+          [clearable]="false"
+          [searchable]="false"
+          name="selectedProduct"
+          (change)="onSelect($event)"
+          required
+        >
+        </ng-select>
+      </div>
+  
+      @if (isLoggedIn) {
+  
+      <div class="mb-3">
+        <label class="form-label text-secondary mb-1">Chọn thú nuôi</label>
+        <ng-select
+          class="custom"
+          bindLabel="name"
+          [items]="myPets"
+          [multiple]="false"
+          [(ngModel)]="selectedPet"
+          [clearable]="false"
+          [searchable]="false"
+          name="selectedPet"
+          required
+        >
+          <ng-template ng-label-tmp let-item="item">
+            <span>{{ item.name }}</span>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item" let-index="index">
+            @if (item.imageData) {
+            <img
+              referrerPolicy="no-referrer"
+              height="20"
+              width="20"
+              [src]="item.imageData.imageUrls"
+            />
+            }
+            <span class="ms-2">{{ item.name }}</span>
+          </ng-template>
+        </ng-select>
+      </div>
+      @if (productDetails && productDetails.length > 0) {
+      @if(filterByVariant(PetServiceVariantName.WEIGHT).length > 0) {
+  
+      <div class="d-flex flex-column">
+        <div class="mb-3">
+          <label for="pet-weight" class="form-label text-secondary mb-1"
+            >Số kilogram hiện tại</label
+          >
+          @for (item of filterByVariant(PetServiceVariantName.WEIGHT); track
+          $index) {
+  
+          <div class="d-flex align-content-center">
+            <input
+              type="radio"
+              id="{{ 'pet-weight' + item.id }}"
+              name="pet-weight"
+              [value]="item"
+              [(ngModel)]="selectedWeight"
+            />
+            <span class="mx-3">{{ item.petServiceVariant.variantValue }}</span>
+          </div>
+          <!-- <div class="invalid-feedback">Số điện thoại không được bỏ trống.</div> -->
+          }
+        </div>
+      </div>
+      } @if(filterByVariant(PetServiceVariantName.SIZE).length > 0) {
+  
+      <div class="d-flex flex-column">
+        <div class="mb-3">
+          <label for="pet-Size" class="form-label text-secondary mb-1"
+            >Kích cỡ</label
+          >
+          @for (item of filterByVariant(PetServiceVariantName.SIZE); track $index)
+          {
+  
+          <div class="d-flex align-content-center">
+            <input
+              type="radio"
+              id="{{ 'pet-Size' + item.id }}"
+              name="pet-Size"
+              [value]="item"
+              [(ngModel)]="selectedSize"
+            />
+            <span class="mx-3">{{ item.petServiceVariant.variantValue }}</span>
+          </div>
+          <!-- <div class="invalid-feedback">Số điện thoại không được bỏ trống.</div> -->
+          }
+        </div>
+      </div>
+      } @if(filterByVariant(PetServiceVariantName.COLOR).length > 0) {
+  
+      <div class="d-flex flex-column">
+        <div class="mb-3">
+          <label for="pet-color" class="form-label text-secondary mb-1"
+            >Màu lông</label
+          >
+          @for (item of filterByVariant(PetServiceVariantName.COLOR); track
+          $index) {
+  
+          <div class="d-flex align-content-center">
+            <input
+              type="radio"
+              id="{{ 'pet-color' + item.id }}"
+              name="pet-color"
+              [value]="item"
+              [(ngModel)]="selectedColor"
+            />
+            <span class="mx-3">{{ item.petServiceVariant.variantValue }}</span>
+          </div>
+          <!-- <div class="invalid-feedback">Số điện thoại không được bỏ trống.</div> -->
+          }
+        </div>
+      </div>
+      } @if(filterByVariant(PetServiceVariantName.FURRY_LENGTH).length > 0) {
+  
+      <div class="d-flex flex-column">
+        <div class="mb-3">
+          <label for="pet-FurryLength" class="form-label text-secondary mb-1"
+            >Độ dài lông</label
+          >
+          @for (item of filterByVariant(PetServiceVariantName.FURRY_LENGTH); track
+          $index) {
+  
+          <div class="d-flex align-content-center">
+            <input
+              type="radio"
+              id="{{ 'pet-FurryLength' + item.id }}"
+              name="pet-FurryLength"
+              [value]="item"
+              [(ngModel)]="selectedFurryLength"
+            />
+            <span class="mx-3">{{ item.petServiceVariant.variantValue }}</span>
+          </div>
+          <!-- <div class="invalid-feedback">Số điện thoại không được bỏ trống.</div> -->
+          }
+        </div>
+      </div>
+      } @if(filterByVariant(PetServiceVariantName.TIME).length > 0) {
+  
+      <div class="d-flex flex-column">
+        <div class="mb-3">
+          <label for="pet-time" class="form-label text-secondary mb-1"
+            >Thời gian</label
+          >
+          @for (item of filterByVariant(PetServiceVariantName.TIME); track $index)
+          {
+  
+          <div class="d-flex align-content-center">
+            <input
+              type="radio"
+              id="{{ 'pet-time' + item.id }}"
+              name="pet-time"
+              [value]="item"
+              [(ngModel)]="selectedTime"
+            />
+            <span class="mx-3">{{ item.petServiceVariant.variantValue }}</span>
+          </div>
+          <!-- <div class="invalid-feedback">Số điện thoại không được bỏ trống.</div> -->
+          }
+        </div>
+      </div>
+      } @if(filterByVariant(PetServiceVariantName.OTHER).length > 0) {
+  
+      <div class="d-flex flex-column">
+        <div class="mb-3">
+          <label for="pet-Size" class="form-label text-secondary mb-1"
+            >Khác</label
+          >
+          @for (item of filterByVariant(PetServiceVariantName.OTHER); track
+          $index) {
+  
+          <div class="d-flex align-content-center">
+            <input
+              type="radio"
+              id="{{ 'pet-Other' + item.id }}"
+              name="pet-Other"
+              [value]="item"
+              [(ngModel)]="selectedOther"
+            />
+            <span class="mx-3">{{ item.petServiceVariant.variantValue }}</span>
+          </div>
+          <!-- <div class="invalid-feedback">Số điện thoại không được bỏ trống.</div> -->
+          }
+        </div>
+      </div>
+      }
+  
+      <div class="mb-3">
+        <label for="fromTime" class="form-label text-secondary mb-1"
+          >Từ thời gian</label
+        >
+        <div class="d-flex flex-row">
+          <div class="col">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="fromDate"
+                [(ngModel)]="fromDate"
+                ngbDatepicker
+                #d="ngbDatepicker"
+              />
+              <button
+                class="btn btn-outline-secondary bi bi-calendar3"
+                (click)="d.toggle()"
+                type="button"
+              ></button>
             </div>
           </div>
+          <div class="col">
+            <ngb-timepicker
+              name="fromTime"
+              [minuteStep]="30"
+              [seconds]="false"
+              [(ngModel)]="fromTime"
+              required
+            />
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="toTime" class="form-label text-secondary mb-1"
+            >Đến thời gian</label
+          >
+          <div class="d-flex flex-row">
+            <div class="col">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  name="toDate"
+                  [(ngModel)]="toDate"
+                  ngbDatepicker
+                  #d2="ngbDatepicker"
+                />
+                <button
+                  class="btn btn-outline-secondary bi bi-calendar3"
+                  (click)="d2.toggle()"
+                  type="button"
+                ></button>
+              </div>
+            </div>
+  
+            <div class="col">
+              <ngb-timepicker
+                name="toTime"
+                [minuteStep]="30"
+                [seconds]="false"
+                [(ngModel)]="toTime"
+                required
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="d-flex flex-column mb-3">
+        <div class="text-secondary">Ghi chú</div>
+        <div>
+          <textarea
+            type="text"
+            class="form-control"
+            placeholder="Để lại ghi chú..."
+            name="note"
+            [(ngModel)]="customerNote"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+  
+      }
+  
+      <div class="btn btn-info text-white" (click)="reserve()">Đặt lịch</div>
+      } @else {
+      <div class="fst-italic">Bạn cần đăng nhập để đăng ký dịch vụ</div>
+      }
+    </form>
+    @if (selectedProduct && selectedProduct.imageData) {
+    <div class="col">
+      <div>
+        <img
+          referrerPolicy="no-referrer"
+          class="product-image"
+          [src]="selectedProduct.imageData.imageUrls"
+          alt="{{ selectedProduct.name }}"
+        />
+      </div>
+      @if (selectedProduct.description) {
+      <div [innerHTML]="selectedProduct.description"></div>
+      }
+    </div>
     }
-}
-
-@if (isRegistering) {
-
-}
+  </div>
+  } @else {
+  <div class="text-center">Hiện chưa có dịch vụ này.</div>
+  } }
+  

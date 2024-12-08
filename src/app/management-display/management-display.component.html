@@ -8,18 +8,22 @@
       <table class="table table-hover">
         <tbody>
           @for (item of sidebarItems; track $index) {
-          <tr>
-            <div
-              class="account-sidebar-item"
-              role="button"
-              [class.active]="item.isActive"
-              (click)="toggleActive(item.name)"
-            >
-              <span class="account-option">
-                <span class="item-label">{{ item.label }}</span>
-              </span>
-            </div>
-          </tr>
+@let isAllowed = isAdmin ? true : isReceptionistStaff ? item.receptionistAccess : isServiceStaff ? item.serviceStaffAccess : false;
+
+            @if (isAllowed) {
+            <tr>
+              <div
+                class="account-sidebar-item"
+                role="button"
+                [class.active]="item.isActive"
+                (click)="toggleActive(item.name)"
+              >
+                <span class="account-option">
+                  <span class="item-label">{{ item.label }}</span>
+                </span>
+              </div>
+            </tr>
+          }
           }
             
             <tr ><div

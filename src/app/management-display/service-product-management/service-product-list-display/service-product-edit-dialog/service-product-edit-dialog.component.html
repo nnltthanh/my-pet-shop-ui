@@ -186,24 +186,24 @@
                      <table class="w-100 my-3 fs-6">
                       <tbody>
                       <tr>
-                          <th style="width:20%">Loại thú cưng</th>
+                          <!-- <th style="width:20%">Loại thú cưng</th> -->
                           <th style="width:30%">Thuộc tính</th>
-                          <th style="width:20%">Giá trị</th>
-                          <th style="width:20%">Giá cộng thêm</th>
+                          <th style="width:30%">Giá trị</th>
+                          <th style="width:30%">Giá cộng thêm</th>
                           <th style="width:10%"></th>
                       </tr>
       
                       @for (item of productDetails; track $index) {
                           <tr class="mb-2">
-                              <th style="width:20%" class="pe-2">
+                              <!-- <th style="width:20%" class="pe-2">
                                   <p-dropdown
                                       [options]="availablePets"
                                       [(ngModel)]="item.petServiceVariant.suitableFor"
                                       [filter]="false"
                                       class="d-grid"
                                       />
-                              </th>
-                              <th style="width:20%" class="pe-2">
+                              </th> -->
+                              <th style="width:30%" class="pe-2">
                                   <p-dropdown
                                       [options]="availableVariants"
                                       [(ngModel)]="item.petServiceVariant.variantName"
@@ -211,14 +211,15 @@
                                       class="d-grid"
                                       />
                               </th>
-                              <th style="width:20%" class="pe-2">
+                              <th style="width:30%" class="pe-2">
                                   <input
                                       type="text"
                                       pInputText
                                       [(ngModel)]="item.petServiceVariant.variantValue"
+                                      class="w-100"
                                   />
                               </th>
-                              <th style="width:20%" class="pe-2">
+                              <th style="width:30%" class="pe-2">
                                   <p-inputNumber
                                       id="price"
                                       [(ngModel)]="item.petServiceVariant.addPrice"
@@ -229,7 +230,7 @@
                                       class="d-grid"
                                   />
                               </th>
-                              <th style="width:20%" class="pe-2">
+                              <th style="width:10%" class="pe-2">
                                   <p-button
                                   icon="pi pi-lock"
                                   severity="danger"

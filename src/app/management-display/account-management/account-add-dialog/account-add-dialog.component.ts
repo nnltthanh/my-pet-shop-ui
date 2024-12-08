@@ -76,12 +76,14 @@ export class AccountAddDialogComponent {
 
   password: string;
 
+  emplCode: string;
+
   availableGroups = [
     "Nhân viên tiếp tân",
     "Nhân viên dịch vụ",
     "Khách hàng",
     "Quản trị viên"
-  ]
+  ];
 
   selectedGroups: string[] = [];
   toastMessageService = inject(ToastMessageService);
@@ -107,7 +109,9 @@ export class AccountAddDialogComponent {
       user.email = this.email;
       user.account = this.account;
       user.password = this.password;
-      user.groups = this.selectedGroups;
+      user.emplCode = this.emplCode ?? null;
+      user.groups = this.convertToKeycloakGroups(this.selectedGroups);
+
       this.userService.add(user, this.uploadFile).subscribe({
         next: (data) => {
           this.toastMessageService.addSuccessfulMessage("Thêm người dùng thành công");
@@ -138,5 +142,28 @@ export class AccountAddDialogComponent {
 
     const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
+  }
+
+  convertToKeycloakGroups(selectedGroups: string[]) {
+    let keycloakGroups: string[] = [];
+
+    selectedGroups?.forEach((group) => {
+      let keycloakGroup: string | null = null;
+      if (group === 'Nhân viên tiếp tân') {
+        keycloakGroup = 'RECEPTIONIST_STAFF';
+      } else if (group === 'Nhân viên dịch vụ') {
+        keycloakGroup = 'SERVICE_STAFF';
+      } else if (group === 'Quản trị viên') {
+        keycloakGroup = 'ADMIN';
+      }
+
+      if (keycloakGroup && keycloakGroups.indexOf(keycloakGroup) === -1) {
+        keycloakGroups.push(keycloakGroup);
+      }
+    });
+
+    keycloakGroups = [... keycloakGroups];
+    
+    return keycloakGroups;
   }
 }

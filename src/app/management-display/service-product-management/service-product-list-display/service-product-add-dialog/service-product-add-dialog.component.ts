@@ -135,7 +135,7 @@ export class ServiceProductAddDialogComponent {
       let detail = new ProductDetail();
       detail.price = variant.addPrice + this.price;
       let petVariant = variant;
-      petVariant.suitableFor = getEnumName(variant.suitableFor, PetBreed);
+      // petVariant.suitableFor = getEnumName(variant.suitableFor, PetBreed);
       petVariant.variantName = getEnumName(variant.variantName, PetServiceVariantName);
       detail.petServiceVariant = petVariant;
       productDetails.push(detail);

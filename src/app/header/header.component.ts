@@ -88,6 +88,9 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(["products"]);
     }
     let keyword: string = $event ?? '';
+    keyword = keyword.replace(/_/g, ' ');
+    this.keyword = keyword;
+    console.log(keyword);
     this.headerSearchChangeService.updateKeyword($event);
   }
 

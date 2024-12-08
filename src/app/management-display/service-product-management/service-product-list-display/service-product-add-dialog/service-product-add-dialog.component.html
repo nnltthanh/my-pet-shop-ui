@@ -185,24 +185,24 @@
                <table class="w-100 my-3 fs-6">
                 <tbody>
                 <tr>
-                    <th style="width:20%">Loại thú cưng</th>
+                    <!-- <th style="width:20%">Loại thú cưng</th> -->
                     <th style="width:30%">Thuộc tính</th>
-                    <th style="width:20%">Giá trị</th>
-                    <th style="width:20%">Giá cộng thêm</th>
+                    <th style="width:30%">Giá trị</th>
+                    <th style="width:30%">Giá cộng thêm</th>
                     <th style="width:10%"></th>
                 </tr>
 
                 @for (item of variants; track $index) {
                     <tr class="mb-2">
-                        <th style="width:20%" class="pe-2">
+                        <!-- <th style="width:20%" class="pe-2">
                             <p-dropdown
                                 [options]="availablePets"
                                 [(ngModel)]="item.suitableFor"
                                 [filter]="false"
                                 class="d-grid"
                                 />
-                        </th>
-                        <th style="width:20%" class="pe-2">
+                        </th> -->
+                        <th style="width:30%" class="pe-2">
                             <p-dropdown
                                 [options]="availableVariants"
                                 [(ngModel)]="item.variantName"
@@ -210,14 +210,15 @@
                                 class="d-grid"
                                 />
                         </th>
-                        <th style="width:20%" class="pe-2">
+                        <th style="width:30%" class="pe-2">
                             <input
                                 type="text"
                                 pInputText
                                 [(ngModel)]="item.variantValue"
+                                class="w-100"
                             />
                         </th>
-                        <th style="width:20%" class="pe-2">
+                        <th style="width:30%" class="pe-2">
                             <p-inputNumber
                                 id="price"
                                 [(ngModel)]="item.addPrice"
@@ -228,7 +229,7 @@
                                 class="d-grid"
                             />
                         </th>
-                        <th style="width:20%" class="pe-2">
+                        <th style="width:10%" class="pe-2">
                             <p-button
                             icon="pi pi-trash"
                             severity="danger"

@@ -1,4 +1,4 @@
-import { AsyncPipe, CurrencyPipe, NgFor, NgStyle, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, JsonPipe, NgFor, NgStyle, UpperCasePipe } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
-import { map, Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject } from 'rxjs';
 import { CartDetail } from '../../cart/cart-detail.model';
 import { Gender } from '../../gender.model';
 import { CartService } from '../../services/cart.service';
@@ -36,7 +36,8 @@ import { ToastMessageService } from '../../sharing/toast-message/toast-message.s
     InputNumberModule,
     ProductDetailReviewDisplayComponent,
     ProductRatingDisplayComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    JsonPipe
   ],
   templateUrl: './product-detail-display.component.html',
   styleUrl: './product-detail-display.component.scss',
@@ -60,7 +61,7 @@ export class ProductDetailDisplayComponent implements OnInit {
 
   suggestedProducts2$: Observable<ProductOverview[]>;
 
-  suggestedProducts$ = new ReplaySubject<ProductOverview[]>();
+  suggestedProducts$ = new BehaviorSubject<ProductOverview[]>([]);
 
   toastMessageService = inject(ToastMessageService);
 
@@ -115,10 +116,10 @@ export class ProductDetailDisplayComponent implements OnInit {
                   suggestedProducts.push(data2[index]);
                 }
               }
-              this.suggestedProducts$.next(suggestedProducts);
             }
           })
-        }
+        } 
+        this.suggestedProducts$.next(suggestedProducts);
       }
     });
   }

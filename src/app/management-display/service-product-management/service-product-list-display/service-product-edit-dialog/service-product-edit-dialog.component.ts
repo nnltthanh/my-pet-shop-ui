@@ -118,7 +118,7 @@ export class ServiceProductEditDialogComponent implements OnInit {
           this.productDetails = data.productDetails;
           this.productDetails.forEach(detail => {
             if (detail.petServiceVariant) {
-              detail.petServiceVariant.suitableFor = (PetBreed as any)[detail.petServiceVariant.suitableFor];
+              // detail.petServiceVariant.suitableFor = (PetBreed as any)[detail.petServiceVariant.suitableFor];
               detail.petServiceVariant.variantName = (PetServiceVariantName as any)[detail.petServiceVariant.variantName];
             }
           })
@@ -158,7 +158,7 @@ export class ServiceProductEditDialogComponent implements OnInit {
       let detail = new ProductDetail();
       detail.price = variant.addPrice + this.price;
       let petVariant = variant;
-      petVariant.suitableFor = getEnumName(variant.suitableFor, PetBreed);
+      // petVariant.suitableFor = getEnumName(variant.suitableFor, PetBreed);
       petVariant.variantName = getEnumName(variant.variantName, PetServiceVariantName);
       detail.petServiceVariant = petVariant;
       productDetails.push(detail);

@@ -139,7 +139,7 @@ export class CartService {
 
   delete(customerId: number, cartDetailId: number) {
     return this.http.delete(`${this.getBaseUri(customerId)}/${cartDetailId}`)
-    .pipe((tap(() => this.setCartNumber(this.customerCartNumber.getValue() + 1))));
+    .pipe((tap(() => this.setCartNumber(this.customerCartNumber.getValue() - 1))));
   }
 
   getGHNUri() {

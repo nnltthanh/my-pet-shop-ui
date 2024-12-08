@@ -28,7 +28,7 @@
     <div class="text-secondary fs-5 fw-bold mb-3">HẾT HÀNG</div>
     }
 
-    <div>Còn lại: {{ product.quantity }} | Đã bán: {{ product.countSold }}</div>
+    <div>Còn lại: {{ product.quantity - product.countSold }} | Đã bán: {{ product.countSold }}</div>
 
     <!-- <div class="fs-6 old-price text-secondary text-decoration-line-through">
         {{ product.price | currency : "VND" }}
@@ -132,6 +132,7 @@
             name="product-quantity"
             id="product-quantity"
             [(ngModel)]="selectedQuantity"
+            readonly
           />
           <div
             class="increase-btn hover-blue px-3 prevent-select"
@@ -154,18 +155,19 @@
     </div>
   </div>
 </div>
-
 @if (suggestedProducts$ | async; as suggestedProducts) {
-<div class="bg-gray-light-custom py-4 my-5 px-3">
-  <div class="w-100 text-center fw-bolder text-blue fs-4 mb-3">
-    GỢI Ý SẢN PHẨM
+@if (suggestedProducts.length > 0) {
+  <div class="bg-gray-light-custom py-4 my-5 px-3">
+    <div class="w-100 text-center fw-bolder text-blue fs-4 mb-3">
+      GỢI Ý SẢN PHẨM
+    </div>
+    <div class="d-flex flex-wrap justify-content-between w-100 px-5 gap-2">
+      @for (productOverview of suggestedProducts; track $index) {
+      <app-product-card [product]="productOverview"></app-product-card>
+      }
+    </div>
   </div>
-  <div class="d-flex flex-wrap justify-content-between w-100 px-5 gap-2">
-    @for (productOverview of suggestedProducts; track $index) {
-    <app-product-card [product]="productOverview"></app-product-card>
-    }
-  </div>
-</div>
+}
 
 }
 

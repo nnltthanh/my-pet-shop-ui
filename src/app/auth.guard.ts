@@ -46,6 +46,9 @@ import { environment } from "../environments/environment";
             }
 
             const requiredRoles  = route.data['roles'];
+
+            console.log(requiredRoles);
+            
             
             if (!requiredRoles || requiredRoles.length === 0) {
                 this.granted = true;    
@@ -54,6 +57,8 @@ import { environment } from "../environments/environment";
                     if (this.roles.indexOf(requiredRole) > -1) {
                         if (this.keycloak.getKeycloakInstance().hasResourceRole(requiredRole, environment.keycloak.clientId)) {
                             this.granted = true;
+                            console.log(1);
+                            
                             break;
                         }
                     }

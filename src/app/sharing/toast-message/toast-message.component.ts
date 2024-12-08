@@ -21,10 +21,10 @@ export class ToastMessageComponent implements OnDestroy {
   ]);
 
   private severityDelayTimeMap: Map<Severity, number> = new Map<Severity, number>([
-    // [Severity.SUCCESS, 3500],
-    // [Severity.INFO, 3500],
-    // [Severity.ERROR, 3500],
-    // [Severity.WARNING, 3500],
+    [Severity.SUCCESS, 3500],
+    [Severity.INFO, 3500],
+    [Severity.ERROR, 3500],
+    [Severity.WARNING, 3500],
   ]);
 
   private severityCssClassMap: Map<Severity, string> = new Map<Severity, string>([
@@ -61,8 +61,7 @@ export class ToastMessageComponent implements OnDestroy {
   }
 
   isAutoHide(severity: Severity): boolean {
-    // return  !(severity === Severity.WARNING || severity === Severity.ERROR);
-    return false;
+    return  !(severity === Severity.WARNING || severity === Severity.ERROR);
   }
 
   ngOnDestroy(): void {

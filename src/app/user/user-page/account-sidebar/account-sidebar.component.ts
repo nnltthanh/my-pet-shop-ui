@@ -26,13 +26,13 @@ export class AccountSidebarComponent {
       name: 'orderHistory',
       isActive: false,
     },
-    {
-      path: 'myCoupons',
-      label: 'Ví voucher',
-      imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip1_59.png',
-      name: 'voucherWallet',
-      isActive: false,
-    },
+    // {
+    //   path: 'myCoupons',
+    //   label: 'Ví voucher',
+    //   imageSrc: 'https://mcdn.coolmate.me/image/September2023/mceclip1_59.png',
+    //   name: 'voucherWallet',
+    //   isActive: false,
+    // },
     {
       path: 'address-book',
       label: 'Sổ địa chỉ',

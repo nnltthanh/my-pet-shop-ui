@@ -12,47 +12,25 @@
         <li class="nav-item mx-auto">
           <a class="nav-link active" type="button" aria-current="page" routerLink="home">Trang chủ</a>
         </li>
-        <li class="nav-item dropdown-product">
-          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown-product" aria-expanded="true"
-            routerLink="products">
-            Sản phẩm
-          </a>
-          <ul class="dropdown-menu">
-            <li><span class="dropdown-item" href="#">Action</span></li>
-            <li><span class="dropdown-item" href="#">Another action</span></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li><span class="dropdown-item" href="#">Something else here</span></li>
-          </ul>
+ 
+        <li class="nav-item mx-auto">
+          <a class="nav-link active" type="button" aria-current="page" routerLink="products">Sản phẩm</a>
         </li>
-        <li class="nav-item dropdown-service">
-          <a class="nav-link dropdown-toggle" routerLink="services" role="button" data-bs-toggle="dropdown-service"
-            aria-expanded="true">
-            Dịch vụ
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
+
+        <li class="nav-item mx-auto">
+          <a class="nav-link active" type="button" aria-current="page" routerLink="services">Dịch vụ</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Tin tức</a>
-        </li>
+
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Giới thiệu</a>
-        </li> -->
+          <a class="nav-link active" aria-current="page" routerLink="/about-us">Giới thiệu</a>
+        </li>
       </ul>
 
       <div class="form form-search">
         <i class="fa fa-search"></i>
         <input type="text" class="form-control form-input" placeholder="Tìm kiếm sản phẩm..." (keydown.enter)="onSearchKeyword($any($event.target).value)" [(ngModel)]="keyword">
         <span class="left-pan" (click)="imageSearch.click()" title="Tìm kiếm bằng hình ảnh"><i class="fa fa-camera" aria-hidden="true"></i></span>
-        <input type="file" #imageSearch class="d-none" (input)="onSearch($event.target)"/>
+        <input type="file" #imageSearch class="d-none" (change)="onSearch($event.target)"/>
       </div>
 
       <div routerLink="cart" class="position-relative">

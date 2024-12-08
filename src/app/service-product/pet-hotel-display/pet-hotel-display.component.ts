@@ -17,6 +17,7 @@ import { formatToLocalDateTime } from '../../sharing/format-datetime.const';
 import { PetCustomerRegistrationService } from '../../services/pet-customer-registration.service';
 import { Router } from '@angular/router';
 import { ToastMessageService } from '../../sharing/toast-message/toast-message.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-pet-hotel-display',
@@ -58,6 +59,14 @@ export class PetHotelDisplayComponent {
 
   selectedTime: ProductDetail;
 
+  selectedFurryLength: ProductDetail;
+
+  selectedColor: ProductDetail;
+
+  selectedSize: ProductDetail;
+  
+  selectedOther: ProductDetail;
+
   fromTime: Partial<NgbTimeStruct>;
 
   fromDate: NgbDateStruct;
@@ -72,6 +81,10 @@ export class PetHotelDisplayComponent {
 
   toastMessageService = inject(ToastMessageService);
 
+  authService = inject(AuthService);
+
+  isLoggedIn: boolean = false;
+
 	constructor(config: NgbTimepickerConfig) {
 		// customize default values of ratings used by this component tree
 		config.seconds = false;
@@ -79,11 +92,18 @@ export class PetHotelDisplayComponent {
 	}
 
   ngOnInit(): void {
-    this.petCustomerService.findAllByCustomer(getLoggedInUserId()).subscribe({
-      next: data => {
-        this.myPets = [...data];
-      }
-    });
+    
+    if (getLoggedInUserId()) {
+      this.isLoggedIn = true;
+      this.petCustomerService.findAllByCustomer(getLoggedInUserId()).subscribe({
+        next: data => {
+          this.myPets = [...data];
+        }
+      });
+    } else {
+      this.isLoggedIn = false;
+    }
+
     this.$isLoaded = this.serviceProductService.findAllByType(ServiceProductType.PET_HOTEL).pipe(
       map((data) => {
         this.products = [... data];
@@ -121,7 +141,7 @@ export class PetHotelDisplayComponent {
     registration.serveFrom = formatToLocalDateTime(this.fromDate, this.fromTime);
     registration.serveTo = formatToLocalDateTime(this.toDate, this.toTime);
 
-    this.selectedProductDetails = [ this.selectedTime, this.selectedWeight ];
+    this.getSelectedProductDetails();
 
     this.petRegistration.reserve(registration, this.selectedProductDetails).subscribe({
       next: (data) => {
@@ -129,6 +149,35 @@ export class PetHotelDisplayComponent {
         this.router.navigate(["customer/me/my-services"]);
       }
     })
+  }
+
+  private getSelectedProductDetails() {
+    let list: ProductDetail[] = [];
+    if (this.selectedColor) {
+      list.push(this.selectedColor);
+    }
+
+    if (this.selectedSize) {
+      list.push(this.selectedSize);
+    }
+
+    if (this.selectedTime) {
+      list.push(this.selectedTime);
+    }
+
+    if (this.selectedWeight) {
+      list.push(this.selectedWeight);
+    }
+
+    if (this.selectedFurryLength) {
+      list.push(this.selectedFurryLength);
+    }
+    
+    if (this.selectedOther) {
+      list.push(this.selectedOther);
+    }
+
+    this.selectedProductDetails = [...list];
   }
 
 }
